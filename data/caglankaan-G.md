@@ -279,3 +279,16 @@ Path: ./packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol
 
 211:                ++i;
 ```
+
+## Unnecessary Variable Initialization
+In programming, it's a common practice to declare and initialize variables that will be used later in the code. However, if after declaration, the variable is not used anywhere else in the code, this leads to unnecessary variable initialization. In the context of Solidity and smart contracts, where gas efficiency is paramount, such redundant initializations not only consume extra gas but also clutter the codebase, making it less readable and harder to maintain.
+
+Variables that are declared but never used represent dead code. They take up space in the bytecode, result in wasted gas when the contract is deployed, and can be confusing for anyone reading or auditing the code.
+
+
+### Code Snippet
+```solidity
+IPEMCertChainLib.ECSha256Certificate[] memory parsedQuoteCerts
+```
+This `parsedQuoteCerts` variable defined in `parseCerificationChainBytes` function under `V3Parser.sol`, assigned to another variable and its never used again. It can be removed
+
