@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "blockdev",
+  "risk": "3",
+  "title": "L2 Coinbase receives lower eth deposit fee in a future block",
+  "issueId": 10,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/10"
+}
