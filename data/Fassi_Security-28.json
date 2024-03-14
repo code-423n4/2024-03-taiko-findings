@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Fassi_Security",
+  "risk": "3",
+  "title": "Missing return value of `staticcall` inside `RsaVerify.sol` leads to stale data",
+  "issueId": 28,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/28"
+}
