@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ravikiranweb3",
+  "risk": "2",
+  "title": "Bridge::sendMessage() does not update the message status",
+  "issueId": 36,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/36"
+}
