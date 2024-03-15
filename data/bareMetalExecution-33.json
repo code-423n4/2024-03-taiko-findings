@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "absence of an approval check before invoking the external mint function",
+  "issueId": 33,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/33"
+}
