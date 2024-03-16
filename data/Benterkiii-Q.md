@@ -3,7 +3,7 @@
 
 | Risk   | Issues Details                                               | Number|          
 |--------|--------------------------------------------------------------|-------|
-| [L-1]  |  `suspendMessages()` Lacks zero hashes check.                |       | 
+| [L-1]  |`suspendMessages()` Lacks zero hashes check.                  |       |
 
 ## [L-1] `suspendMessages()` Lacks zero hashes check.
 
