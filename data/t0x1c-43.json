@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "2",
+  "title": "No way to `changeBridgedToken()` back to an old btoken",
+  "issueId": 43,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/43"
+}
