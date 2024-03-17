@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "2",
+  "title": "suspendMessages() sets incorrect `receivedAt` timestamp which enables user to recall a message which hasn't failed",
+  "issueId": 47,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/47"
+}
