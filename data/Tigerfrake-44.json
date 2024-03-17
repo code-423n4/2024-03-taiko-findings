@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Tigerfrake",
+  "risk": "2",
+  "title": "Unbounded loop in ERC721Vault::_transferTokens() could lead to a griefing/DOS attack",
+  "issueId": 44,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/44"
+}
