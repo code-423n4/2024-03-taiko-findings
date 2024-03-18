@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "lanrebayode77",
+  "risk": "2",
+  "title": "Relayer fee unrefunded in recallMessage()",
+  "issueId": 50,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/50"
+}
