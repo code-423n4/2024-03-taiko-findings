@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t4sk",
+  "risk": "2",
+  "title": "TimelockTokenPool - incorrect type for gap",
+  "issueId": 55,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/55"
+}
