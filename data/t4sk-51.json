@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t4sk",
+  "risk": "2",
+  "title": "ERC20Airdrop2 creates unclaimable dust",
+  "issueId": 51,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/51"
+}
