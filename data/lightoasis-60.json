@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "lightoasis",
+  "risk": "3",
+  "title": "Signatures can be replayed in `withdraw()` to withdraw more tokens than the user originally intended.",
+  "issueId": 60,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/60"
+}
