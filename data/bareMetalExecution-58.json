@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Mint functionality malfunctions due to extra `nonReentrant` modifier",
+  "issueId": 58,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/58"
+}
