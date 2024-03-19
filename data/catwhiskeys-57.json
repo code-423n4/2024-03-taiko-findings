@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "catwhiskeys",
+  "risk": "2",
+  "title": "Error in `ERC721Vault::sendToken` `if` statement",
+  "issueId": 57,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/57"
+}
