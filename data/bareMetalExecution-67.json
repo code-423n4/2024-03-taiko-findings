@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Lack of Authorization Check in `burn` Function Allows Unauthorized Token Burning",
+  "issueId": 67,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/67"
+}
