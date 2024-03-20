@@ -1,5 +1,13 @@
-## Consider adding an Owner function to update a single guardian in `Guardian.sol`
+| Total Analysis report |
+|-----------------------|
 
+| Issues | Issues Details                                               | Number|          
+|--------|--------------------------------------------------------------|-------|
+|    1   | Consider adding a function to update a single guardian       |       |
+|        | in `Guardians.sol`                                           |       |
+
+## Consider adding function to update a single guardian in `Guardians.sol`
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/provers/Guardians.sol#L50C1-L96C6
 #### Description
 if the owner wants to replace a single guardian, he has to reset all the set of guardians.
 consider adding a function to replace one guardian.
@@ -31,5 +39,6 @@ event GuardiansUpdated(uint32 version, address oldGuardian, address newGuardian)
     }
 ```
 
+
 ### Time spent:
-27 hours
+31 hours
