@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "AuditorPraise",
+  "risk": "3",
+  "title": "In certain scenarios prover may not be paid `prover fee` when `TaikoL1.proposeBlock()` is done",
+  "issueId": 63,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/63"
+}
