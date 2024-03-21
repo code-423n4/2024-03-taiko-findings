@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "xiaohuanxiong_0311",
+  "risk": "3",
+  "title": "Failure to Refund Excess ETH Payments in Smart Contract Function",
+  "issueId": 92,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/92"
+}
