@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Lack of Refund Mechanism for Failed Cross-Chain Transfers",
+  "issueId": 79,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/79"
+}
