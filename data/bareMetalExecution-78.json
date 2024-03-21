@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Users may encounter difficulties bridging tokens since the bridged token contract is not deployed beforehand",
+  "issueId": 78,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/78"
+}
