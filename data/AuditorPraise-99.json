@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "AuditorPraise",
+  "risk": "2",
+  "title": "Owner pays `message.fee` even when they process the message themselves",
+  "issueId": 99,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/99"
+}
