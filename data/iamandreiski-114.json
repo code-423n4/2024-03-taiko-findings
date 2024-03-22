@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "iamandreiski",
+  "risk": "2",
+  "title": "If a message fails, it can't be recalled due to invalid validation",
+  "issueId": 114,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/114"
+}
