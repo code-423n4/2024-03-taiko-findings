@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Potential Precision Loss in Token Withdrawal Calculation",
+  "issueId": 113,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/113"
+}
