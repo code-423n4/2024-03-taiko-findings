@@ -3,13 +3,15 @@
 
 | Risk   | Issues Details                                               | Number|          
 |--------|--------------------------------------------------------------|-------|
-| [L-1]  | `suspendMessages()` Lacks zero hashes check.                 |       |
+| [L-1]  | Lacks zero hashes check.                                     |       |
 
 
-## [L-1] `suspendMessages()` Lacks zero hashes check.
+## [L-1] Lacks zero hashes check in `Bridge.sol`.
 
 #### Description
+2 instances of this issue:
 https://github.com/code-423n4/2024-03-taiko/blob/b6885955903c4ec6a0d72ebb79b124c6d0a1002b/packages/protocol/contracts/bridge/Bridge.sol#L82C1-L95C6
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/Bridge.sol#L97C1-L112C6
 
 #### Recommended Mitigation Steps
 ```solidity
@@ -33,4 +35,23 @@ https://github.com/code-423n4/2024-03-taiko/blob/b6885955903c4ec6a0d72ebb79b124c
         }
     }
 
+```
+```solidity
+    /// @notice Ban or unban an address. A banned addresses will not be invoked upon
+    /// with message calls.
+    /// @param _addr The address to ban or unban.
+    /// @param _ban True if ban, false if unban.
+    function banAddress(
+        address _addr,
+        bool _ban
+    )
+        external
+        onlyFromOwnerOrNamed("bridge_watchdog")
+        nonReentrant
+    {
+        if (_addr == address(0)) revert B_INVALID_USER();
+        if (addressBanned[_addr] == _ban) revert B_INVALID_STATUS();
+        addressBanned[_addr] = _ban;
+        emit AddressBanned(_addr, _ban);
+    }
 ```
