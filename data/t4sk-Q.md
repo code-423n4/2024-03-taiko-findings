@@ -38,7 +38,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/IBridge.sol#L60-L64
 
-`Context` is packed into 2 slots so the gap is off by one. Correct code is below
+`Context` is packed into 2 slots (when used in storage) so the gap is off by one. Correct code is below
 
 ```solidity
     /// @dev Slots 3 and 4.
