@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "meta_88",
+  "risk": "2",
+  "title": "Funds Freezing Vulnerability in sendToken Function Due to Unhandled Excess msg.value",
+  "issueId": 102,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/102"
+}
