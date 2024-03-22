@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "3",
+  "title": "sendToken() function inside ERC721Vault is completely broken",
+  "issueId": 108,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/108"
+}
