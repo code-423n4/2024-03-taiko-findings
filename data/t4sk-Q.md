@@ -32,3 +32,25 @@ Same signature can be used to claim grants on multiple chain, if the contract is
         bytes32 hash = keccak256(abi.encodePacked("Withdraw unlocked Taiko token to: ", _to, block.chainid, address(this)));
 
 ```
+
+# Bridge - Incorrect gap count
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/Bridge.sol#L38-L48
+
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/IBridge.sol#L60-L64
+
+`Context` is packed into 2 slots so the gap is off by one. Correct code is below
+
+```solidity
+    /// @dev Slots 3 and 4.
+    Context private __ctx;
+
+    /// @notice Mapping to store banned addresses.
+    /// @dev Slot 5.
+    mapping(address addr => bool banned) public addressBanned;
+
+    /// @notice Mapping to store the proof receipt of a message from its hash.
+    /// @dev Slot 6.
+    mapping(bytes32 msgHash => ProofReceipt receipt) public proofReceipt;
+
+    uint256[44] private __gap;
+```
