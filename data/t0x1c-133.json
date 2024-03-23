@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "3",
+  "title": "Incomplete validation in _invokeMessageCall() allows attackers to pass arbitrary data and steal tokens",
+  "issueId": 133,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/133"
+}
