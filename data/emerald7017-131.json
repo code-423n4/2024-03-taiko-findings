@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "emerald7017",
+  "risk": "2",
+  "title": "Insufficient reentrancy protection risks message processing manipulation and unexpected behavior.",
+  "issueId": 131,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/131"
+}
