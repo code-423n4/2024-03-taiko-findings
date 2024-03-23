@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "emerald7017",
+  "risk": "2",
+  "title": "Insecure message handling risks asset theft via malicious message injection.",
+  "issueId": 130,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/130"
+}
