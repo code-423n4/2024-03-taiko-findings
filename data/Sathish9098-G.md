@@ -1,4 +1,98 @@
-# GAS OPTIMIZATION REPORTS
+# GAS OPTIMIZATION 
+
+##
+
+[G-] Optimize State Variables to Fit Fewer Storage Slots
+
+The EVM works with 32 byte words. Variables less than 32 bytes can be declared next to each other in storage and this will pack the values together into a single 32 byte storage slot (if the values combined are <= 32 bytes). If the variables packed together are retrieved together in functions we will effectively save ~2000 gas with every subsequent SLOAD for that storage slot. This is due to us incurring a Gwarmaccess (100 gas) versus a Gcoldsload (2100 gas).
+
+### ``srcChainId`` and ``snapshooter`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
+
+```solidity
+uint64 chainId;
+uint64 destChainId;
+
+```
+
+Even in other contracts using uint64 for chainId.
+
+There are numerous blockchain platforms, but the number currently active and recognized does not exceed the range that a uint96 can represent. For instance, while there are many blockchain platforms, the actual number of unique, significant blockchain networks is far less than the maximum number that a ``uint96`` can store. A uint96 can store numbers up to ``79,228,162,514,264,337,593,543,950,335``. In comparison, the current number of significant blockchain platforms and networks, as indicated by sources discussing different types of blockchain networks and their applications, is only in the dozens or perhaps hundreds​​​​.
+
+Even with the projected growth of blockchain technology and the creation of new chains, it is highly unlikely that the total number will approach the uint96 limit in any foreseeable future.
+
+```diff
+FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC20.sol
+
+/// @dev Slot 1.
+    address public srcToken;
+
+    uint8 private __srcDecimals;
+
+    /// @dev Slot 2.
+-    uint256 public srcChainId;
++    uint96 public srcChainId;
+
+    /// @dev Slot 3.
+    address public snapshooter;
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC20.sol#L21-L32
+
+### [G-] ``srcToken`` and ``srcChainId`` can be packed same slot : Saves ``4000 GAS`` , ``2 SLOT``
+
+```diff
+FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC721.sol
+
+ /// @notice Address of the source token contract.
+    address public srcToken;
+
+    /// @notice Source chain ID where the token originates.
+-    uint256 public srcChainId;
++    uint96 public srcChainId;
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC721.sol#L13-L17
+
+
+```diff
+FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC1155.sol
+
+ /// @notice Address of the source token contract.
+    address public srcToken;
+
+    /// @notice Source chain ID where the token originates.
+-    uint256 public srcChainId;
++    uint96 public srcChainId;
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L15-L19
+
+
+### [G-1] ``_checkLocalEnclaveReport`` and ``owner`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
+
+```diff
+FILE: 2024-03-taiko/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol
+
+ bool private _checkLocalEnclaveReport;
++    address public owner;
+    mapping(bytes32 enclave => bool trusted) private _trustedUserMrEnclave;
+    mapping(bytes32 signer => bool trusted) private _trustedUserMrSigner;
+
+    // Quote Collateral Configuration
+
+    // Index definition:
+    // 0 = Quote PCKCrl
+    // 1 = RootCrl
+    mapping(uint256 idx => mapping(bytes serialNum => bool revoked)) private _serialNumIsRevoked;
+    // fmspc => tcbInfo
+    mapping(string fmspc => TCBInfoStruct.TCBInfo tcbInfo) public tcbInfo;
+    EnclaveIdStruct.EnclaveId public qeIdentity;
+
+-    address public owner;
+
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L38-L52
 
 ##
 
@@ -466,6 +560,30 @@ for (uint256 i; i < _instances.length; ++i) {
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/verifiers/SgxVerifier.sol#L107-L109
 
+##
+
+## [G-] Consolidate Multiple Address/ID Mappings into Single Struct-Based Mapping
+
+Saves a storage slot for the mapping. Depending on the circumstances and sizes of types, can avoid a Gsset (20000 gas) per mapping combined. Reads and subsequent writes can also be cheaper when a function requires both values and they both fit in the same storage slot. Finally, if both fields are accessed in the same function, can save ~42 gas per access due to not having to recalculate the key's keccak256 hash (Gkeccak256 - 30 gas) and that calculation's associated stack operations.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/automata-attestation
+/AutomataDcapV3Attestation.sol
+
+
++ struct TrustStatus {
++    bool byEnclave;
++    bool bySigner;
++ }
+
++ mapping(bytes32 => TrustStatus) private _trustedStatus;
+
+-  mapping(bytes32 enclave => bool trusted) private _trustedUserMrEnclave;
+-  mapping(bytes32 signer => bool trusted) private _trustedUserMrSigner;
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L39-L40
+
 ## 
 
 ## [G-] Using storage instead of memory for state variables saves gas
@@ -587,6 +705,43 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L1/provers
 
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/provers/Guardians.sol#L54
+
+##
+
+## [G-4] Replace Function Calls with Constants 
+
+Functions like ``votingDelay``, ``votingPeriod``, and ``proposalThreshold`` are marked pure because they return fixed values without interacting with contract state. However, each function call consumes gas. Replacing these with direct values or constants in the code eliminates function execution overhead, saving gas.
+
+While a pure function call might cost around ``700 to 800 gas`` per call due to execution and ``computational overhead``, accessing a constant directly is significantly cheaper, often costing around ``3 to 5`` gas. Therefore, replacing a function call with a direct value could save approximately ``695 to 797 gas`` per call.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L1/gov/TaikoGovernor.sol
+
+// @notice How long after a proposal is created should voting power be fixed. A
+    /// large voting delay gives users time to unstake tokens if necessary.
+    /// @return The duration of the voting delay.
+    function votingDelay() public pure override returns (uint256) {
+        return 7200; // 1 day
+    }
+
+    /// @notice How long does a proposal remain open to votes.
+    /// @return The duration of the voting period.
+    function votingPeriod() public pure override returns (uint256) {
+        return 50_400; // 1 week
+    }
+
+    /// @notice The number of votes required in order for a voter to become a proposer.
+    /// @return The number of votes required.
+    function proposalThreshold() public pure override returns (uint256) {
+        return 1_000_000_000 ether / 10_000; // 0.01% of Taiko Token
+    }
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/gov/TaikoGovernor.sol#L108-L125
+
+## The result of function calls should be cached rather than re-calling the function 
+
+The instances below point to the second+ call of the function within a single function
 
 
 
