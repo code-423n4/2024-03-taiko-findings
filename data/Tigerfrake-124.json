@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Tigerfrake",
+  "risk": "2",
+  "title": "Lack of access control in pauseProving() funtion may result in authorized pausing or unpausing of the proving process.",
+  "issueId": 124,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/124"
+}
