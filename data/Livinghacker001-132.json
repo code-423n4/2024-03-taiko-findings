@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Livinghacker001",
+  "risk": "2",
+  "title": "Missing Access Control in getAddress Function",
+  "issueId": 132,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/132"
+}
