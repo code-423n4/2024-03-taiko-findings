@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "emerald7017",
+  "risk": "2",
+  "title": "Inadequate proof validation permits malicious submissions, undermining verification process integrity.",
+  "issueId": 128,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/128"
+}
