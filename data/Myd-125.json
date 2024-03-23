@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Myd",
+  "risk": "2",
+  "title": "Malicious exploitation allowed via self-referential hops, undermining bridge contract security, facilitating attacks.",
+  "issueId": 125,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/125"
+}
