@@ -3,10 +3,10 @@
 
 | Risk   | Issues Details                                               | Number|          
 |--------|--------------------------------------------------------------|-------|
-| [L-1]  | Lacks zero hashes check.                                     |       |
+| [L-1]  | Lacks zero check `bytes32 | address` in `Bridge.sol`.        |       |
 
 
-## [L-1] Lacks zero hashes check in `Bridge.sol`.
+## [L-1] Lacks zero check for `bytes32 | address` in `Bridge.sol`.
 
 #### Description
 2 instances of this issue:
