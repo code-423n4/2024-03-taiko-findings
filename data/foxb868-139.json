@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "Acceptance of invalid Merkle proofs compromises Taiko protocol integrity.",
+  "issueId": 139,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/139"
+}
