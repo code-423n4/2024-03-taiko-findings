@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "iamandreiski",
+  "risk": "2",
+  "title": "The message suspension mechanism can be circumvented if the message is with status RETRIABLE",
+  "issueId": 150,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/150"
+}
