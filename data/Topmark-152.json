@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "Denial of Service due to Wrong Assumption in ES256Signature Verification",
+  "issueId": 152,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/152"
+}
