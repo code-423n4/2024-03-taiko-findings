@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "foxb868",
+  "risk": "2",
+  "title": "Colliding message hashes compromise bridge integrity, risking unintended transactions execution.",
+  "issueId": 141,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/141"
+}
