@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "User can select a time window when the block.baseFee is high to collect high fee from deposit fee when processing deposit",
+  "issueId": 185,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/185"
+}
