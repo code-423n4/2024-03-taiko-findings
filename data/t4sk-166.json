@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t4sk",
+  "risk": "3",
+  "title": "WIP - TaikoL1.depositEtherToL2 does not send message to Bridge?",
+  "issueId": 166,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/166"
+}
