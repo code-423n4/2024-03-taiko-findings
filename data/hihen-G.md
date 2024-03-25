@@ -1,251 +1,85 @@
 # Gas Report
 
+Issues in [4naly3er-report](https://github.com/code-423n4/2024-03-taiko/blob/main/4naly3er-report.md) have been excluded.
+
 ## Summary
 
-Total **1856 instances** over **81 issues**with **1896406** gas saved:
+Total **1580 instances** over **68 issues**with **1637624** gas saved:
 
 |ID|Issue|Instances|Gas|
 |:--:|:---|:--:|:--:|
-| [[G-01]](#g-01-the-arraylength-should-be-cached-outside-of-the-for-loop) | The `<array>.length` should be cached outside of the `for`-loop | 29 | 87 |
-| [[G-02]](#g-02-use-shift-right-instead-of-division-if-possible) | Use shift right instead of division if possible | 2 | 40 |
-| [[G-03]](#g-03-use-storage-instead-of-memory-for-structsarrays) | Use `storage` instead of `memory` for structs/arrays | 6 | 25200 |
-| [[G-04]](#g-04-using-private-for-constants-saves-gas) | Using `private` for constants saves gas | 23 | 78338 |
-| [[G-05]](#g-05-constructors-can-be-marked-as-payable-to-save-deployment-gas) | Constructors can be marked as payable to save deployment gas | 3 | 63 |
-| [[G-06]](#g-06-state-variables-only-set-in-the-constructor-should-be-declared-immutable) | State variables only set in the constructor should be declared `immutable` | 2 | 4194 |
-| [[G-07]](#g-07-using-x--x-instead-of-xx---can-save-gas) | Using `++X`/`--X` instead of `X++`/`X--` can save gas | 8 | 40 |
-| [[G-08]](#g-08-splitting-require-statements-that-use-) | Splitting `require()` statements that use `&&` | 7 | 21 |
-| [[G-09]](#g-09-unnecessary-event-parameters-should-be-removed) | Unnecessary event parameters should be removed | 1 | 358 |
-| [[G-10]](#g-10-use-custom-errors-rather-than-revertrequire-strings-to-save-gas) | Use custom errors rather than `revert()`/`require()` strings to save gas | 66 | 3300 |
-| [[G-11]](#g-11-use-unchecked-block-for-safe-subtractions) | Use `unchecked` block for safe subtractions | 11 | 935 |
-| [[G-12]](#g-12-abiencode-is-less-efficient-than-abiencodepacked-for-non-address-arguments) | `abi.encode()` is less efficient than `abi.encodePacked()` for non-address arguments | 4 | - |
-| [[G-13]](#g-13-counting-down-in-for-statements-is-more-gas-efficient) | Counting down in for statements is more gas efficient | 45 | - |
-| [[G-14]](#g-14-using-msg-globals-directly-rather-than-caching-the-value-saves-gas) | Using `msg` globals directly, rather than caching the value, saves gas | 1 | 10 |
-| [[G-15]](#g-15-stack-variable-is-only-used-once) | Stack variable is only used once | 70 | 210 |
-| [[G-16]](#g-16-do-not-cache-state-variables-that-are-used-only-once) | Do not cache state variables that are used only once | 3 | 9 |
-| [[G-17]](#g-17-do-not-calculate-constants) | Do not calculate constants | 2 | - |
-| [[G-18]](#g-18-use-of-emit-inside-a-loop) | Use of `emit` inside a loop | 4 | 1500 |
-| [[G-19]](#g-19-emitting-literals-or-constants-wastes-gas) | Emitting literals or constants wastes gas | 5 | 40 |
-| [[G-20]](#g-20-use-local-variables-for-emitting) | Use local variables for emitting | 7 | 700 |
-| [[G-21]](#g-21-contract-storage-can-use-fewer-slots-by-changing-the-order-of-state-variables) | Contract storage can use fewer slots by changing the order of state variables | 2 | 40000 |
-| [[G-22]](#g-22-structs-can-use-fewer-slots-by-changing-the-order-of-fields) | Structs can use fewer slots by changing the order of fields | 4 | 80000 |
-| [[G-23]](#g-23-internal-functions-only-called-once-can-be-inlined-to-save-gas) | `internal` functions only called once can be inlined to save gas | 2 | 60 |
-| [[G-24]](#g-24-inline-modifiers-that-are-only-used-once-to-save-gas) | Inline `modifier`s that are only used once to save gas | 4 | - |
-| [[G-25]](#g-25-private-functions-only-used-once-can-be-inlined-to-save-gas) | Private functions only used once can be inlined to save gas | 4 | 120 |
-| [[G-26]](#g-26-inverting-the-condition-of-an-if-else-statement-wastes-gas) | Inverting the condition of an `if`-`else`-statement wastes gas | 2 | 6 |
-| [[G-27]](#g-27-update-openzeppelin-dependency-to-save-gas) | Update OpenZeppelin dependency to save gas | 54 | - |
-| [[G-28]](#g-28-initializers-can-be-marked-as-payable-to-save-deployment-gas) | Initializers can be marked as payable to save deployment gas | 24 | 504 |
-| [[G-29]](#g-29-functions-that-revert-when-called-by-normal-users-can-be-marked-payable) | Functions that revert when called by normal users can be marked `payable` | 37 | 777 |
-| [[G-30]](#g-30-mappings-are-cheaper-to-use-than-storage-arrays) | Mappings are cheaper to use than storage arrays | 36 | 75600 |
-| [[G-31]](#g-31-use-x--x--y-instead-of-x--y-for-state-variables) | Use `x = x + y` instead of `x += y` for state variables | 4 | 40 |
-| [[G-32]](#g-32-operator--costs-less-gas-than-operator-) | Operator `>=`/`<=` costs less gas than operator `>`/`<` | 41 | 123 |
-| [[G-33]](#g-33-consider-pre-calculating-the-address-of-addressthis-to-save-gas) | Consider pre-calculating the address of `address(this)` to save gas | 40 | - |
-| [[G-34]](#g-34-empty-code-blocks-can-be-removed-to-save-gas) | Empty code blocks can be removed to save gas | 1 | - |
-| [[G-35]](#g-35-remove-empty-functions-to-save-gas) | Remove empty functions to save gas | 4 | - |
-| [[G-36]](#g-36-usage-of-intsuints-smaller-than-32-bytes-incurs-overhead) | Usage of `int`s/`uint`s smaller than 32 bytes incurs overhead | 323 | 17765 |
-| [[G-37]](#g-37-using-a-double-if-statement-instead-of-a-logical-and) | Using a double `if` statement instead of a logical AND(`&&`) | 16 | 480 |
-| [[G-38]](#g-38-requirerevert-strings-longer-than-32-bytes-cost-extra-gas) | `require()`/`revert()` strings longer than 32 bytes cost extra gas | 30 | 90 |
-| [[G-39]](#g-39-reduce-deployment-costs-by-tweaking-contracts-metadata) | Reduce deployment costs by tweaking contracts' metadata | 30 | - |
-| [[G-40]](#g-40-divisions-can-be-unchecked-to-save-gas) | Divisions can be unchecked to save gas | 13 | 260 |
-| [[G-41]](#g-41-increments-can-be-unchecked-to-save-gas) | Increments can be `unchecked` to save gas | 45 | 2700 |
-| [[G-42]](#g-42-use-assembly-to-validate-msgsender) | Use assembly to validate `msg.sender` | 22 | 264 |
-| [[G-43]](#g-43-using-assembly-to-check-for-zero-can-save-gas) | Using assembly to check for zero can save gas | 93 | 558 |
-| [[G-44]](#g-44-low-level-call-can-be-optimized-with-assembly) | Low level `call` can be optimized with assembly | 1 | 248 |
-| [[G-45]](#g-45-consider-using-oz-enumerateset-in-place-of-nested-mappings) | Consider using OZ EnumerateSet in place of nested mappings | 6 | 6000 |
-| [[G-46]](#g-46-consider-using-soladys-fixedpointmathlib) | Consider using solady's `FixedPointMathLib` | 3 | - |
-| [[G-47]](#g-47-use-uint2561uint2562-instead-of-truefalse-to-save-gas-for-changes) | Use `uint256(1)`/`uint256(2)` instead of `true`/`false` to save gas for changes | 10 | 171000 |
-| [[G-48]](#g-48-use-selfbalance-instead-of-addressxbalance) | Use `selfbalance()` instead of `address(x).balance` | 6 | 90 |
-| [[G-49]](#g-49-assigning-state-variables-directly-with-named-struct-constructors-wastes-gas) | Assigning state variables directly with named struct constructors wastes gas | 4 | 112 |
-| [[G-50]](#g-50-avoid-zero-transfer-to-save-gas) | Avoid zero transfer to save gas | 17 | 1700 |
-| [[G-51]](#g-51-cache-addressthis-when-used-more-than-once) | Cache address(this) when used more than once | 16 | - |
-| [[G-52]](#g-52-checking-constants-first-can-save-gas) | Checking constants first can save gas | 3 | - |
-| [[G-53]](#g-53-state-variable-read-in-a-loop) | State variable read in a loop | 6 | 582 |
-| [[G-54]](#g-54-state-variable-written-in-a-loop) | State variable written in a loop | 1 | 2897 |
-| [[G-55]](#g-55-unlimited-gas-consumption-risk-due-to-external-call-recipients) | Unlimited gas consumption risk due to external call recipients | 2 | - |
-| [[G-56]](#g-56-optimize-names-to-save-gas) | Optimize names to save gas | 46 | 1012 |
-| [[G-57]](#g-57-reduce-gas-usage-by-moving-to-solidity-0819-or-later) | Reduce gas usage by moving to Solidity 0.8.19 or later | 11 | - |
-| [[G-58]](#g-58-newer-versions-of-solidity-are-more-gas-efficient) | Newer versions of solidity are more gas efficient | 81 | - |
-| [[G-59]](#g-59-avoid-updating-storage-when-the-value-hasnt-changed) | Avoid updating storage when the value hasn't changed | 19 | 15200 |
-| [[G-60]](#g-60-same-cast-is-done-multiple-times) | Same cast is done multiple times | 8 | - |
-| [[G-61]](#g-61-state-variables-that-are-used-multiple-times-in-a-function-should-be-cached-in-stack-variables) | State variables that are used multiple times in a function should be cached in stack variables | 24 | 5432 |
-| [[G-62]](#g-62-use-solady-library-where-possible-to-save-gas) | Use solady library where possible to save gas | 54 | 54000 |
-| [[G-63]](#g-63-use-the-inputsresults-of-assignments-rather-than-re-reading-state-variables) | Use the inputs/results of assignments rather than re-reading state variables | 1 | 97 |
-| [[G-64]](#g-64-structs-can-be-packed-into-fewer-storage-slots-by-truncating-fields) | Structs can be packed into fewer storage slots by truncating fields | 2 | 40000 |
-| [[G-65]](#g-65-redundant-state-variable-getters) | Redundant state variable getters | 1 | - |
-| [[G-66]](#g-66-using-constants-instead-of-enum-can-save-gas) | Using `constant`s instead of `enum` can save gas | 9 | - |
-| [[G-67]](#g-67-use-arrayunsafeaccess-to-avoid-repeated-array-length-checks) | Use `Array.unsafeAccess()` to avoid repeated array length checks | 1 | 2100 |
-| [[G-68]](#g-68-assembly-use-scratch-space-for-building-calldata) | Assembly: Use scratch space for building calldata | 61 | 13420 |
-| [[G-69]](#g-69-use-assembly-to-emit-events) | Use assembly to emit events | 36 | 1368 |
-| [[G-70]](#g-70-use-assembly-to-compute-hashes-to-save-gas) | Use assembly to compute hashes to save gas | 2 | 160 |
-| [[G-71]](#g-71-use-calldata-instead-of-memory-for-immutable-arguments) | Use `calldata` instead of `memory` for immutable arguments | 70 | 21000 |
-| [[G-72]](#g-72-consider-using-soladys-gas-optimized-lib-for-math) | Consider Using Solady's Gas Optimized Lib for Math | 6 | - |
-| [[G-73]](#g-73-do-while-is-cheaper-than-for-loops-when-the-initial-check-can-be-skipped) | `do`-`while` is cheaper than `for`-loops when the initial check can be skipped | 49 | - |
-| [[G-74]](#g-74-avoid-unnecessary-public-variables) | Avoid Unnecessary Public Variables | 41 | 902000 |
-| [[G-75]](#g-75-optimize-deployment-size-by-fine-tuning-ipfs-hash) | Optimize Deployment Size by Fine-tuning IPFS Hash | 30 | 318000 |
-| [[G-76]](#g-76-using-bools-for-storage-incurs-overhead) | Using `bool`s for storage incurs overhead | 10 | 1000 |
-| [[G-77]](#g-77-the-result-of-a-function-call-should-be-cached-rather-than-re-calling-the-function) | The result of a function call should be cached rather than re-calling the function | 38 | 3800 |
-| [[G-78]](#g-78-multiple-accesses-of-a-memorycalldata-array-should-use-a-local-variable-cache) | Multiple accesses of a `memory`/`calldata` array should use a local variable cache | 25 | - |
-| [[G-79]](#g-79-multiple-accesses-of-the-same-mapping-key-should-be-cached) | Multiple accesses of the same mapping key should be cached | 11 | 462 |
-| [[G-80]](#g-80-multiple-mappings-can-be-replaced-with-a-single-struct-mapping) | Multiple mappings can be replaced with a single struct mapping | 8 | 336 |
-| [[G-81]](#g-81-consider-using-bytes32-rather-than-a-string) | Consider using `bytes32` rather than a `string` | 7 | - |
+| [[G-01]](#g-01-use-storage-instead-of-memory-for-structsarrays) | Use `storage` instead of `memory` for structs/arrays | 6 | 25200 |
+| [[G-02]](#g-02-constructors-can-be-marked-as-payable-to-save-deployment-gas) | Constructors can be marked as payable to save deployment gas | 3 | 63 |
+| [[G-03]](#g-03-state-variables-only-set-in-the-constructor-should-be-declared-immutable) | State variables only set in the constructor should be declared `immutable` | 2 | 4194 |
+| [[G-04]](#g-04-unnecessary-event-parameters-should-be-removed) | Unnecessary event parameters should be removed | 1 | 358 |
+| [[G-05]](#g-05-abiencode-is-less-efficient-than-abiencodepacked-for-non-address-arguments) | `abi.encode()` is less efficient than `abi.encodePacked()` for non-address arguments | 4 | - |
+| [[G-06]](#g-06-counting-down-in-for-statements-is-more-gas-efficient) | Counting down in for statements is more gas efficient | 45 | - |
+| [[G-07]](#g-07-using-msg-globals-directly-rather-than-caching-the-value-saves-gas) | Using `msg` globals directly, rather than caching the value, saves gas | 1 | 10 |
+| [[G-08]](#g-08-stack-variable-is-only-used-once) | Stack variable is only used once | 70 | 210 |
+| [[G-09]](#g-09-do-not-cache-state-variables-that-are-used-only-once) | Do not cache state variables that are used only once | 3 | 9 |
+| [[G-10]](#g-10-do-not-calculate-constants) | Do not calculate constants | 2 | - |
+| [[G-11]](#g-11-use-of-emit-inside-a-loop) | Use of `emit` inside a loop | 4 | 1500 |
+| [[G-12]](#g-12-emitting-literals-or-constants-wastes-gas) | Emitting literals or constants wastes gas | 5 | 40 |
+| [[G-13]](#g-13-use-local-variables-for-emitting) | Use local variables for emitting | 7 | 700 |
+| [[G-14]](#g-14-contract-storage-can-use-fewer-slots-by-changing-the-order-of-state-variables) | Contract storage can use fewer slots by changing the order of state variables | 2 | 40000 |
+| [[G-15]](#g-15-structs-can-use-fewer-slots-by-changing-the-order-of-fields) | Structs can use fewer slots by changing the order of fields | 4 | 80000 |
+| [[G-16]](#g-16-internal-functions-only-called-once-can-be-inlined-to-save-gas) | `internal` functions only called once can be inlined to save gas | 2 | 60 |
+| [[G-17]](#g-17-inline-modifiers-that-are-only-used-once-to-save-gas) | Inline `modifier`s that are only used once to save gas | 4 | - |
+| [[G-18]](#g-18-private-functions-only-used-once-can-be-inlined-to-save-gas) | Private functions only used once can be inlined to save gas | 4 | 120 |
+| [[G-19]](#g-19-inverting-the-condition-of-an-if-else-statement-wastes-gas) | Inverting the condition of an `if`-`else`-statement wastes gas | 2 | 6 |
+| [[G-20]](#g-20-update-openzeppelin-dependency-to-save-gas) | Update OpenZeppelin dependency to save gas | 54 | - |
+| [[G-21]](#g-21-mappings-are-cheaper-to-use-than-storage-arrays) | Mappings are cheaper to use than storage arrays | 36 | 75600 |
+| [[G-22]](#g-22-operator--costs-less-gas-than-operator-) | Operator `>=`/`<=` costs less gas than operator `>`/`<` | 41 | 123 |
+| [[G-23]](#g-23-consider-pre-calculating-the-address-of-addressthis-to-save-gas) | Consider pre-calculating the address of `address(this)` to save gas | 40 | - |
+| [[G-24]](#g-24-empty-code-blocks-can-be-removed-to-save-gas) | Empty code blocks can be removed to save gas | 1 | - |
+| [[G-25]](#g-25-remove-empty-functions-to-save-gas) | Remove empty functions to save gas | 4 | - |
+| [[G-26]](#g-26-usage-of-intsuints-smaller-than-32-bytes-incurs-overhead) | Usage of `int`s/`uint`s smaller than 32 bytes incurs overhead | 323 | 17765 |
+| [[G-27]](#g-27-using-a-double-if-statement-instead-of-a-logical-and) | Using a double `if` statement instead of a logical AND(`&&`) | 16 | 480 |
+| [[G-28]](#g-28-requirerevert-strings-longer-than-32-bytes-cost-extra-gas) | `require()`/`revert()` strings longer than 32 bytes cost extra gas | 30 | 90 |
+| [[G-29]](#g-29-reduce-deployment-costs-by-tweaking-contracts-metadata) | Reduce deployment costs by tweaking contracts' metadata | 30 | - |
+| [[G-30]](#g-30-divisions-can-be-unchecked-to-save-gas) | Divisions can be unchecked to save gas | 13 | 260 |
+| [[G-31]](#g-31-use-assembly-to-validate-msgsender) | Use assembly to validate `msg.sender` | 22 | 264 |
+| [[G-32]](#g-32-using-assembly-to-check-for-zero-can-save-gas) | Using assembly to check for zero can save gas | 93 | 558 |
+| [[G-33]](#g-33-low-level-call-can-be-optimized-with-assembly) | Low level `call` can be optimized with assembly | 1 | 248 |
+| [[G-34]](#g-34-consider-using-oz-enumerateset-in-place-of-nested-mappings) | Consider using OZ EnumerateSet in place of nested mappings | 6 | 6000 |
+| [[G-35]](#g-35-consider-using-soladys-fixedpointmathlib) | Consider using solady's `FixedPointMathLib` | 3 | - |
+| [[G-36]](#g-36-use-selfbalance-instead-of-addressxbalance) | Use `selfbalance()` instead of `address(x).balance` | 6 | 90 |
+| [[G-37]](#g-37-assigning-state-variables-directly-with-named-struct-constructors-wastes-gas) | Assigning state variables directly with named struct constructors wastes gas | 4 | 112 |
+| [[G-38]](#g-38-avoid-zero-transfer-to-save-gas) | Avoid zero transfer to save gas | 17 | 1700 |
+| [[G-39]](#g-39-cache-addressthis-when-used-more-than-once) | Cache address(this) when used more than once | 16 | - |
+| [[G-40]](#g-40-checking-constants-first-can-save-gas) | Checking constants first can save gas | 3 | - |
+| [[G-41]](#g-41-state-variable-read-in-a-loop) | State variable read in a loop | 6 | 582 |
+| [[G-42]](#g-42-state-variable-written-in-a-loop) | State variable written in a loop | 1 | 2897 |
+| [[G-43]](#g-43-unlimited-gas-consumption-risk-due-to-external-call-recipients) | Unlimited gas consumption risk due to external call recipients | 2 | - |
+| [[G-44]](#g-44-optimize-names-to-save-gas) | Optimize names to save gas | 46 | 1012 |
+| [[G-45]](#g-45-reduce-gas-usage-by-moving-to-solidity-0819-or-later) | Reduce gas usage by moving to Solidity 0.8.19 or later | 11 | - |
+| [[G-46]](#g-46-newer-versions-of-solidity-are-more-gas-efficient) | Newer versions of solidity are more gas efficient | 81 | - |
+| [[G-47]](#g-47-avoid-updating-storage-when-the-value-hasnt-changed) | Avoid updating storage when the value hasn't changed | 19 | 15200 |
+| [[G-48]](#g-48-same-cast-is-done-multiple-times) | Same cast is done multiple times | 8 | - |
+| [[G-49]](#g-49-state-variables-that-are-used-multiple-times-in-a-function-should-be-cached-in-stack-variables) | State variables that are used multiple times in a function should be cached in stack variables | 24 | 5432 |
+| [[G-50]](#g-50-use-solady-library-where-possible-to-save-gas) | Use solady library where possible to save gas | 54 | 54000 |
+| [[G-51]](#g-51-use-the-inputsresults-of-assignments-rather-than-re-reading-state-variables) | Use the inputs/results of assignments rather than re-reading state variables | 1 | 97 |
+| [[G-52]](#g-52-structs-can-be-packed-into-fewer-storage-slots-by-truncating-fields) | Structs can be packed into fewer storage slots by truncating fields | 2 | 40000 |
+| [[G-53]](#g-53-redundant-state-variable-getters) | Redundant state variable getters | 1 | - |
+| [[G-54]](#g-54-using-constants-instead-of-enum-can-save-gas) | Using `constant`s instead of `enum` can save gas | 9 | - |
+| [[G-55]](#g-55-use-arrayunsafeaccess-to-avoid-repeated-array-length-checks) | Use `Array.unsafeAccess()` to avoid repeated array length checks | 1 | 2100 |
+| [[G-56]](#g-56-assembly-use-scratch-space-for-building-calldata) | Assembly: Use scratch space for building calldata | 61 | 13420 |
+| [[G-57]](#g-57-use-assembly-to-emit-events) | Use assembly to emit events | 36 | 1368 |
+| [[G-58]](#g-58-use-assembly-to-compute-hashes-to-save-gas) | Use assembly to compute hashes to save gas | 2 | 160 |
+| [[G-59]](#g-59-use-calldata-instead-of-memory-for-immutable-arguments) | Use `calldata` instead of `memory` for immutable arguments | 70 | 21000 |
+| [[G-60]](#g-60-consider-using-soladys-gas-optimized-lib-for-math) | Consider Using Solady's Gas Optimized Lib for Math | 6 | - |
+| [[G-61]](#g-61-do-while-is-cheaper-than-for-loops-when-the-initial-check-can-be-skipped) | `do`-`while` is cheaper than `for`-loops when the initial check can be skipped | 49 | - |
+| [[G-62]](#g-62-avoid-unnecessary-public-variables) | Avoid Unnecessary Public Variables | 41 | 902000 |
+| [[G-63]](#g-63-optimize-deployment-size-by-fine-tuning-ipfs-hash) | Optimize Deployment Size by Fine-tuning IPFS Hash | 30 | 318000 |
+| [[G-64]](#g-64-the-result-of-a-function-call-should-be-cached-rather-than-re-calling-the-function) | The result of a function call should be cached rather than re-calling the function | 38 | 3800 |
+| [[G-65]](#g-65-multiple-accesses-of-a-memorycalldata-array-should-use-a-local-variable-cache) | Multiple accesses of a `memory`/`calldata` array should use a local variable cache | 25 | - |
+| [[G-66]](#g-66-multiple-accesses-of-the-same-mapping-key-should-be-cached) | Multiple accesses of the same mapping key should be cached | 11 | 462 |
+| [[G-67]](#g-67-multiple-mappings-can-be-replaced-with-a-single-struct-mapping) | Multiple mappings can be replaced with a single struct mapping | 8 | 336 |
+| [[G-68]](#g-68-consider-using-bytes32-rather-than-a-string) | Consider using `bytes32` rather than a `string` | 7 | - |
 
 ## Gas Optimizations
 
-### [G-01] The `<array>.length` should be cached outside of the `for`-loop
-
-The overheads outlined below are PER LOOP, excluding the first loop:
-- storage arrays incur a Gwarmaccess (**100 gas**)
-- memory arrays use `MLOAD` (**3 gas**)
-- calldata arrays use `CALLDATALOAD` (**3 gas**)
-Caching the length changes each of these to a `DUP<N>` (**3 gas**), and gets rid of the extra `DUP<N>` needed to store the stack offset.
-
-<details>
-<summary>There are 29 instances (click to show):</summary>
-
-- *AssignmentHook.sol* ( [172-172](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/hooks/AssignmentHook.sol#L172-L172) ):
-
-```solidity
-172:         for (uint256 i; i < _tierFees.length; ++i) {
-```
-
-- *LibDepositing.sol* ( [86-86](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibDepositing.sol#L86-L86) ):
-
-```solidity
-86:             for (uint256 i; i < deposits_.length;) {
-```
-
-- *LibProposing.sol* ( [244-244](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibProposing.sol#L244-L244) ):
-
-```solidity
-244:             for (uint256 i; i < params.hookCalls.length; ++i) {
-```
-
-- *Guardians.sol* ( [74-74](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L74-L74), [80-80](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L80-L80) ):
-
-```solidity
-74:         for (uint256 i; i < guardians.length; ++i) {
-
-80:         for (uint256 i = 0; i < _newGuardians.length; ++i) {
-```
-
-- *AutomataDcapV3Attestation.sol* ( [80-80](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L80-L80), [95-95](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L95-L95), [191-191](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L191-L191), [214-214](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L214-L214) ):
-
-```solidity
-80:         for (uint256 i; i < serialNumBatch.length; ++i) {
-
-95:         for (uint256 i; i < serialNumBatch.length; ++i) {
-
-191:         for (uint256 i; i < enclaveId.tcbLevels.length; ++i) {
-
-214:         for (uint256 i; i < tcb.tcbLevels.length; ++i) {
-```
-
-- *PEMCertChainLib.sol* ( [244-244](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L244-L244) ):
-
-```solidity
-244:         for (uint256 i; i < split.length; ++i) {
-```
-
-- *V3Parser.sol* ( [153-153](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L153-L153) ):
-
-```solidity
-153:         for (uint256 i; i < encoded.length; ++i) {
-```
-
-- *RsaVerify.sol* ( [174-174](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L174-L174), [283-283](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L283-L283), [290-290](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L290-L290) ):
-
-```solidity
-174:         for (uint256 i; i < _sha256.length; ++i) {
-
-283:         for (uint256 i; i < sha1Prefix.length; ++i) {
-
-290:         for (uint256 i; i < _sha1.length; ++i) {
-```
-
-- *Bridge.sol* ( [90-90](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L90-L90) ):
-
-```solidity
-90:         for (uint256 i; i < _msgHashes.length; ++i) {
-```
-
-- *SignalService.sol* ( [104-104](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L104-L104) ):
-
-```solidity
-104:         for (uint256 i; i < hopProofs.length; ++i) {
-```
-
-- *ERC721Airdrop.sol* ( [59-59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/ERC721Airdrop.sol#L59-L59) ):
-
-```solidity
-59:         for (uint256 i; i < tokenIds.length; ++i) {
-```
-
-- *RLPWriter.sol* ( [66-66](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L66-L66) ):
-
-```solidity
-66:         for (uint256 j = 0; j < out_.length; j++) {
-```
-
-- *MerkleTrie.sol* ( [85-85](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L85-L85) ):
-
-```solidity
-85:         for (uint256 i = 0; i < proof.length; i++) {
-```
-
-- *ERC1155Vault.sol* ( [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L47-L47), [251-251](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L251-L251), [269-269](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L269-L269) ):
-
-```solidity
-47:         for (uint256 i; i < _op.amounts.length; ++i) {
-
-251:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-269:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-```
-
-- *ERC721Vault.sol* ( [34-34](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L34-L34), [170-170](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L170-L170), [175-175](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L175-L175), [197-197](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L197-L197), [210-210](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L210-L210) ):
-
-```solidity
-34:         for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-170:             for (uint256 i; i < _tokenIds.length; ++i) {
-
-175:             for (uint256 i; i < _tokenIds.length; ++i) {
-
-197:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-210:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-```
-
-- *SgxVerifier.sol* ( [104-104](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L104-L104), [210-210](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L210-L210) ):
-
-```solidity
-104:         for (uint256 i; i < _ids.length; ++i) {
-
-210:         for (uint256 i; i < _instances.length; ++i) {
-```
-
-</details>
-
-### [G-02] Use shift right instead of division if possible
-
-Shifting right by `n` is like dividing by `2^n`, while the shifting cost less gas because it does not require checks and jumps.
-
-There are 2 instances:
-
-- *PEMCertChainLib.sol* ( [359-359](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L359-L359) ):
-
-```solidity
-/// @audit div 256
-359:                 ? uint16(bytes2(svnValueBytes)) / 256
-```
-
-- *V3Parser.sol* ( [155-155](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L155-L155) ):
-
-```solidity
-/// @audit div 16
-155:             uint256 upperDigit = digits / 16;
-```
-
-### [G-03] Use `storage` instead of `memory` for structs/arrays
+### [G-01] Use `storage` instead of `memory` for structs/arrays
 
 When fetching data from a storage location, assigning the data to a `memory` variable causes all fields of the struct/array to be read from storage, which incurs a Gcoldsload (**2100 gas**) for *each* field of the struct/array. If the fields are read from the new memory variable, they incur an additional `MLOAD` rather than a cheap stack read. Instead of declaring the variable with the `memory` keyword, declaring the variable with the `storage` keyword and caching any fields that need to be re-read in stack variables, will be much cheaper, only incurring the Gcoldsload for the fields actually read. The only time it makes sense to read the whole struct/array into a `memory` variable, is if the full struct/array is being returned by the function, is being passed to a function that requires `memory`, or if the array/struct is being read from another `memory` array/struct.
 
@@ -290,107 +124,7 @@ When fetching data from a storage location, assigning the data to a `memory` var
 
 </details>
 
-### [G-04] Using `private` for constants saves gas
-
-If needed, the values can be read from the verified contract source code, or if there are multiple values there can be a single getter function that [returns a tuple](https://github.com/code-423n4/2022-08-frax/blob/90f55a9ce4e25bceed3a74290b854341d8de6afa/src/contracts/FraxlendPair.sol#L156-L178) of the values of all currently-public constants. Saves **3406-3606 gas** in deployment gas due to the compiler not having to create non-payable getter functions for deployment calldata, not having to store the bytes of the value outside of where it's used, and not adding another entry to the method ID table
-
-<details>
-<summary>There are 23 instances (click to show):</summary>
-
-- *AssignmentHook.sol* ( [38-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/hooks/AssignmentHook.sol#L38-L38) ):
-
-```solidity
-38:     uint256 public constant MAX_GAS_PAYING_PROVER = 50_000;
-```
-
-- *LibProposing.sol* ( [21-21](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibProposing.sol#L21-L21) ):
-
-```solidity
-21:     uint256 public constant MAX_BYTES_PER_BLOB = 4096 * 32;
-```
-
-- *LibProving.sol* ( [20-20](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibProving.sol#L20-L20), [23-23](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibProving.sol#L23-L23) ):
-
-```solidity
-20:     bytes32 public constant RETURN_LIVENESS_BOND = keccak256("RETURN_LIVENESS_BOND");
-
-23:     bytes32 public constant TIER_OP = bytes32("tier_optimistic");
-```
-
-- *Guardians.sol* ( [11-11](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L11-L11) ):
-
-```solidity
-11:     uint256 public constant MIN_NUM_GUARDIANS = 5;
-```
-
-- *ITierProvider.sol* ( [39-39](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/ITierProvider.sol#L39-L39), [42-42](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/ITierProvider.sol#L42-L42), [45-45](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/ITierProvider.sol#L45-L45), [48-48](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/ITierProvider.sol#L48-L48) ):
-
-```solidity
-39:     uint16 public constant TIER_OPTIMISTIC = 100;
-
-42:     uint16 public constant TIER_SGX = 200;
-
-45:     uint16 public constant TIER_SGX_ZKVM = 300;
-
-48:     uint16 public constant TIER_GUARDIAN = 1000;
-```
-
-- *TaikoL2.sol* ( [32-32](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L32-L32), [35-35](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L35-L35) ):
-
-```solidity
-32:     address public constant GOLDEN_TOUCH_ADDRESS = 0x0000777735367b36bC9B61C50022d9D0700dB4Ec;
-
-35:     uint8 public constant BLOCK_SYNC_THRESHOLD = 5;
-```
-
-- *Lib4844.sol* ( [10-10](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/libs/Lib4844.sol#L10-L10), [13-13](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/libs/Lib4844.sol#L13-L13), [16-17](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/libs/Lib4844.sol#L16-L17) ):
-
-```solidity
-10:     address public constant POINT_EVALUATION_PRECOMPILE_ADDRESS = address(0x0A);
-
-13:     uint32 public constant FIELD_ELEMENTS_PER_BLOB = 4096;
-
-16:     uint256 public constant BLS_MODULUS =
-17:         52_435_875_175_126_190_479_447_740_508_185_965_837_690_552_500_527_637_822_603_658_699_938_581_184_513;
-```
-
-- *LibSignals.sol* ( [8-8](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/LibSignals.sol#L8-L8), [11-11](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/LibSignals.sol#L11-L11) ):
-
-```solidity
-8:     bytes32 public constant STATE_ROOT = keccak256("STATE_ROOT");
-
-11:     bytes32 public constant SIGNAL_ROOT = keccak256("SIGNAL_ROOT");
-```
-
-- *LibFixedPointMath.sol* ( [7-7](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/solmate/LibFixedPointMath.sol#L7-L7), [8-8](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/solmate/LibFixedPointMath.sol#L8-L8) ):
-
-```solidity
-7:     uint128 public constant MAX_EXP_INPUT = 135_305_999_368_893_231_588;
-
-8:     uint256 public constant SCALING_FACTOR = 1e18; // For fixed point representation factor
-```
-
-- *BaseNFTVault.sol* ( [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BaseNFTVault.sol#L47-L47), [50-50](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BaseNFTVault.sol#L50-L50), [53-53](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BaseNFTVault.sol#L53-L53) ):
-
-```solidity
-47:     bytes4 public constant ERC1155_INTERFACE_ID = 0xd9b67a26;
-
-50:     bytes4 public constant ERC721_INTERFACE_ID = 0x80ac58cd;
-
-53:     uint256 public constant MAX_TOKEN_PER_TXN = 10;
-```
-
-- *SgxVerifier.sol* ( [30-30](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L30-L30), [34-34](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L34-L34) ):
-
-```solidity
-30:     uint64 public constant INSTANCE_EXPIRY = 180 days;
-
-34:     uint64 public constant INSTANCE_VALIDITY_DELAY = 1 days;
-```
-
-</details>
-
-### [G-05] Constructors can be marked as payable to save deployment gas
+### [G-02] Constructors can be marked as payable to save deployment gas
 
 Payable functions cost less gas to execute, because the compiler does not have to add extra checks to ensure that no payment is provided. A constructor can be safely marked as payable, because only the deployer would be able to pass funds, and the project itself would not pass any funds.
 
@@ -414,7 +148,7 @@ There are 3 instances:
 64:     constructor() {
 ```
 
-### [G-06] State variables only set in the constructor should be declared `immutable`
+### [G-03] State variables only set in the constructor should be declared `immutable`
 
 This can avoid a Gsset (**20000 gas**) on deployment (in constructor), and replaces the first access in each transaction (Gcoldsload - **2100 gas**) and each access thereafter (Gwarmacces - **100 gas**) with a `PUSH32` (**3 gas**).
 While `string`s are not value types, and therefore cannot be `immutable`/`constant` if not hard-coded outside of the constructor, the same behavior can be achieved by making the current contract `abstract` with `virtual` functions for the `string` accessors, and having a child contract override the functions with the hard-coded implementation-specific values.
@@ -433,83 +167,7 @@ There are 2 instances:
 21:         ES256VERIFIER = es256Verifier;
 ```
 
-### [G-07] Using `++X`/`--X` instead of `X++`/`X--` can save gas
-
-It can save 5 gas for each execution / per iteration.
-
-<details>
-<summary>There are 8 instances (click to show):</summary>
-
-- *LibDepositing.sol* ( [62](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibDepositing.sol#L62), [116](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibDepositing.sol#L116) ):
-
-```solidity
-62:             _state.slotA.numEthDeposits++;
-
-116:                 _state.slotA.numEthDeposits++;
-```
-
-- *RLPWriter.sol* ( [40](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L40), [46](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L46), [59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L59), [66](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L66) ):
-
-```solidity
-40:                 lenLen++;
-
-46:             for (i = 1; i <= lenLen; i++) {
-
-59:         for (; i < 32; i++) {
-
-66:         for (uint256 j = 0; j < out_.length; j++) {
-```
-
-- *MerkleTrie.sol* ( [85](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L85) ):
-
-```solidity
-85:         for (uint256 i = 0; i < proof.length; i++) {
-```
-
-- *SgxVerifier.sol* ( [222](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L222) ):
-
-```solidity
-222:             nextInstanceId++;
-```
-
-</details>
-
-### [G-08] Splitting `require()` statements that use `&&`
-
-Splitting a `require()` statement containing `&&` into multiple `require()` statements can save gas.
-
-There are 7 instances:
-
-- *V3Parser.sol* ( [77-81](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L77-L81), [82-86](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L82-L86), [94-99](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L94-L99) ):
-
-```solidity
-77:         require(
-78:             localEnclaveReport.reserved3.length == 96 && localEnclaveReport.reserved4.length == 60
-79:                 && localEnclaveReport.reportData.length == 64,
-80:             "local QE report has wrong length"
-81:         );
-
-82:         require(
-83:             pckSignedQeReport.reserved3.length == 96 && pckSignedQeReport.reserved4.length == 60
-84:                 && pckSignedQeReport.reportData.length == 64,
-85:             "QE report has wrong length"
-86:         );
-
-94:         require(
-95:             v3Quote.v3AuthData.ecdsa256BitSignature.length == 64
-96:                 && v3Quote.v3AuthData.ecdsaAttestationKey.length == 64
-97:                 && v3Quote.v3AuthData.qeReportSignature.length == 64,
-98:             "Invalid ECDSA signature format"
-99:         );
-```
-
-- *BytesUtils.sol* ( [335-335](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L335-L335) ):
-
-```solidity
-335:             require(char >= 0x30 && char <= 0x7A, "invalid char");
-```
-
-### [G-09] Unnecessary event parameters should be removed
+### [G-04] Unnecessary event parameters should be removed
 
 Data that can be obtained from off-chain data and event log details should not be added as event parameters to save gas.
 
@@ -522,351 +180,7 @@ There is 1 instance:
 230:         emit InstanceAdded(id, newInstance, oldInstance, block.timestamp);
 ```
 
-### [G-10] Use custom errors rather than `revert()`/`require()` strings to save gas
-
-Custom errors are available from solidity version 0.8.4. Custom errors save [**~50 gas**](https://gist.github.com/IllIllI000/ad1bd0d29a0101b25e57c293b4b0c746) each time they're hit by [avoiding having to allocate and store the revert string](https://blog.soliditylang.org/2021/04/21/custom-errors/#errors-in-depth). Not defining the strings also save deployment gas.
-
-<details>
-<summary>There are 66 instances (click to show):</summary>
-
-- *AutomataDcapV3Attestation.sol* ( [61-61](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L61-L61) ):
-
-```solidity
-61:         require(msg.sender == owner, "onlyOwner");
-```
-
-- *V3Parser.sol* ( [77-81](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L77-L81), [82-86](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L82-L86), [87-90](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L87-L90), [91-93](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L91-L93), [94-99](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L94-L99), [100-104](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L100-L104), [116-116](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L116-L116), [279-279](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L279-L279) ):
-
-```solidity
-77:         require(
-78:             localEnclaveReport.reserved3.length == 96 && localEnclaveReport.reserved4.length == 60
-79:                 && localEnclaveReport.reportData.length == 64,
-80:             "local QE report has wrong length"
-81:         );
-
-82:         require(
-83:             pckSignedQeReport.reserved3.length == 96 && pckSignedQeReport.reserved4.length == 60
-84:                 && pckSignedQeReport.reportData.length == 64,
-85:             "QE report has wrong length"
-86:         );
-
-87:         require(
-88:             v3Quote.v3AuthData.certification.certType == 5,
-89:             "certType must be 5: Concatenated PCK Cert Chain (PEM formatted)"
-90:         );
-
-91:         require(
-92:             v3Quote.v3AuthData.certification.decodedCertDataArray.length == 3, "3 certs in chain"
-93:         );
-
-94:         require(
-95:             v3Quote.v3AuthData.ecdsa256BitSignature.length == 64
-96:                 && v3Quote.v3AuthData.ecdsaAttestationKey.length == 64
-97:                 && v3Quote.v3AuthData.qeReportSignature.length == 64,
-98:             "Invalid ECDSA signature format"
-99:         );
-
-100:         require(
-101:             v3Quote.v3AuthData.qeAuthData.parsedDataSize
-102:                 == v3Quote.v3AuthData.qeAuthData.data.length,
-103:             "Invalid QEAuthData size"
-104:         );
-
-116:         require(totalQuoteSize >= MINIMUM_QUOTE_LENGTH, "Invalid quote size");
-
-279:         require(certParsedSuccessfully, "splitCertificateChain failed");
-```
-
-- *Asn1Decode.sol* ( [57-57](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L57-L57), [67-67](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L67-L67), [88-88](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L88-L88), [142-142](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L142-L142), [143-143](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L143-L143), [155-155](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L155-L155), [156-156](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L156-L156), [180-180](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L180-L180), [182-182](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/Asn1Decode.sol#L182-L182) ):
-
-```solidity
-57:         require(der[ptr.ixs()] == 0x03, "Not type BIT STRING");
-
-67:         require(der[ptr.ixs()] == 0x04, "Not type OCTET STRING");
-
-88:         require(der[ptr.ixs()] & 0x20 == 0x20, "Not a constructed type");
-
-142:         require(der[ptr.ixs()] == 0x02, "Not type INTEGER");
-
-143:         require(der[ptr.ixf()] & 0x80 == 0, "Not positive");
-
-155:         require(der[ptr.ixs()] == 0x02, "Not type INTEGER");
-
-156:         require(der[ptr.ixf()] & 0x80 == 0, "Not positive");
-
-180:         require(der[ptr.ixs()] == 0x03, "ixs Not type BIT STRING 0x03");
-
-182:         require(der[ptr.ixf()] == 0x00, "ixf Not 0");
-```
-
-- *BytesUtils.sol* ( [25-25](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L25-L25), [199-199](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L199-L199), [212-212](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L212-L212), [225-225](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L225-L225), [238-238](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L238-L238), [264-264](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L264-L264), [265-265](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L265-L265), [293-293](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L293-L293), [329-329](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L329-L329), [335-335](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L335-L335), [337-337](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L337-L337), [365-365](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L365-L365) ):
-
-```solidity
-25:         require(offset + len <= self.length, "invalid offset");
-
-199:         require(idx + 2 <= self.length, "invalid idx");
-
-212:         require(idx + 4 <= self.length, "unexpected idx");
-
-225:         require(idx + 32 <= self.length, "unexpected idx");
-
-238:         require(idx + 20 <= self.length, "unexpected idx");
-
-264:         require(len <= 32, "unexpected len");
-
-265:         require(idx + len <= self.length, "unexpected idx");
-
-293:         require(offset + len <= self.length, "unexpected offset");
-
-329:         require(len <= 52, "unexpected len");
-
-335:             require(char >= 0x30 && char <= 0x7A, "invalid char");
-
-337:             require(decoded <= 0x20, "invalid decoded");
-
-365:             revert("unexpected len");
-```
-
-- *SigVerifyLib.sol* ( [50-50](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/SigVerifyLib.sol#L50-L50), [75-75](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/SigVerifyLib.sol#L75-L75) ):
-
-```solidity
-50:             revert("Unsupported algorithm");
-
-75:             revert("Unsupported algorithm");
-```
-
-- *Bytes.sol* ( [25-25](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/Bytes.sol#L25-L25), [26-26](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/Bytes.sol#L26-L26), [27-27](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/Bytes.sol#L27-L27) ):
-
-```solidity
-25:             require(_length + 31 >= _length, "slice_overflow");
-
-26:             require(_start + _length >= _start, "slice_overflow");
-
-27:             require(_bytes.length >= _start + _length, "slice_outOfBounds");
-```
-
-- *RLPReader.sol* ( [37-40](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L37-L40), [56-59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L56-L59), [61-64](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L61-L64), [112-115](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L112-L115), [117-120](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L117-L120), [152-155](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L152-L155), [172-175](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L172-L175), [182-185](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L182-L185), [192-195](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L192-L195), [202-205](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L202-L205), [212-215](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L212-L215), [217-220](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L217-L220), [228-231](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L228-L231), [238-241](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L238-L241), [248-251](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L248-L251), [258-261](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L258-L261), [263-266](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L263-L266) ):
-
-```solidity
-37:         require(
-38:             _in.length > 0,
-39:             "RLPReader: length of an RLP item must be greater than zero to be decodable"
-40:         );
-
-56:         require(
-57:             itemType == RLPItemType.LIST_ITEM,
-58:             "RLPReader: decoded item type for list is not a list item"
-59:         );
-
-61:         require(
-62:             listOffset + listLength == _in.length,
-63:             "RLPReader: list item has an invalid data remainder"
-64:         );
-
-112:         require(
-113:             itemType == RLPItemType.DATA_ITEM,
-114:             "RLPReader: decoded item type for bytes is not a data item"
-115:         );
-
-117:         require(
-118:             _in.length == itemOffset + itemLength,
-119:             "RLPReader: bytes value contains an invalid remainder"
-120:         );
-
-152:         require(
-153:             _in.length > 0,
-154:             "RLPReader: length of an RLP item must be greater than zero to be decodable"
-155:         );
-
-172:             require(
-173:                 _in.length > strLen,
-174:                 "RLPReader: length of content must be greater than string length (short string)"
-175:             );
-
-182:             require(
-183:                 strLen != 1 || firstByteOfContent >= 0x80,
-184:                 "RLPReader: invalid prefix, single byte < 0x80 are not prefixed (short string)"
-185:             );
-
-192:             require(
-193:                 _in.length > lenOfStrLen,
-194:                 "RLPReader: length of content must be > than length of string length (long string)"
-195:             );
-
-202:             require(
-203:                 firstByteOfContent != 0x00,
-204:                 "RLPReader: length of content must not have any leading zeros (long string)"
-205:             );
-
-212:             require(
-213:                 strLen > 55,
-214:                 "RLPReader: length of content must be greater than 55 bytes (long string)"
-215:             );
-
-217:             require(
-218:                 _in.length > lenOfStrLen + strLen,
-219:                 "RLPReader: length of content must be greater than total length (long string)"
-220:             );
-
-228:             require(
-229:                 _in.length > listLen,
-230:                 "RLPReader: length of content must be greater than list length (short list)"
-231:             );
-
-238:             require(
-239:                 _in.length > lenOfListLen,
-240:                 "RLPReader: length of content must be > than length of list length (long list)"
-241:             );
-
-248:             require(
-249:                 firstByteOfContent != 0x00,
-250:                 "RLPReader: length of content must not have any leading zeros (long list)"
-251:             );
-
-258:             require(
-259:                 listLen > 55,
-260:                 "RLPReader: length of content must be greater than 55 bytes (long list)"
-261:             );
-
-263:             require(
-264:                 _in.length > lenOfListLen + listLen,
-265:                 "RLPReader: length of content must be greater than total length (long list)"
-266:             );
-```
-
-- *MerkleTrie.sol* ( [77-77](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L77-L77), [89-89](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L89-L89), [93-96](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L93-L96), [99-102](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L99-L102), [105-108](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L105-L108), [119-122](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L119-L122), [125-128](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L125-L128), [150-153](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L150-L153), [162-165](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L162-L165), [172-175](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L172-L175), [178-181](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L178-L181), [191-191](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L191-L191), [194-194](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L194-L194), [198-198](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L198-L198) ):
-
-```solidity
-77:         require(_key.length > 0, "MerkleTrie: empty key");
-
-89:             require(currentKeyIndex <= key.length, "MerkleTrie: key index exceeds total key length");
-
-93:                 require(
-94:                     Bytes.equal(abi.encodePacked(keccak256(currentNode.encoded)), currentNodeID),
-95:                     "MerkleTrie: invalid root hash"
-96:                 );
-
-99:                 require(
-100:                     Bytes.equal(abi.encodePacked(keccak256(currentNode.encoded)), currentNodeID),
-101:                     "MerkleTrie: invalid large internal hash"
-102:                 );
-
-105:                 require(
-106:                     Bytes.equal(currentNode.encoded, currentNodeID),
-107:                     "MerkleTrie: invalid internal node hash"
-108:                 );
-
-119:                     require(
-120:                         value_.length > 0,
-121:                         "MerkleTrie: value length must be greater than zero (branch)"
-122:                     );
-
-125:                     require(
-126:                         i == proof.length - 1,
-127:                         "MerkleTrie: value node must be last node in proof (branch)"
-128:                     );
-
-150:                 require(
-151:                     pathRemainder.length == sharedNibbleLength,
-152:                     "MerkleTrie: path remainder must share all nibbles with key"
-153:                 );
-
-162:                     require(
-163:                         keyRemainder.length == sharedNibbleLength,
-164:                         "MerkleTrie: key remainder must be identical to path remainder"
-165:                     );
-
-172:                     require(
-173:                         value_.length > 0,
-174:                         "MerkleTrie: value length must be greater than zero (leaf)"
-175:                     );
-
-178:                     require(
-179:                         i == proof.length - 1,
-180:                         "MerkleTrie: value node must be last node in proof (leaf)"
-181:                     );
-
-191:                     revert("MerkleTrie: received a node with an unknown prefix");
-
-194:                 revert("MerkleTrie: received an unparseable node");
-
-198:         revert("MerkleTrie: ran out of proof elements");
-```
-
-</details>
-
-### [G-11] Use `unchecked` block for safe subtractions
-
-If it can be confirmed that the subtraction operation will not overflow, using an unchecked block can save gas.
-For example, `require(x <= y); z = y - x;` can be optimized to `require(x <= y); unchecked { z = y - x; }`.
-
-<details>
-<summary>There are 11 instances (click to show):</summary>
-
-- *TaikoL2.sol* ( [276-276](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L276-L276), [281-281](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L281-L281) ):
-
-```solidity
-/// @audit checked on line 275
-276:                 numL1Blocks = _l1BlockId - lastSyncedBlock;
-
-/// @audit checked on line 281
-281:                 excess = excess > issuance ? excess - issuance : 1;
-```
-
-- *PEMCertChainLib.sol* ( [265-265](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L265-L265) ):
-
-```solidity
-/// @audit checked on line 262
-265:         uint256 lengthDiff = n - expectedLength;
-```
-
-- *BytesUtils.sol* ( [93-93](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L93-L93) ):
-
-```solidity
-/// @audit checked on line 90
-93:                     mask = ~(2 ** (8 * (32 - shortest + idx)) - 1);
-```
-
-- *TimelockTokenPool.sol* ( [264-264](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L264-L264) ):
-
-```solidity
-/// @audit checked on line 257
-264:         return _amount * uint64(block.timestamp - _start) / _period;
-```
-
-- *Bytes.sol* ( [95-95](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/Bytes.sol#L95-L95) ):
-
-```solidity
-/// @audit checked on line 92
-95:         return slice(_bytes, _start, _bytes.length - _start);
-```
-
-- *RLPReader.sol* ( [77-77](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L77-L77), [190-190](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L190-L190), [236-236](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPReader.sol#L236-L236) ):
-
-```solidity
-/// @audit checked on line 74
-77:                     length: _in.length - offset,
-
-/// @audit checked on line 166
-190:             uint256 lenOfStrLen = prefix - 0xb7;
-
-/// @audit checked on line 223
-236:             uint256 lenOfListLen = prefix - 0xf7;
-```
-
-- *RLPWriter.sol* ( [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L47-L47), [65-65](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L65-L65) ):
-
-```solidity
-/// @audit checked on line 46
-47:                 out_[i] = bytes1(uint8((_len / (256 ** (lenLen - i))) % 256));
-
-/// @audit checked on line 59
-65:         out_ = new bytes(32 - i);
-```
-
-</details>
-
-### [G-12] `abi.encode()` is less efficient than `abi.encodePacked()` for non-address arguments
+### [G-05] `abi.encode()` is less efficient than `abi.encodePacked()` for non-address arguments
 
 There are 4 instances:
 
@@ -890,7 +204,7 @@ There are 4 instances:
 482:         retData = abi.encodePacked(sha256(abi.encode(v3quote)), tcbStatus);
 ```
 
-### [G-13] Counting down in for statements is more gas efficient
+### [G-06] Counting down in for statements is more gas efficient
 
 Looping downwards is more gas efficient because of how the EVM compares variables. When using a 'for' loop that counts down, comparing the end condition with zero is cheaper than comparing with another number. Therefore, it is recommended to restructure loops to count downwards whenever possible.
 
@@ -1061,7 +375,7 @@ Looping downwards is more gas efficient because of how the EVM compares variable
 
 </details>
 
-### [G-14] Using `msg` globals directly, rather than caching the value, saves gas
+### [G-07] Using `msg` globals directly, rather than caching the value, saves gas
 
 For example, use `msg.sender` directly rather than storing it to a local variable.
 
@@ -1073,7 +387,7 @@ There is 1 instance:
 93:         address taikoL1Address = msg.sender;
 ```
 
-### [G-15] Stack variable is only used once
+### [G-08] Stack variable is only used once
 
 If the variable is only accessed once, it's cheaper to use the assigned value directly that one time, and save the 3 gas the extra stack assignment would spend.
 
@@ -1384,7 +698,7 @@ If the variable is only accessed once, it's cheaper to use the assigned value di
 
 </details>
 
-### [G-16] Do not cache state variables that are used only once
+### [G-09] Do not cache state variables that are used only once
 
 It's cheaper to access the state variable directly if it is accessed only once. This can save some gas cost of the extra stack allocation.
 
@@ -1405,7 +719,7 @@ There are 3 instances:
 151:         Recipient storage r = recipients[_recipient];
 ```
 
-### [G-17] Do not calculate constants
+### [G-10] Do not calculate constants
 
 Due to how constant variables are implemented (replacements at compile-time), an expression assigned to a constant variable is recomputed each time that the variable is used, which wastes some gas.
 
@@ -1423,7 +737,7 @@ There are 2 instances:
 24:     uint256 internal constant BRANCH_NODE_LENGTH = TREE_RADIX + 1;
 ```
 
-### [G-18] Use of `emit` inside a loop
+### [G-11] Use of `emit` inside a loop
 
 Emitting an event inside a loop performs a `LOG` op N times, where N is the loop length. Consider refactoring the code to emit the event only once at the end of loop. Gas savings should be multiplied by the average loop length.
 
@@ -1457,7 +771,7 @@ There are 4 instances:
 220:             emit InstanceAdded(nextInstanceId, _instances[i], address(0), validSince);
 ```
 
-### [G-19] Emitting literals or constants wastes gas
+### [G-12] Emitting literals or constants wastes gas
 
 Every event parameter costs `Glogdata` (**8 gas**) per byte. You can avoid this extra cost, in cases where you're emitting a literal or constant, by creating a second version of the event, which doesn't have the parameter (and have users look to the contract's variables for its value instead), and using the new event in the cases shown below.
 
@@ -1506,7 +820,7 @@ Every event parameter costs `Glogdata` (**8 gas**) per byte. You can avoid this 
 
 </details>
 
-### [G-20] Use local variables for emitting
+### [G-13] Use local variables for emitting
 
 Use the function/modifier's local copy of the state variable, rather than incurring an extra Gwarmaccess (**100 gas**). In the unlikely event that the state variable hasn't already been used by the function/modifier, consider whether it is really necessary to include it in the event, given the fact that it incurs a Gcoldsload (**2100 gas**), or whether it can be passed in to or back out of the functions that _do_ use it.
 
@@ -1556,7 +870,7 @@ Use the function/modifier's local copy of the state variable, rather than incurr
 
 </details>
 
-### [G-21] Contract storage can use fewer slots by changing the order of state variables
+### [G-14] Contract storage can use fewer slots by changing the order of state variables
 
 The reduction of slots can reduce the gas consumption of each storage read/write operation. If variables occupying the same slot are written within the same transaction, avoids a separate Gsset (**20000 gas**). Reads of the variables can also be cheaper.
 
@@ -1589,7 +903,7 @@ There are 2 instances:
 12: contract ERC20Airdrop2 is MerkleClaimable {
 ```
 
-### [G-22] Structs can use fewer slots by changing the order of fields
+### [G-15] Structs can use fewer slots by changing the order of fields
 
 The reduction of slots can reduce the gas consumption of each storage read/write operation. Each slot saved can avoid an extra Gsset (**20000 gas**) for the first setting of the struct. Subsequent reads as well as writes have smaller gas savings.
 
@@ -1748,7 +1062,7 @@ The reduction of slots can reduce the gas consumption of each storage read/write
 
 </details>
 
-### [G-23] `internal` functions only called once can be inlined to save gas
+### [G-16] `internal` functions only called once can be inlined to save gas
 
 If an `internal` function is only used once, there is no need to modularize it, unless the function calling it would otherwise be too long and complex. Not inlining costs 20 to 40 gas because of two extra JUMP instructions and additional stack operations needed for function calls.
 
@@ -1766,7 +1080,7 @@ There are 2 instances:
 140:     function _inNonReentrant() internal view returns (bool) {
 ```
 
-### [G-24] Inline `modifier`s that are only used once to save gas
+### [G-17] Inline `modifier`s that are only used once to save gas
 
 Inline `modifier`s that are only used once can save gas.
 
@@ -1796,7 +1110,7 @@ There are 4 instances:
 37:     modifier onlyOwnerOrSnapshooter() {
 ```
 
-### [G-25] Private functions only used once can be inlined to save gas
+### [G-18] Private functions only used once can be inlined to save gas
 
 If a `private` function is only used once, there is no need to modularize it, unless the function calling it would otherwise be too long and complex.
 
@@ -1822,7 +1136,7 @@ There are 4 instances:
 227:     function _getNodePath(TrieNode memory _node) private pure returns (bytes memory nibbles_) {
 ```
 
-### [G-26] Inverting the condition of an `if`-`else`-statement wastes gas
+### [G-19] Inverting the condition of an `if`-`else`-statement wastes gas
 
 Flipping the `true` and `false` blocks instead saves ***[3 gas](https://gist.github.com/IllIllI000/44da6fbe9d12b9ab21af82f14add56b9)***.
 
@@ -1840,7 +1154,7 @@ There are 2 instances:
 304:         } else {
 ```
 
-### [G-27] Update OpenZeppelin dependency to save gas
+### [G-20] Update OpenZeppelin dependency to save gas
 
 Every release contains new gas optimizations. Use the latest version to take advantage of this.
 
@@ -2071,584 +1385,7 @@ The imported version is `4.8.2`.
 
 </details>
 
-### [G-28] Initializers can be marked as payable to save deployment gas
-
-Payable functions cost less gas to execute, because the compiler does not have to add extra checks to ensure that no payment is provided. Initializers can be safely marked as payable, because only the deployer or the factory contract would call the function without carrying any funds.
-
-<details>
-<summary>There are 24 instances (click to show):</summary>
-
-- *TaikoL1.sol* ( [42-49](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/TaikoL1.sol#L42-L49) ):
-
-```solidity
-42:     function init(
-43:         address _owner,
-44:         address _addressManager,
-45:         bytes32 _genesisBlockHash
-46:     )
-47:         external
-48:         initializer
-49:     {
-```
-
-- *TaikoToken.sol* ( [25-33](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/TaikoToken.sol#L25-L33) ):
-
-```solidity
-25:     function init(
-26:         address _owner,
-27:         string calldata _name,
-28:         string calldata _symbol,
-29:         address _recipient
-30:     )
-31:         public
-32:         initializer
-33:     {
-```
-
-- *TaikoGovernor.sol* ( [31-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/gov/TaikoGovernor.sol#L31-L38) ):
-
-```solidity
-31:     function init(
-32:         address _owner,
-33:         IVotesUpgradeable _token,
-34:         TimelockControllerUpgradeable _timelock
-35:     )
-36:         external
-37:         initializer
-38:     {
-```
-
-- *TaikoTimelockController.sol* ( [15-15](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/gov/TaikoTimelockController.sol#L15-L15) ):
-
-```solidity
-15:     function init(address _owner, uint256 _minDelay) external initializer {
-```
-
-- *AssignmentHook.sol* ( [57-57](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/hooks/AssignmentHook.sol#L57-L57) ):
-
-```solidity
-57:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *GuardianProver.sol* ( [25-25](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/GuardianProver.sol#L25-L25) ):
-
-```solidity
-25:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *DevnetTierProvider.sol* ( [15-15](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/DevnetTierProvider.sol#L15-L15) ):
-
-```solidity
-15:     function init(address _owner) external initializer {
-```
-
-- *MainnetTierProvider.sol* ( [15-15](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/MainnetTierProvider.sol#L15-L15) ):
-
-```solidity
-15:     function init(address _owner) external initializer {
-```
-
-- *TestnetTierProvider.sol* ( [15-15](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/tiers/TestnetTierProvider.sol#L15-L15) ):
-
-```solidity
-15:     function init(address _owner) external initializer {
-```
-
-- *TaikoL2.sol* ( [71-79](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L71-L79) ):
-
-```solidity
-71:     function init(
-72:         address _owner,
-73:         address _addressManager,
-74:         uint64 _l1ChainId,
-75:         uint64 _gasExcess
-76:     )
-77:         external
-78:         initializer
-79:     {
-```
-
-- *Bridge.sol* ( [75-75](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L75-L75) ):
-
-```solidity
-75:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *AddressManager.sol* ( [30-30](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/common/AddressManager.sol#L30-L30) ):
-
-```solidity
-30:     function init(address _owner) external initializer {
-```
-
-- *SignalService.sol* ( [48-48](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L48-L48) ):
-
-```solidity
-48:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *TimelockTokenPool.sol* ( [111-119](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L111-L119) ):
-
-```solidity
-111:     function init(
-112:         address _owner,
-113:         address _taikoToken,
-114:         address _costToken,
-115:         address _sharedVault
-116:     )
-117:         external
-118:         initializer
-119:     {
-```
-
-- *ERC20Airdrop.sol* ( [27-37](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/ERC20Airdrop.sol#L27-L37) ):
-
-```solidity
-27:     function init(
-28:         address _owner,
-29:         uint64 _claimStart,
-30:         uint64 _claimEnd,
-31:         bytes32 _merkleRoot,
-32:         address _token,
-33:         address _vault
-34:     )
-35:         external
-36:         initializer
-37:     {
-```
-
-- *ERC20Airdrop2.sol* ( [54-65](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/ERC20Airdrop2.sol#L54-L65) ):
-
-```solidity
-54:     function init(
-55:         address _owner,
-56:         uint64 _claimStart,
-57:         uint64 _claimEnd,
-58:         bytes32 _merkleRoot,
-59:         address _token,
-60:         address _vault,
-61:         uint64 _withdrawalWindow
-62:     )
-63:         external
-64:         initializer
-65:     {
-```
-
-- *ERC721Airdrop.sol* ( [25-35](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/ERC721Airdrop.sol#L25-L35) ):
-
-```solidity
-25:     function init(
-26:         address _owner,
-27:         uint64 _claimStart,
-28:         uint64 _claimEnd,
-29:         bytes32 _merkleRoot,
-30:         address _token,
-31:         address _vault
-32:     )
-33:         external
-34:         initializer
-35:     {
-```
-
-- *BaseVault.sol* ( [32-32](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BaseVault.sol#L32-L32) ):
-
-```solidity
-32:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *BridgedERC1155.sol* ( [38-48](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L38-L48) ):
-
-```solidity
-38:     function init(
-39:         address _owner,
-40:         address _addressManager,
-41:         address _srcToken,
-42:         uint256 _srcChainId,
-43:         string memory _symbol,
-44:         string memory _name
-45:     )
-46:         external
-47:         initializer
-48:     {
-```
-
-- *BridgedERC20.sol* ( [52-63](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20.sol#L52-L63) ):
-
-```solidity
-52:     function init(
-53:         address _owner,
-54:         address _addressManager,
-55:         address _srcToken,
-56:         uint256 _srcChainId,
-57:         uint8 _decimals,
-58:         string memory _symbol,
-59:         string memory _name
-60:     )
-61:         external
-62:         initializer
-63:     {
-```
-
-- *BridgedERC721.sol* ( [31-41](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC721.sol#L31-L41) ):
-
-```solidity
-31:     function init(
-32:         address _owner,
-33:         address _addressManager,
-34:         address _srcToken,
-35:         uint256 _srcChainId,
-36:         string memory _symbol,
-37:         string memory _name
-38:     )
-39:         external
-40:         initializer
-41:     {
-```
-
-- *USDCAdapter.sol* ( [38-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/adapters/USDCAdapter.sol#L38-L38) ):
-
-```solidity
-38:     function init(address _owner, address _addressManager, IUSDC _usdc) external initializer {
-```
-
-- *GuardianVerifier.sol* ( [18-18](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/GuardianVerifier.sol#L18-L18) ):
-
-```solidity
-18:     function init(address _owner, address _addressManager) external initializer {
-```
-
-- *SgxVerifier.sol* ( [83-83](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L83-L83) ):
-
-```solidity
-83:     function init(address _owner, address _addressManager) external initializer {
-```
-
-</details>
-
-### [G-29] Functions that revert when called by normal users can be marked `payable`
-
-If a function modifier such as `onlyOwner` is used, the function will revert if a normal user tries to pay the function. Marking the function as `payable` will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided.
-The extra opcodes avoided are: 
-`CALLVALUE(2), DUP1(3), ISZERO(3), PUSH2(3), JUMPI(10), PUSH1(3), DUP1(3), REVERT(0), JUMPDEST(1), POP(2)` 
-which cost an average of about 21 gas per call to the function, in addition to the extra deployment cost.
-
-<details>
-<summary>There are 37 instances (click to show):</summary>
-
-- *TaikoL1.sol* ( [111-111](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/TaikoL1.sol#L111-L111) ):
-
-```solidity
-111:     function pauseProving(bool _pause) external {
-```
-
-- *TaikoToken.sol* ( [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/TaikoToken.sol#L47-L47), [52-52](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/TaikoToken.sol#L52-L52) ):
-
-```solidity
-47:     function burn(address _from, uint256 _amount) public onlyOwner {
-
-52:     function snapshot() public onlyFromOwnerOrNamed("snapshooter") {
-```
-
-- *TaikoGovernor.sol* ( [31-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/gov/TaikoGovernor.sol#L31-L38) ):
-
-```solidity
-31:     function init(
-32:         address _owner,
-33:         IVotesUpgradeable _token,
-34:         TimelockControllerUpgradeable _timelock
-35:     )
-36:         external
-37:         initializer
-38:     {
-```
-
-- *TaikoTimelockController.sol* ( [15-15](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/gov/TaikoTimelockController.sol#L15-L15) ):
-
-```solidity
-15:     function init(address _owner, uint256 _minDelay) external initializer {
-```
-
-- *Guardians.sol* ( [53-60](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L53-L60) ):
-
-```solidity
-53:     function setGuardians(
-54:         address[] memory _newGuardians,
-55:         uint8 _minGuardians
-56:     )
-57:         external
-58:         onlyOwner
-59:         nonReentrant
-60:     {
-```
-
-- *TaikoL2.sol* ( [71-79](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L71-L79), [163-171](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L163-L171) ):
-
-```solidity
-71:     function init(
-72:         address _owner,
-73:         address _addressManager,
-74:         uint64 _l1ChainId,
-75:         uint64 _gasExcess
-76:     )
-77:         external
-78:         initializer
-79:     {
-
-163:     function withdraw(
-164:         address _token,
-165:         address _to
-166:     )
-167:         external
-168:         onlyFromOwnerOrNamed("withdrawer")
-169:         nonReentrant
-170:         whenNotPaused
-171:     {
-```
-
-- *TaikoL2EIP1559Configurable.sol* ( [25-32](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2EIP1559Configurable.sol#L25-L32) ):
-
-```solidity
-25:     function setConfigAndExcess(
-26:         Config memory _newConfig,
-27:         uint64 _newGasExcess
-28:     )
-29:         external
-30:         virtual
-31:         onlyOwner
-32:     {
-```
-
-- *AutomataDcapV3Attestation.sol* ( [65-65](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L65-L65), [69-69](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L69-L69), [73-79](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L73-L79), [88-94](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L88-L94), [103-109](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L103-L109), [114-117](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L114-L117), [122-122](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L122-L122) ):
-
-```solidity
-65:     function setMrSigner(bytes32 _mrSigner, bool _trusted) external onlyOwner {
-
-69:     function setMrEnclave(bytes32 _mrEnclave, bool _trusted) external onlyOwner {
-
-73:     function addRevokedCertSerialNum(
-74:         uint256 index,
-75:         bytes[] calldata serialNumBatch
-76:     )
-77:         external
-78:         onlyOwner
-79:     {
-
-88:     function removeRevokedCertSerialNum(
-89:         uint256 index,
-90:         bytes[] calldata serialNumBatch
-91:     )
-92:         external
-93:         onlyOwner
-94:     {
-
-103:     function configureTcbInfoJson(
-104:         string calldata fmspc,
-105:         TCBInfoStruct.TCBInfo calldata tcbInfoInput
-106:     )
-107:         public
-108:         onlyOwner
-109:     {
-
-114:     function configureQeIdentityJson(EnclaveIdStruct.EnclaveId calldata qeIdentityInput)
-115:         external
-116:         onlyOwner
-117:     {
-
-122:     function toggleLocalReportCheck() external onlyOwner {
-```
-
-- *Bridge.sol* ( [82-88](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L82-L88), [101-108](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L101-L108) ):
-
-```solidity
-82:     function suspendMessages(
-83:         bytes32[] calldata _msgHashes,
-84:         bool _suspend
-85:     )
-86:         external
-87:         onlyFromOwnerOrNamed("bridge_watchdog")
-88:     {
-
-101:     function banAddress(
-102:         address _addr,
-103:         bool _ban
-104:     )
-105:         external
-106:         onlyFromOwnerOrNamed("bridge_watchdog")
-107:         nonReentrant
-108:     {
-```
-
-- *AddressManager.sol* ( [38-46](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/common/AddressManager.sol#L38-L46) ):
-
-```solidity
-38:     function setAddress(
-39:         uint64 _chainId,
-40:         bytes32 _name,
-41:         address _newAddress
-42:     )
-43:         external
-44:         virtual
-45:         onlyOwner
-46:     {
-```
-
-- *EssentialContract.sol* ( [69-69](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/common/EssentialContract.sol#L69-L69), [78-78](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/common/EssentialContract.sol#L78-L78) ):
-
-```solidity
-69:     function pause() public virtual whenNotPaused {
-
-78:     function unpause() public virtual whenPaused {
-```
-
-- *SignalService.sol* ( [56-56](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L56-L56) ):
-
-```solidity
-56:     function authorize(address _addr, bool _authorize) external onlyOwner {
-```
-
-- *TimelockTokenPool.sol* ( [135-135](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L135-L135), [150-150](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L150-L150) ):
-
-```solidity
-135:     function grant(address _recipient, Grant memory _grant) external onlyOwner {
-
-150:     function void(address _recipient) external onlyOwner {
-```
-
-- *MerkleClaimable.sol* ( [45-52](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/MerkleClaimable.sol#L45-L52) ):
-
-```solidity
-45:     function setConfig(
-46:         uint64 _claimStart,
-47:         uint64 _claimEnd,
-48:         bytes32 _merkleRoot
-49:     )
-50:         external
-51:         onlyOwner
-52:     {
-```
-
-- *BridgedERC1155.sol* ( [66-75](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L66-L75), [83-92](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L83-L92), [100-109](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L100-L109) ):
-
-```solidity
-66:     function mint(
-67:         address _to,
-68:         uint256 _tokenId,
-69:         uint256 _amount
-70:     )
-71:         public
-72:         nonReentrant
-73:         whenNotPaused
-74:         onlyFromNamed("erc1155_vault")
-75:     {
-
-83:     function mintBatch(
-84:         address _to,
-85:         uint256[] memory _tokenIds,
-86:         uint256[] memory _amounts
-87:     )
-88:         public
-89:         nonReentrant
-90:         whenNotPaused
-91:         onlyFromNamed("erc1155_vault")
-92:     {
-
-100:     function burn(
-101:         address _account,
-102:         uint256 _tokenId,
-103:         uint256 _amount
-104:     )
-105:         public
-106:         nonReentrant
-107:         whenNotPaused
-108:         onlyFromNamed("erc1155_vault")
-109:     {
-```
-
-- *BridgedERC20.sol* ( [80-80](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20.sol#L80-L80), [85-85](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20.sol#L85-L85) ):
-
-```solidity
-80:     function setSnapshoter(address _snapshooter) external onlyOwner {
-
-85:     function snapshot() external onlyOwnerOrSnapshooter {
-```
-
-- *BridgedERC20Base.sol* ( [36-44](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20Base.sol#L36-L44) ):
-
-```solidity
-36:     function changeMigrationStatus(
-37:         address _migratingAddress,
-38:         bool _migratingInbound
-39:     )
-40:         external
-41:         nonReentrant
-42:         whenNotPaused
-43:         onlyFromOwnerOrNamed("erc20_vault")
-44:     {
-```
-
-- *BridgedERC721.sol* ( [54-62](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC721.sol#L54-L62), [69-77](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC721.sol#L69-L77) ):
-
-```solidity
-54:     function mint(
-55:         address _account,
-56:         uint256 _tokenId
-57:     )
-58:         public
-59:         nonReentrant
-60:         whenNotPaused
-61:         onlyFromNamed("erc721_vault")
-62:     {
-
-69:     function burn(
-70:         address _account,
-71:         uint256 _tokenId
-72:     )
-73:         public
-74:         nonReentrant
-75:         whenNotPaused
-76:         onlyFromNamed("erc721_vault")
-77:     {
-```
-
-- *ERC20Vault.sol* ( [148-156](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L148-L156) ):
-
-```solidity
-148:     function changeBridgedToken(
-149:         CanonicalERC20 calldata _ctoken,
-150:         address _btokenNew
-151:     )
-152:         external
-153:         nonReentrant
-154:         whenNotPaused
-155:         onlyOwner
-156:         returns (address btokenOld_)
-```
-
-- *SgxVerifier.sol* ( [90-93](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L90-L93), [100-103](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L100-L103), [139-146](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L139-L146) ):
-
-```solidity
-90:     function addInstances(address[] calldata _instances)
-91:         external
-92:         onlyOwner
-93:         returns (uint256[] memory)
-
-100:     function deleteInstances(uint256[] calldata _ids)
-101:         external
-102:         onlyFromOwnerOrNamed("rollup_watchdog")
-103:     {
-
-139:     function verifyProof(
-140:         Context calldata _ctx,
-141:         TaikoData.Transition calldata _tran,
-142:         TaikoData.TierProof calldata _proof
-143:     )
-144:         external
-145:         onlyFromNamed("taiko")
-146:     {
-```
-
-</details>
-
-### [G-30] Mappings are cheaper to use than storage arrays
+### [G-21] Mappings are cheaper to use than storage arrays
 
 When using storage arrays, solidity adds an internal lookup of the array's length (a Gcoldsload **2100 gas**) to ensure you don't read past the array's end. You can avoid this lookup by using a `mapping` and storing the number of entries in a separate storage variable. In cases where you have sentinel values (e.g. 'zero' means invalid), you can avoid length checks.
 
@@ -2869,25 +1606,7 @@ When using storage arrays, solidity adds an internal lookup of the array's lengt
 
 </details>
 
-### [G-31] Use `x = x + y` instead of `x += y` for state variables
-
-Using the `x = x + y` instead of `x += y` for state simple state variables can save **10 gas**. The same applies to `-=`, `*=`, etc.
-
-There are 4 instances:
-
-- *TimelockTokenPool.sol* ( [141-141](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L141-L141), [156-156](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L156-L156), [216-216](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L216-L216), [217-217](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/TimelockTokenPool.sol#L217-L217) ):
-
-```solidity
-141:         totalAmountGranted += _grant.amount;
-
-156:         totalAmountVoided += amountVoided;
-
-216:         totalAmountWithdrawn += amountToWithdraw;
-
-217:         totalCostPaid += costToWithdraw;
-```
-
-### [G-32] Operator `>=`/`<=` costs less gas than operator `>`/`<`
+### [G-22] Operator `>=`/`<=` costs less gas than operator `>`/`<`
 
 The compiler uses opcodes `GT` and `ISZERO` for code that uses `>`, but only requires `LT` for `>=`. A similar behavior applies for `>`, which uses opcodes `LT` and `ISZERO`, but only requires `GT` for `<=`. It can [save **3 gas**](https://gist.github.com/IllIllI000/3dc79d25acccfa16dee4e83ffdc6ffde) for each.
 It should be converted to the `<=`/`>=` equivalent when comparing against integer literals. In cases where a for-loop is being used, one can count down rather than up, in order to use the optimal operator.
@@ -3055,7 +1774,7 @@ It should be converted to the `<=`/`>=` equivalent when comparing against intege
 
 </details>
 
-### [G-33] Consider pre-calculating the address of `address(this)` to save gas
+### [G-23] Consider pre-calculating the address of `address(this)` to save gas
 
 Use `foundry`'s [`script.sol`](https://book.getfoundry.sh/reference/forge-std/compute-create-address) or `solady`'s [`LibRlp.sol`](https://github.com/Vectorized/solady/blob/main/src/utils/LibRLP.sol) to save the value in a constant, which will avoid having to spend gas to push the value on the stack every time it's used.
 
@@ -3208,7 +1927,7 @@ Use `foundry`'s [`script.sol`](https://book.getfoundry.sh/reference/forge-std/co
 
 </details>
 
-### [G-34] Empty code blocks can be removed to save gas
+### [G-24] Empty code blocks can be removed to save gas
 
 The following empty code blocks can be removed or refactored to save gas.
 
@@ -3222,7 +1941,7 @@ There is 1 instance:
 88:         } else if (block.number == 1) {
 ```
 
-### [G-35] Remove empty functions to save gas
+### [G-25] Remove empty functions to save gas
 
 Empty function body in solidity is not recommended, remove it can save gas.
 
@@ -3248,7 +1967,7 @@ There are 4 instances:
 116:     function _authorizePause(address) internal virtual onlyOwner { }
 ```
 
-### [G-36] Usage of `int`s/`uint`s smaller than 32 bytes incurs overhead
+### [G-26] Usage of `int`s/`uint`s smaller than 32 bytes incurs overhead
 
 Using `ints`/`uints` smaller than 32 bytes may cost more gas. This is because the EVM operates on 32 bytes at a time, so if an element is smaller than 32 bytes, the EVM must perform more operations to reduce the size of the element from 32 bytes to the desired size.
 
@@ -3993,7 +2712,7 @@ Using `ints`/`uints` smaller than 32 bytes may cost more gas. This is because th
 
 </details>
 
-### [G-37] Using a double `if` statement instead of a logical AND(`&&`)
+### [G-27] Using a double `if` statement instead of a logical AND(`&&`)
 
 Using a double `if` statement instead of a logical AND (`&&`) can provide similar short-circuiting behavior whereas double if is slightly [more gas efficient](https://gist.github.com/DadeKuma/931ce6794a050201ec6544dbcc31316c).
 
@@ -4078,7 +2797,7 @@ Using a double `if` statement instead of a logical AND (`&&`) can provide simila
 
 </details>
 
-### [G-38] `require()`/`revert()` strings longer than 32 bytes cost extra gas
+### [G-28] `require()`/`revert()` strings longer than 32 bytes cost extra gas
 
 Each extra memory word of bytes past the original 32 [incurs an MSTORE](https://gist.github.com/hrkrshnn/ee8fabd532058307229d65dcd5836ddc#consider-having-short-revert-strings) which costs **3 gas**
 
@@ -4237,7 +2956,7 @@ Each extra memory word of bytes past the original 32 [incurs an MSTORE](https://
 
 </details>
 
-### [G-39] Reduce deployment costs by tweaking contracts' metadata
+### [G-29] Reduce deployment costs by tweaking contracts' metadata
 
 See [this](https://www.rareskills.io/post/solidity-metadata) link, at its bottom, for full details.
 
@@ -4426,7 +3145,7 @@ See [this](https://www.rareskills.io/post/solidity-metadata) link, at its bottom
 
 </details>
 
-### [G-40] Divisions can be unchecked to save gas
+### [G-30] Divisions can be unchecked to save gas
 
 The expression `type(int).min/(-1)` is the only case where division causes an overflow. Therefore, uncheck can be used to [save gas](https://gist.github.com/DadeKuma/3bc597338ae774b8b3bd43280d55271f) in scenarios where it is certain that such an overflow will not occur.
 
@@ -4499,178 +3218,7 @@ The expression `type(int).min/(-1)` is the only case where division causes an ov
 
 </details>
 
-### [G-41] Increments can be `unchecked` to save gas
-
-Using `unchecked` increments can save gas by bypassing the built-in overflow checks. This can save [30-40 gas](https://gist.github.com/hrkrshnn/ee8fabd532058307229d65dcd5836ddc#the-increment-in-for-loop-post-condition-can-be-made-unchecked) **per iteration**. So it is recommended to use `unchecked` increments when overflow is not possible.
-
-<details>
-<summary>There are 45 instances (click to show):</summary>
-
-- *AssignmentHook.sol* ( [172-172](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/hooks/AssignmentHook.sol#L172-L172) ):
-
-```solidity
-172:         for (uint256 i; i < _tierFees.length; ++i) {
-```
-
-- *LibProposing.sol* ( [244-244](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/libs/LibProposing.sol#L244-L244) ):
-
-```solidity
-244:             for (uint256 i; i < params.hookCalls.length; ++i) {
-```
-
-- *Guardians.sol* ( [74-74](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L74-L74), [80-80](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L80-L80), [133-133](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L1/provers/Guardians.sol#L133-L133) ):
-
-```solidity
-74:         for (uint256 i; i < guardians.length; ++i) {
-
-80:         for (uint256 i = 0; i < _newGuardians.length; ++i) {
-
-133:             for (uint256 i; i < guardiansLength; ++i) {
-```
-
-- *TaikoL2.sol* ( [234-234](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/L2/TaikoL2.sol#L234-L234) ):
-
-```solidity
-234:             for (uint256 i; i < 255 && _blockId >= i + 1; ++i) {
-```
-
-- *AutomataDcapV3Attestation.sol* ( [80-80](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L80-L80), [95-95](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L95-L95), [191-191](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L191-L191), [214-214](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L214-L214), [240-240](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L240-L240), [259-259](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L259-L259), [420-420](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L420-L420) ):
-
-```solidity
-80:         for (uint256 i; i < serialNumBatch.length; ++i) {
-
-95:         for (uint256 i; i < serialNumBatch.length; ++i) {
-
-191:         for (uint256 i; i < enclaveId.tcbLevels.length; ++i) {
-
-214:         for (uint256 i; i < tcb.tcbLevels.length; ++i) {
-
-240:         for (uint256 i; i < CPUSVN_LENGTH; ++i) {
-
-259:         for (uint256 i; i < n; ++i) {
-
-420:             for (uint256 i; i < 3; ++i) {
-```
-
-- *PEMCertChainLib.sol* ( [54-54](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L54-L54), [244-244](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L244-L244), [354-354](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/PEMCertChainLib.sol#L354-L354) ):
-
-```solidity
-54:         for (uint256 i; i < size; ++i) {
-
-244:         for (uint256 i; i < split.length; ++i) {
-
-354:         for (uint256 i; i < SGX_TCB_CPUSVN_SIZE + 1; ++i) {
-```
-
-- *V3Parser.sol* ( [153-153](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L153-L153), [281-281](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/lib/QuoteV3Auth/V3Parser.sol#L281-L281) ):
-
-```solidity
-153:         for (uint256 i; i < encoded.length; ++i) {
-
-281:         for (uint256 i; i < 3; ++i) {
-```
-
-- *BytesUtils.sol* ( [333-333](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/BytesUtils.sol#L333-L333) ):
-
-```solidity
-333:         for (uint256 i; i < len; ++i) {
-```
-
-- *RsaVerify.sol* ( [140-140](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L140-L140), [152-152](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L152-L152), [158-158](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L158-L158), [174-174](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L174-L174), [273-273](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L273-L273), [283-283](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L283-L283), [290-290](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/RsaVerify.sol#L290-L290) ):
-
-```solidity
-140:         for (uint256 i = 2; i < 2 + paddingLen; ++i) {
-
-152:             for (uint256 i; i < digestAlgoWithParamLen; ++i) {
-
-158:             for (uint256 i; i < digestAlgoWithParamLen; ++i) {
-
-174:         for (uint256 i; i < _sha256.length; ++i) {
-
-273:         for (uint256 i = 2; i < 2 + paddingLen; ++i) {
-
-283:         for (uint256 i; i < sha1Prefix.length; ++i) {
-
-290:         for (uint256 i; i < _sha1.length; ++i) {
-```
-
-- *X509DateUtils.sol* ( [48-48](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/X509DateUtils.sol#L48-L48), [59-59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/utils/X509DateUtils.sol#L59-L59) ):
-
-```solidity
-48:         for (uint16 i = 1970; i < year; ++i) {
-
-59:         for (uint8 i = 1; i < month; ++i) {
-```
-
-- *Bridge.sol* ( [90-90](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L90-L90) ):
-
-```solidity
-90:         for (uint256 i; i < _msgHashes.length; ++i) {
-```
-
-- *SignalService.sol* ( [104-104](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L104-L104) ):
-
-```solidity
-104:         for (uint256 i; i < hopProofs.length; ++i) {
-```
-
-- *ERC721Airdrop.sol* ( [59-59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/ERC721Airdrop.sol#L59-L59) ):
-
-```solidity
-59:         for (uint256 i; i < tokenIds.length; ++i) {
-```
-
-- *RLPWriter.sol* ( [46-46](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L46-L46), [59-59](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L59-L59), [66-66](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/rlp/RLPWriter.sol#L66-L66) ):
-
-```solidity
-46:             for (i = 1; i <= lenLen; i++) {
-
-59:         for (; i < 32; i++) {
-
-66:         for (uint256 j = 0; j < out_.length; j++) {
-```
-
-- *MerkleTrie.sol* ( [85-85](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol#L85-L85) ):
-
-```solidity
-85:         for (uint256 i = 0; i < proof.length; i++) {
-```
-
-- *ERC1155Vault.sol* ( [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L47-L47), [251-251](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L251-L251), [269-269](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L269-L269) ):
-
-```solidity
-47:         for (uint256 i; i < _op.amounts.length; ++i) {
-
-251:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-269:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-```
-
-- *ERC721Vault.sol* ( [34-34](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L34-L34), [170-170](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L170-L170), [175-175](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L175-L175), [197-197](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L197-L197), [210-210](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L210-L210) ):
-
-```solidity
-34:         for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-170:             for (uint256 i; i < _tokenIds.length; ++i) {
-
-175:             for (uint256 i; i < _tokenIds.length; ++i) {
-
-197:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-
-210:                 for (uint256 i; i < _op.tokenIds.length; ++i) {
-```
-
-- *SgxVerifier.sol* ( [104-104](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L104-L104), [210-210](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L210-L210) ):
-
-```solidity
-104:         for (uint256 i; i < _ids.length; ++i) {
-
-210:         for (uint256 i; i < _instances.length; ++i) {
-```
-
-</details>
-
-### [G-42] Use assembly to validate `msg.sender`
+### [G-31] Use assembly to validate `msg.sender`
 
 We can use assembly to efficiently validate msg.sender with the least amount of opcodes necessary. For more details check the following report [Here](https://code4rena.com/reports/2023-05-juicebox#g-06-use-assembly-to-validate-msgsender)
 
@@ -4767,7 +3315,7 @@ We can use assembly to efficiently validate msg.sender with the least amount of 
 
 </details>
 
-### [G-43] Using assembly to check for zero can save gas
+### [G-32] Using assembly to check for zero can save gas
 
 Using assembly to check for zero can save gas by allowing more direct access to the evm and reducing some of the overhead associated with high-level operations in solidity.
 
@@ -5094,7 +3642,7 @@ Using assembly to check for zero can save gas by allowing more direct access to 
 
 </details>
 
-### [G-44] Low level `call` can be optimized with assembly
+### [G-33] Low level `call` can be optimized with assembly
 
 When using low-level calls, the `returnData` is copied to memory even if the variable is not utilized. The proper way to handle this is through a low level assembly call.
 For example:
@@ -5118,7 +3666,7 @@ There is 1 instance:
 50:         (bool success,) = address(this).call(txdata);
 ```
 
-### [G-45] Consider using OZ EnumerateSet in place of nested mappings
+### [G-34] Consider using OZ EnumerateSet in place of nested mappings
 
 Nested mappings and multi-dimensional arrays involve a double hashing process, which can be costly in terms of gas due to the repeated hashing and storage operations. An optimization approach is to manually concatenate keys and perform a single hash and storage operation, but this increases the risk of storage collisions, especially when there are other nested hash maps using the same key types. OpenZeppelin's EnumerableSet offers a solution by combining set operations with element enumeration, providing a gas-efficient and collision-resistant alternative for certain scenarios where nested mappings or multi-dimensional arrays are used in Solidity.
 
@@ -5163,7 +3711,7 @@ Nested mappings and multi-dimensional arrays involve a double hashing process, w
 
 </details>
 
-### [G-46] Consider using solady's `FixedPointMathLib`
+### [G-35] Consider using solady's `FixedPointMathLib`
 
 Saves gas, and works to avoid unnecessary [overflows](https://github.com/Vectorized/solady/blob/9deb9ed36a27261a8745db5b7cd7f4cdc3b1cd4e/src/utils/FixedPointMathLib.sol#L436).
 
@@ -5188,64 +3736,7 @@ There are 3 instances:
 118:             * (block.timestamp.min(claimEnd + withdrawalWindow) - claimEnd) / withdrawalWindow;
 ```
 
-### [G-47] Use `uint256(1)`/`uint256(2)` instead of `true`/`false` to save gas for changes
-
-Use uint256(1) and uint256(2) for true/false to avoid a Gwarmaccess (100 gas), and to avoid Gsset (20000 gas) when changing from ‘false’ to ‘true’, after having been ‘true’ in the past. Refer to the [source](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/5ae630684a0f57de400ef69499addab4c32ac8fb/contracts/security/ReentrancyGuard.sol#L23-L27).
-
-<details>
-<summary>There are 10 instances (click to show):</summary>
-
-- *AutomataDcapV3Attestation.sol* ( [38-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L38-L38), [39-39](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L39-L39), [40-40](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L40-L40), [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L47-L47) ):
-
-```solidity
-38:     bool private _checkLocalEnclaveReport;
-
-39:     mapping(bytes32 enclave => bool trusted) private _trustedUserMrEnclave;
-
-40:     mapping(bytes32 signer => bool trusted) private _trustedUserMrSigner;
-
-47:     mapping(uint256 idx => mapping(bytes serialNum => bool revoked)) private _serialNumIsRevoked;
-```
-
-- *Bridge.sol* ( [42-42](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L42-L42) ):
-
-```solidity
-42:     mapping(address addr => bool banned) public addressBanned;
-```
-
-- *SignalService.sol* ( [21-21](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L21-L21) ):
-
-```solidity
-21:     mapping(address addr => bool authorized) public isAuthorized;
-```
-
-- *MerkleClaimable.sol* ( [12-12](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/MerkleClaimable.sol#L12-L12) ):
-
-```solidity
-12:     mapping(bytes32 hash => bool claimed) public isClaimed;
-```
-
-- *BridgedERC20Base.sol* ( [14-14](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20Base.sol#L14-L14) ):
-
-```solidity
-14:     bool public migratingInbound;
-```
-
-- *ERC20Vault.sol* ( [52-52](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L52-L52) ):
-
-```solidity
-52:     mapping(address btoken => bool blacklisted) public btokenBlacklist;
-```
-
-- *SgxVerifier.sol* ( [55-55](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L55-L55) ):
-
-```solidity
-55:     mapping(address instanceAddress => bool alreadyAttested) public addressRegistered;
-```
-
-</details>
-
-### [G-48] Use `selfbalance()` instead of `address(x).balance`
+### [G-36] Use `selfbalance()` instead of `address(x).balance`
 
 Use assembly when getting a contract's balance of ETH.
 You can use `selfbalance()` instead of `address(x).balance` when getting your contract's balance of ETH to save gas.
@@ -5278,7 +3769,7 @@ There are 6 instances:
 174:             _to.sendEther(address(this).balance);
 ```
 
-### [G-49] Assigning state variables directly with named struct constructors wastes gas
+### [G-37] Assigning state variables directly with named struct constructors wastes gas
 
 Using named arguments for struct means that the compiler needs to organize the fields in memory before doing the assignment, which wastes gas. Set each field directly in storage (use dot-notation), or use the unnamed version of the constructor.
 
@@ -5303,7 +3794,7 @@ There are 4 instances:
 229:         instances[id] = Instance(newInstance, uint64(block.timestamp));
 ```
 
-### [G-50] Avoid zero transfer to save gas
+### [G-38] Avoid zero transfer to save gas
 
 In Solidity, unnecessary operations can waste gas. For example, a transfer function without a zero amount check uses gas even if called with a zero amount, since the contract state remains unchanged. Implementing a zero amount check avoids these unnecessary function calls, saving gas and improving efficiency.
 
@@ -5388,7 +3879,7 @@ In Solidity, unnecessary operations can waste gas. For example, a transfer funct
 
 </details>
 
-### [G-51] Cache address(this) when used more than once
+### [G-39] Cache address(this) when used more than once
 
 Caching address(this) when used more than once can save gas.
 
@@ -5453,7 +3944,7 @@ Caching address(this) when used more than once can save gas.
 
 </details>
 
-### [G-52] Checking constants first can save gas
+### [G-40] Checking constants first can save gas
 
 Checks that involve constants should come before checks that involve state variables, function calls, and calculations. By doing these checks first, the function is able to revert before wasting a Gcoldsload (**2100 gas***) in a function that may ultimately revert in the unhappy case.
 
@@ -5481,7 +3972,7 @@ There are 3 instances:
 104:         );
 ```
 
-### [G-53] State variable read in a loop
+### [G-41] State variable read in a loop
 
 The state variable should be cached in and read from a local variable, or accumulated in a local variable then written to storage once outside of the loop, rather than reading/updating it on every iteration of the loop, which will replace each Gwarmaccess (**100 gas**) with a much cheaper stack read.
 
@@ -5533,7 +4024,7 @@ The state variable should be cached in and read from a local variable, or accumu
 
 </details>
 
-### [G-54] State variable written in a loop
+### [G-42] State variable written in a loop
 
 The code should be refactored such that updates made to the state variable are instead accumulated/tracked in a local variable, then be written a single time outside the loop, converting a Gsreset (**2900 gas**) to a stack write for each iteration.
 
@@ -5559,7 +4050,7 @@ There is 1 instance:
 223:         }
 ```
 
-### [G-55] Unlimited gas consumption risk due to external call recipients
+### [G-43] Unlimited gas consumption risk due to external call recipients
 
 When calling an external function without specifying a gas limit , the called contract may consume all the remaining gas, causing the tx to be reverted. To mitigate this, it is recommended to explicitly set a gas limit when making low level external calls.
 
@@ -5577,7 +4068,7 @@ There are 2 instances:
 591:         (success_,) = _signalService.staticcall(data);
 ```
 
-### [G-56] Optimize names to save gas
+### [G-44] Optimize names to save gas
 
 `public`/`external` function names and `public` member variable names can be optimized to save gas. Below are the interfaces/abstract contracts that can be optimized so that the most frequently-called functions use the least amount of gas possible during method lookup. Method IDs that have two leading zero bytes can save 128 gas each during deployment, and renaming functions to have lower method IDs will save 22 gas per call, [per sorted position shifted](https://medium.com/joyso/solidity-how-does-function-name-affect-gas-consumption-in-smart-contract-47d270d8ac92).
 
@@ -5904,7 +4395,7 @@ There are 2 instances:
 
 </details>
 
-### [G-57] Reduce gas usage by moving to Solidity 0.8.19 or later
+### [G-45] Reduce gas usage by moving to Solidity 0.8.19 or later
 
 Solidity version 0.8.19 introduced a number of gas optimizations, refer to the [Solidity 0.8.19 Release Announcement](https://soliditylang.org/blog/2023/02/22/solidity-0.8.19-release-announcement) for details.
 
@@ -5979,7 +4470,7 @@ Solidity version 0.8.19 introduced a number of gas optimizations, refer to the [
 
 </details>
 
-### [G-58] Newer versions of solidity are more gas efficient
+### [G-46] Newer versions of solidity are more gas efficient
 
 The solidity language continues to pursue more efficient gas optimization schemes. Adopting a [newer version of solidity](https://github.com/ethereum/solc-js/tags) can be more gas efficient.
 
@@ -6474,7 +4965,7 @@ The solidity language continues to pursue more efficient gas optimization scheme
 
 </details>
 
-### [G-59] Avoid updating storage when the value hasn't changed
+### [G-47] Avoid updating storage when the value hasn't changed
 
 Manipulating storage in solidity is gas-intensive. It can be optimized by avoiding unnecessary storage updates when the new value equals the existing value.
 If the old value is equal to the new value, not re-storing the value will avoid a Gsreset (**2900 gas**), potentially at the expense of a Gcoldsload (**2100 gas**) or a Gwarmaccess (**100 gas**).
@@ -6574,7 +5065,7 @@ If the old value is equal to the new value, not re-storing the value will avoid 
 
 </details>
 
-### [G-60] Same cast is done multiple times
+### [G-48] Same cast is done multiple times
 
 It's cheaper to do it once, and store the result to a variable. The examples below are the second+ instance of a given cast of the variable.
 
@@ -6619,7 +5110,7 @@ It's cheaper to do it once, and store the result to a variable. The examples bel
 
 </details>
 
-### [G-61] State variables that are used multiple times in a function should be cached in stack variables
+### [G-49] State variables that are used multiple times in a function should be cached in stack variables
 
 When performing multiple operations on a state variable in a function, it is recommended to cache it first. Either multiple reads or multiple writes to a state variable can save gas by caching it on the stack.
 Caching of a state variable replaces each Gwarmaccess (100 gas) with a much cheaper stack read. Other less obvious fixes/optimizations include having local memory caches of state variable structs, or having local caches of state variable contracts/addresses.
@@ -6748,7 +5239,7 @@ Caching of a state variable replaces each Gwarmaccess (100 gas) with a much chea
 
 </details>
 
-### [G-62] Use solady library where possible to save gas
+### [G-50] Use solady library where possible to save gas
 
 The following OpenZeppelin imports have a Solady equivalent, as such they can be used to save GAS as Solady modules have been specifically designed to be as GAS efficient as possible.
 
@@ -6981,7 +5472,7 @@ The following OpenZeppelin imports have a Solady equivalent, as such they can be
 
 </details>
 
-### [G-63] Use the inputs/results of assignments rather than re-reading state variables
+### [G-51] Use the inputs/results of assignments rather than re-reading state variables
 
 When a state variable is assigned, it saves gas to use the value being assigned, later in the function, rather than re-reading the state variable itself. If needed, it can also be stored to a local variable, and be used in that way. Both options avoid a Gwarmaccess (**100 gas**). Note that if the operation is, say `+=`, the assignment also results in a value which can be used. The instances below point to the first reference after the assignment, since later references are already covered by issues describing the caching of state variable values.
 
@@ -6994,7 +5485,7 @@ There is 1 instance:
 123:         _checkLocalEnclaveReport = !_checkLocalEnclaveReport;
 ```
 
-### [G-64] Structs can be packed into fewer storage slots by truncating fields
+### [G-52] Structs can be packed into fewer storage slots by truncating fields
 
 Some struct fields  can be safely modified so that the struct variable uses fewer storage slots. Each saved slot can avoid an extra Gsset (20000 gas) for the first setting of the struct. Subsequent reads as well as writes have smaller gas savings.
 
@@ -7107,7 +5598,7 @@ Some struct fields  can be safely modified so that the struct variable uses fewe
 
 </details>
 
-### [G-65] Redundant state variable getters
+### [G-53] Redundant state variable getters
 
 Getters for public state variables are automatically generated so there is no need to code them manually and waste gas.
 
@@ -7121,7 +5612,7 @@ There is 1 instance:
 45:     }
 ```
 
-### [G-66] Using `constant`s instead of `enum` can save gas
+### [G-54] Using `constant`s instead of `enum` can save gas
 
 `Enum` is expensive and it is [more efficient to use constants](https://www.codehawks.com/finding/clm84992q02j9w9ruebun36d9) instead. An illustrative example of this approach can be found in the [ReentrancyGuard.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/181d518609a9f006fcb97af63e6952e603cf100e/contracts/utils/ReentrancyGuard.sol#L34-L35).
 
@@ -7215,7 +5706,7 @@ There is 1 instance:
 
 </details>
 
-### [G-67] Use `Array.unsafeAccess()` to avoid repeated array length checks
+### [G-55] Use `Array.unsafeAccess()` to avoid repeated array length checks
 
 When using storage arrays, solidity adds an internal lookup of the array's length (a Gcoldsload **2100 gas**) to ensure you don't read past the array's end. You can avoid this lookup by using [`Array.unsafeAccess()`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/94697be8a3f0dfcd95dfb13ffbd39b5973f5c65d/contracts/utils/Arrays.sol#L57) in cases where the length has already been checked, as is the case with the instances below.
 
@@ -7227,7 +5718,7 @@ There is 1 instance:
 75:             delete guardianIds[guardians[i]];
 ```
 
-### [G-68] Assembly: Use scratch space for building calldata
+### [G-56] Assembly: Use scratch space for building calldata
 
 If an external call's calldata can fit into two or fewer words, use the scratch space to build the calldata, rather than allowing Solidity to do a memory expansion.
 
@@ -7449,7 +5940,7 @@ If an external call's calldata can fit into two or fewer words, use the scratch 
 
 </details>
 
-### [G-69] Use assembly to emit events
+### [G-57] Use assembly to emit events
 
 To efficiently emit events, it's possible to utilize assembly by making use of scratch space and the free memory pointer. This approach has the advantage of potentially avoiding the costs associated with memory expansion.
 
@@ -7632,7 +6123,7 @@ A good example of such practice can be seen in [Solady's](https://github.com/Vec
 
 </details>
 
-### [G-70] Use assembly to compute hashes to save gas
+### [G-58] Use assembly to compute hashes to save gas
 
 If the arguments to the encode call can fit into the scratch space (two words or fewer), then it's more efficient to use assembly to generate the hash (**80 gas**):
 
@@ -7652,7 +6143,7 @@ There are 2 instances:
 170:         bytes32 hash = keccak256(abi.encodePacked("Withdraw unlocked Taiko token to: ", _to));
 ```
 
-### [G-71] Use `calldata` instead of `memory` for immutable arguments
+### [G-59] Use `calldata` instead of `memory` for immutable arguments
 
 Mark data types as `calldata` instead of `memory` where possible. This makes it so that the data is not automatically loaded into memory. If the data passed into the function does not need to be changed (like updating values in an array), it can be passed in as `calldata`. The one exception to this is if the argument must later be passed into another function that takes an argument that specifies `memory` storage.
 
@@ -8010,7 +6501,7 @@ Mark data types as `calldata` instead of `memory` where possible. This makes it 
 
 </details>
 
-### [G-72] Consider Using Solady's Gas Optimized Lib for Math
+### [G-60] Consider Using Solady's Gas Optimized Lib for Math
 
 In instances where many similar mathematical operations are performed, consider using Solady's math lib to benefit from the gas saving it can introduce.
 
@@ -8055,7 +6546,7 @@ In instances where many similar mathematical operations are performed, consider 
 
 </details>
 
-### [G-73] `do`-`while` is cheaper than `for`-loops when the initial check can be skipped
+### [G-61] `do`-`while` is cheaper than `for`-loops when the initial check can be skipped
 
 `for (uint256 i; i < len; ++i){ ... }` -> `do { ...; ++i } while (i < len);`
 
@@ -8238,7 +6729,7 @@ In instances where many similar mathematical operations are performed, consider 
 
 </details>
 
-### [G-74] Avoid Unnecessary Public Variables
+### [G-62] Avoid Unnecessary Public Variables
 
 Public state variables automatically generate getter functions, increasing contract size and potentially leading to higher deployment and interaction costs. To optimize gas usage and contract efficiency, minimize the use of public variables unless external access is necessary. Instead, use internal or private visibility combined with explicit getter functions when required. This practice not only reduces contract size but also provides better control over data access and manipulation, enhancing security and readability. Prioritize lean, efficient contracts to ensure cost-effectiveness and better performance on the blockchain.
 
@@ -8405,7 +6896,7 @@ Public state variables automatically generate getter functions, increasing contr
 
 </details>
 
-### [G-75] Optimize Deployment Size by Fine-tuning IPFS Hash
+### [G-63] Optimize Deployment Size by Fine-tuning IPFS Hash
 
 Optimizing the deployment size of a smart contract is vital to minimize gas costs, and one way to achieve this is by fine-tuning the IPFS hash appended by the Solidity compiler as metadata. This metadata, consisting of 53 bytes, increases the gas required for contract deployment by approximately 10,600 gas due to bytecode costs, and additionally, up to 848 gas due to calldata costs, depending on the proportion of zero and non-zero bytes. Utilize the --no-cbor-metadata compiler flag to prevent the compiler from appending metadata. However, this approach has a drawback as it can complicate the contract verification process on block explorers like Etherscan, potentially reducing transparency.
 
@@ -8594,65 +7085,7 @@ Optimizing the deployment size of a smart contract is vital to minimize gas cost
 
 </details>
 
-### [G-76] Using `bool`s for storage incurs overhead
-
-[Booleans are more expensive than uint256](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/58f635312aa21f947cae5f8578638a85aa2519f5/contracts/security/ReentrancyGuard.sol#L23-L27) or any type that takes up a full word because each write operation emits an extra SLOAD to first read the slot's contents, replace the bits taken up by the boolean, and then write back. This is the compiler's defense against contract upgrades and pointer aliasing, and it cannot be disabled.
-Use `uint256(0)` and `uint256(1)` for true/false to avoid a Gwarmaccess (**[100 gas](https://gist.github.com/IllIllI000/1b70014db712f8572a72378321250058)**) for the extra SLOAD.
-
-<details>
-<summary>There are 10 instances (click to show):</summary>
-
-- *AutomataDcapV3Attestation.sol* ( [38-38](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L38-L38), [39-39](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L39-L39), [40-40](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L40-L40), [47-47](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L47-L47) ):
-
-```solidity
-38:     bool private _checkLocalEnclaveReport;
-
-39:     mapping(bytes32 enclave => bool trusted) private _trustedUserMrEnclave;
-
-40:     mapping(bytes32 signer => bool trusted) private _trustedUserMrSigner;
-
-47:     mapping(uint256 idx => mapping(bytes serialNum => bool revoked)) private _serialNumIsRevoked;
-```
-
-- *Bridge.sol* ( [42-42](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L42-L42) ):
-
-```solidity
-42:     mapping(address addr => bool banned) public addressBanned;
-```
-
-- *SignalService.sol* ( [21-21](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L21-L21) ):
-
-```solidity
-21:     mapping(address addr => bool authorized) public isAuthorized;
-```
-
-- *MerkleClaimable.sol* ( [12-12](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/team/airdrop/MerkleClaimable.sol#L12-L12) ):
-
-```solidity
-12:     mapping(bytes32 hash => bool claimed) public isClaimed;
-```
-
-- *BridgedERC20Base.sol* ( [14-14](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/BridgedERC20Base.sol#L14-L14) ):
-
-```solidity
-14:     bool public migratingInbound;
-```
-
-- *ERC20Vault.sol* ( [52-52](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L52-L52) ):
-
-```solidity
-52:     mapping(address btoken => bool blacklisted) public btokenBlacklist;
-```
-
-- *SgxVerifier.sol* ( [55-55](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/verifiers/SgxVerifier.sol#L55-L55) ):
-
-```solidity
-55:     mapping(address instanceAddress => bool alreadyAttested) public addressRegistered;
-```
-
-</details>
-
-### [G-77] The result of a function call should be cached rather than re-calling the function
+### [G-64] The result of a function call should be cached rather than re-calling the function
 
 The function calls in solidity are expensive. If the same result of the same function calls are to be used several times, the result should be cached to reduce the gas consumption of repeated calls.
 
@@ -8732,7 +7165,7 @@ The function calls in solidity are expensive. If the same result of the same fun
 
 </details>
 
-### [G-78] Multiple accesses of a `memory`/`calldata` array should use a local variable cache
+### [G-65] Multiple accesses of a `memory`/`calldata` array should use a local variable cache
 
 The instances below point to the second+ access of a value inside a storage array, within a function. Caching an array index value in a local `storage` or `calldata` variable when the value is accessed [multiple times](https://gist.github.com/IllIllI000/ec23a57daa30a8f8ca8b9681c8ccefb0), saves **~42 gas per access** due to not having to recalculate the array's keccak256 hash (`Gkeccak256` - **30 gas**) and that calculation's associated stack operations.
 
@@ -8832,7 +7265,7 @@ The instances below point to the second+ access of a value inside a storage arra
 
 </details>
 
-### [G-79] Multiple accesses of the same mapping key should be cached
+### [G-66] Multiple accesses of the same mapping key should be cached
 
 Reads and subsequent writes can also be cheaper when a function requires both values and they both fit in the same storage slot. Even if the values can't be packed, if both fields are accessed in the same function (as is the case for these instances), combining them can save **~42 gas per access** due to [not having to recalculate the key's keccak256 hash](https://gist.github.com/IllIllI000/639032d73e35d7e968ff58d8784bc445) (Gkeccak256 - 30 gas) and that calculation's associated stack operations.
 
@@ -8865,7 +7298,7 @@ There are 11 instances:
 235:         if (instance != instances[id].addr) return false;
 ```
 
-### [G-80] Multiple mappings can be replaced with a single struct mapping
+### [G-67] Multiple mappings can be replaced with a single struct mapping
 
 Saves a storage slot for the mapping. Depending on the circumstances and sizes of types, can avoid a Gsset (**20000 gas**) per mapping combined. Reads and subsequent writes can also be cheaper when a function requires both values and they both fit in the same storage slot. Finally, if both fields are accessed in the same function, can save **~42 gas per access** due to [not having to recalculate the key's keccak256 hash](https://gist.github.com/IllIllI000/ec23a57daa30a8f8ca8b9681c8ccefb0) (Gkeccak256 - 30 gas) and that calculation's associated stack operations.
 
@@ -8906,7 +7339,7 @@ Saves a storage slot for the mapping. Depending on the circumstances and sizes o
 
 </details>
 
-### [G-81] Consider using `bytes32` rather than a `string`
+### [G-68] Consider using `bytes32` rather than a `string`
 
 Using the `bytes` types for fixed-length strings is more efficient than having the EVM have to incur the overhead of string processing. Consider whether the value _needs_ to be a `string`. A good reason to keep it as a `string` would be if the variable is defined in an interface that this project does not own.
 
