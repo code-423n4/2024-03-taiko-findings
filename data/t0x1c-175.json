@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "2",
+  "title": "Griefer can front-run processMessage() with a call to recallMessage() due to incorrect invocationDelay implementation",
+  "issueId": 175,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/175"
+}
