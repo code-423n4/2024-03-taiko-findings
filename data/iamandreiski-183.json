@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "iamandreiski",
+  "risk": "3",
+  "title": "Malicious users can send messages with arbitrary data through the bridge allowing them to steal funds",
+  "issueId": 183,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/183"
+}
