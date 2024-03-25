@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "claimAndDelegate in ERC20 Token airdrop is subject to DOS(denial of service)",
+  "issueId": 181,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/181"
+}
