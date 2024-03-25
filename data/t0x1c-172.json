@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "2",
+  "title": "Proposers would choose to avoid higher tier by exploiting non-randomness of parameter used in getMinTier()",
+  "issueId": 172,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/172"
+}
