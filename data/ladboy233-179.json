@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ladboy233",
+  "risk": "3",
+  "title": "RecallMessage in Bridge can revert and make user lose refund",
+  "issueId": 179,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/179"
+}
