@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "bareMetalExecution",
+  "risk": "2",
+  "title": "Incomplete Return Value Handling in ERC20 Token Transfers",
+  "issueId": 161,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/161"
+}
