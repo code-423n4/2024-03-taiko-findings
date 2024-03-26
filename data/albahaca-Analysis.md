@@ -2895,14 +2895,6 @@ Integration risks arise from the challenges and vulnerabilities associated with 
 
 3. **Dependency Management:** The `EssentialContract`
 ### contracts/libs/Lib4844.sol
-**Centralization Risks:**
-The `Lib4844` library, despite being a library, still presents centralization risks due to its dependency on an external precompiled contract (`POINT_EVALUATION_PRECOMPILE_ADDRESS`). These risks include:
-
-1. **Dependency on External Precompile:** The library relies on an external precompiled contract (`POINT_EVALUATION_PRECOMPILE_ADDRESS`) for point evaluation. Any vulnerabilities or compromises in this external contract could impact the functionality and security of the `Lib4844` library, potentially leading to erroneous computations or exploitation by malicious actors.
-
-2. **Single Point of Failure:** Since the library depends on a single external contract for point evaluation, any disruptions or failures in the operation of this contract could lead to the inability to perform point evaluations, affecting the functionalities of smart contracts utilizing the `Lib4844` library.
-
-3. **Centralized Control:** The choice of the specific precompiled contract address (`POINT_EVALUATION_PRECOMPILE_ADDRESS`) within the library's code introduces a degree of centralized control. Changes to this address or the behavior of the external contract would require updates to the library, potentially causing disruptions and centralized decision-making.
 
 **Mechanism Review:**
 Mechanism review involves examining the mechanisms implemented within the `Lib4844` library to ensure their functionality, security, and alignment with the intended purpose of the library. Key aspects of mechanism review include:
@@ -2961,13 +2953,6 @@ Integration risks associated with the `Lib4844` library arise from its interacti
 
 Mitigating integration risks requires thorough compatibility testing, standardized interfaces, clear documentation, dependency analysis, and proactive communication with other components within the ecosystem to address integration challenges and ensure seamless interoperability.
 ### contracts/libs/LibAddress.sol
-**Centralization Risks:**
-
-The `LibAddress` library does not inherently present centralization risks, as it primarily provides utilities for address-related operations within smart contracts. However, centralization risks may arise indirectly due to dependencies on external contracts, particularly within the `isValidSignature` function, which relies on the `IERC1271` interface and potentially on externally-owned accounts (EOAs) via the `tx.origin` check. These risks include:
-
-1. **Dependency on External Contracts:** The `isValidSignature` function relies on the `IERC1271` interface, which introduces a dependency on external contracts implementing this interface. Centralization risks may arise if these external contracts are controlled by a centralized authority or if they are susceptible to compromise, manipulation, or unavailability, potentially affecting the verification of signatures within the library.
-
-2. **Use of `tx.origin`:** The `isSenderEOA` function checks whether the transaction sender is an externally-owned account (`EOA`) using the `tx.origin` property. While this property can identify the original sender of a transaction, it is generally discouraged due to security risks associated with its use, including potential vulnerabilities such as transaction origin spoofing. Reliance on `tx.origin` may introduce centralization risks if it leads to incorrect assumptions about the identity or behavior of transaction senders.
 
 **Mechanism Review:**
 
@@ -3007,17 +2992,6 @@ Admin abuse risks in the context of the `LibAddress` library primarily revolve a
 
 Mitigating admin abuse risks requires implementing strict access controls, transparent governance mechanisms, code review processes, and auditing procedures to detect and prevent unauthorized actions or modifications to contracts incorporating the `LibAddress` library. Additionally, developers should consider minimizing administrative privileges, adhering to best practices, and fostering a culture of security awareness and accountability within the ecosystem.
 ### contracts/libs/LibTrieProof.sol
-**Centralization Risks:**
-
-The `LibTrieProof` library does not inherently present centralization risks as it primarily provides utilities for verifying Merkle proofs within smart contracts. However, potential centralization risks may arise due to dependencies on third-party libraries, such as `RLPReader`, `RLPWriter`, and `SecureMerkleTrie`, which may introduce dependencies on centralized repositories or entities controlling these libraries. These risks include:
-
-1. **Dependency on Third-party Libraries:** The `LibTrieProof` library relies on third-party libraries for RLP decoding, encoding, and Merkle proof verification. Centralization risks may arise if these libraries are controlled by centralized entities, leading to potential vulnerabilities, malicious injections, or unavailability of critical functionalities.
-
-2. **Trust in External Sources:** Smart contracts integrating the `LibTrieProof` library implicitly trust the correctness and integrity of third-party libraries for RLP decoding, encoding, and Merkle proof verification. Centralization risks emerge if these external sources are compromised, manipulated, or maliciously altered, impacting the security and reliability of smart contract operations relying on the library.
-
-3. **Limited Control over Dependencies:** Developers have limited control over the development, maintenance, and updates of third-party libraries integrated into the `LibTrieProof` library. Centralization risks may manifest if developers rely solely on external entities for bug fixes, security patches, or feature enhancements, potentially leading to delays, disruptions, or vulnerabilities within the ecosystem.
-
-Mitigating centralization risks involves diversifying dependencies, conducting thorough security assessments, and fostering community-driven development practices to reduce reliance on centralized entities and enhance the resilience, transparency, and decentralization of smart contract ecosystems incorporating the `LibTrieProof` library.
 
 **Mechanism Review:**
 
@@ -3142,13 +3116,7 @@ In summary, while the `TaikoTimelockController` contract presents relatively low
 
 Addressing these potential issues requires careful review, validation, and testing of the contract's logic and permissions to ensure decentralization, mitigate admin abuse risks, and minimize technical vulnerabilities. Additionally, implementing proper access controls, parameter validation, and security best practices can enhance the contract's robustness and resilience to potential risks.
 ### contracts/L1/libs/LibDepositing.sol
-**Centralization Risks:**
 
-Centralization risks within the provided smart contract code arise from dependencies on external components and potential concentration of control or authority.
-
-1. **Dependency on External Components:** The contract relies on the `IAddressResolver` interface for address resolution. If this component becomes unavailable or compromised, it could disrupt the contract's functionality, illustrating a single point of failure.
-
-2. **Control and Governance Structure:** The control structure within the contract, especially regarding deposit processing and fee calculation, may be susceptible to centralization. If certain entities or individuals have disproportionate control over critical functions, there's a risk of biased decision-making, governance failures, or abuse of power.
 
 **Mechanism Review:**
 
@@ -3218,15 +3186,6 @@ Integration risks involve challenges associated with the integration of the smar
 
 5. **Dependency Management:** Dependencies on external libraries or APIs may introduce risks of version conflicts or reliance on deprecated features. Managing dependencies and staying updated with external changes is essential to mitigate risks and maintain compatibility with external systems or protocols.
 ### contracts/L1/libs/LibProposing.sol
-**Centralization Risks:**
-
-Centralization risks in the provided smart contract code stem from dependencies on centralized entities, governance structures, and potential concentration of control.
-
-1. **Dependency on External Components:** The contract relies on external components such as `IAddressResolver`, `IHook`, and `ITierProvider`. Centralization risks arise if these components become unavailable, controlled by a single entity, or compromised, leading to disruptions or vulnerabilities in the contract's functionality.
-
-2. **Governance Structure:** The contract's permissioning mechanism for block proposals introduces centralization risks if certain addresses are granted exclusive authority to propose blocks. If these addresses represent centralized entities or individuals, it may lead to biased decision-making or control over the protocol's operation.
-
-3. **Control over Proposal Process:** The contract allows for permissionless block proposals but imposes restrictions if a specific proposer address is configured. If this address belongs to a centralized entity or if there's a lack of transparency in the selection process, it may result in centralization of the proposal process.
 
 **Mechanism Review:**
 
@@ -3278,11 +3237,6 @@ Integration risks involve challenges associated with the integration of the smar
 
 3. **Performance Optimization:** Integration with external systems may impact protocol performance or resource utilization. Reviewing integration strategies, resource management techniques, and performance optimization measures is essential to ensure efficient operation and scalability of the protocol during integration with external components or services.
 ### contracts/L1/libs/LibProving.sol
-### Centralization Risks:
-
-1. **Prover Authority**: In the `proveBlock` function, the `msg.sender` is granted significant authority in proving or contesting transitions within the Taiko protocol. Depending solely on the `msg.sender` can introduce centralization risks, especially if this address represents a single entity or a small group of entities with disproportionate influence over the protocol.
-
-2. **Tier Provider Dependency**: The verification of proofs relies on a tier provider contract (`ITierProvider`) to fetch tier configurations. If this provider contract is centralized or controlled by a single entity, it introduces a centralization risk. Alterations or manipulations to tier configurations by the provider could impact the fairness and integrity of the proving process.
 
 ### Mechanism Review:
 
@@ -3308,9 +3262,6 @@ Integration risks involve challenges associated with the integration of the smar
 
 2. **Interoperability Issues**: Integration with external contracts introduces interoperability risks, particularly if these contracts undergo updates or changes that are incompatible with the Taiko protocol. Ensuring seamless interaction and compatibility between different contract interfaces is essential to mitigate integration risks and maintain the protocol's robustness.
 ### contracts/L1/libs/LibUtils.sol
-### Centralization Risks:
-
-1. **Dependency on Single Point of Authority**: The `getTransition` and `getTransitionId` functions depend on the `msg.sender` address for accessing transition and block data within the Taiko protocol. This reliance introduces centralization risks because it means that control over data retrieval mechanisms is centralized around a single address. If this address represents a single entity or a small group of entities with disproportionate control over the protocol, it could lead to issues such as data manipulation or unauthorized access.
 
 ### Mechanism Review:
 
@@ -3334,11 +3285,6 @@ Integration risks involve challenges associated with the integration of the smar
 
 1. **Dependency on External Contracts**: The `LibUtils` library interacts with external contracts, such as `TaikoData.State` and `TaikoData.Config`, to retrieve transition and block data. Integration risks arise from potential vulnerabilities or inconsistencies in these external contracts. For instance, if there are vulnerabilities in the external contracts' implementation or if they are not updated to align with changes in the protocol, it could impact the functionality and security of the transition retrieval mechanism. Mitigating these risks involves ensuring proper integration testing and maintaining compatibility between the library and external contracts.
 ### contracts/L1/libs/LibVerifying.sol
-### Centralization Risks:
-
-1. **Dependency on External Contracts**: The `LibVerifying` library relies on various external contracts, such as `IERC20` for token transfers and `IAddressResolver` for resolving addresses, to perform its functions. This dependency introduces centralization risks because it entails reliance on specific contracts and their implementations. If these external contracts are controlled by a single entity or organization, it centralizes control over critical functionalities within the Taiko protocol, potentially leading to issues such as manipulation or censorship.
-
-2. **Admin Access to Configuration**: The `_isConfigValid` function in the `LibVerifying` library performs validation checks on the configuration parameters of the Taiko protocol. However, this function does not enforce any decentralized governance mechanism for updating or modifying the protocol configuration. If administrative privileges are centralized and controlled by a small group of individuals or entities, it could lead to centralization risks by enabling unilateral changes to protocol parameters without broader community consensus.
 
 ### Mechanism Review:
 
@@ -3466,9 +3412,6 @@ Integration risks involve challenges associated with the integration of the smar
 
 1. **Dependency on External Contracts**: The `TaikoToken` contract relies on external libraries and contracts from the OpenZeppelin ERC20 upgradeable contracts, including ERC20Upgradeable, ERC20SnapshotUpgradeable, and ERC20VotesUpgradeable, for core token functionalities and extensions. Integration risks arise from dependencies on external contracts, as vulnerabilities, bugs, or inconsistencies in these dependencies could propagate to the `TaikoToken` contract, compromising its security and functionality. Thorough testing, auditing, and version control of external contract integrations are necessary to mitigate integration risks and ensure the robustness and reliability of the TaikoToken contract.
 ### contracts/L2/Lib1559Math.sol
-### Centralization Risks:
-
-1. **Dependency on External Library**: The `Lib1559Math` library relies on the `LibFixedPointMath` library, which is imported from an external source (`../thirdparty/solmate/LibFixedPointMath.sol`). Centralization risks may arise from this dependency, as any vulnerabilities, bugs, or changes in the external library could impact the functionality and security of the `Lib1559Math` library. Lack of control over external dependencies may limit the ability to address issues promptly, increasing reliance on third-party developers or maintainers and potentially introducing vulnerabilities or inconsistencies.
 
 ### Mechanism Review:
 
@@ -4137,14 +4080,6 @@ Integration risks arise from interactions with external systems or dependencies:
 
 - **Bridge Contract Dependency**: The contract heavily depends on the functionality provided by the external bridge contract (`IBridge`). Integration risks may arise if there are vulnerabilities or weaknesses in the bridge contract implementation that could be exploited to manipulate or disrupt token transfers between chains.
 ### contracts/tokenvault/LibBridgedToken.sol
-### Centralization Risks
-
-Centralization risks in the provided library contract can be identified as follows:
-
-- **Control Over Validation**: The `validateInputs` function allows a single entity to control the validation of inputs for building bridged token metadata. Centralization risks arise if this validation process is controlled by a single party, potentially allowing them to manipulate token parameters or introduce vulnerabilities.
-
-- **URI Construction**: The `buildURI` function constructs the base URI for bridged tokens. Centralization risks arise if control over the base URI construction is concentrated in the hands of a single entity, potentially allowing them to manipulate URI generation or disrupt access to token metadata.
-
 ### Mechanism Review
 
 The contract implements several mechanisms that warrant review:
@@ -4516,7 +4451,7 @@ The `AutomataDcapV3Attestation` contract may face integration risks when interac
 2. **Data Integrity**: The contract relies on external data sources, such as certificate chains and enclave reports, for attestation verification. Integration with unreliable or tamper-prone data sources could compromise the integrity of the attestation process and introduce systemic risks.
 
 3. **Security Considerations**: Integration with third-party systems introduces security considerations, such as data confidentiality, integrity, and availability. Failure to properly secure integration points could expose the contract to external attacks or vulnerabilities, compromising the overall security of the system.
-
+                            
 
 ### Time spent:
 45 hours
