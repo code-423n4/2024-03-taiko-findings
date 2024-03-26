@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "tokenURI() in BridgedERC721 does not conform to ERC721 specification",
+  "issueId": 202,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/202"
+}
