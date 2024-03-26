@@ -2,11 +2,11 @@
 
 ##
 
-[G-] Optimize State Variables to Fit Fewer Storage Slots
+[G-1] Optimize State Variables to Fit Fewer Storage Slots
 
 The EVM works with 32 byte words. Variables less than 32 bytes can be declared next to each other in storage and this will pack the values together into a single 32 byte storage slot (if the values combined are <= 32 bytes). If the variables packed together are retrieved together in functions we will effectively save ~2000 gas with every subsequent SLOAD for that storage slot. This is due to us incurring a Gwarmaccess (100 gas) versus a Gcoldsload (2100 gas).
 
-### ``srcChainId`` and ``snapshooter`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
+### [G-1.1] ``srcChainId`` and ``snapshooter`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
 
 ```solidity
 uint64 chainId;
@@ -38,7 +38,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC20.sol
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC20.sol#L21-L32
 
-### [G-] ``srcToken`` and ``srcChainId`` can be packed same slot : Saves ``4000 GAS`` , ``2 SLOT``
+### [G-1.2] ``srcToken`` and ``srcChainId`` can be packed same slot : Saves ``4000 GAS`` , ``2 SLOT``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC721.sol
@@ -68,7 +68,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault/BridgedERC1155.sol
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC1155.sol#L15-L19
 
 
-### [G-1] ``_checkLocalEnclaveReport`` and ``owner`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
+### [G-1.3] ``_checkLocalEnclaveReport`` and ``owner`` can be packed same slot : Saves ``2000 GAS`` , ``1 SLOT``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol
@@ -96,7 +96,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] State variables only set in the constructor should be declared immutable
+## [G-2] State variables only set in the constructor should be declared immutable
 
 Avoids a Gsset (20000 gas) in the constructor, and replaces the first access in each transaction (Gcoldsload - 2100 gas) and each access thereafter (Gwarmacces - 100 gas) with a PUSH32 (3 gas).
 
@@ -120,11 +120,11 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] Optimizing gas usage by caching state variables in local memory variables
+## [G-3] Optimizing gas usage by caching state variables in local memory variables
 
 The instances below point to the second+ access of a state variable within a function. Caching of a state variable replace each Gwarmaccess (100 gas) with a much cheaper stack read. Other less obvious fixes/optimizations include having local memory caches of state variable structs, or having local caches of state variable contracts/addresses. Most of the times this if statement will be true and we will save 100 gas at a small possibility of 3 gas loss
 
-### [G-1.1] ``addressManager`` can be cached . Saves ``100 GAS`` , ``1 SLOD``
+### [G-3.1] ``addressManager`` can be cached . Saves ``100 GAS`` , ``1 SLOD``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/common/AddressResolver.sol
@@ -141,7 +141,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/common/AddressResolver.sol
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/common/AddressResolver.sol#L81-L83
 
-### [G-1.2] ``_state.slotA.numEthDeposits`` can be cached . Saves ``100 GAS`` , ``1 SLOD``
+### [G-3.2] ``_state.slotA.numEthDeposits`` can be cached . Saves ``100 GAS`` , ``1 SLOD``
 
 ```diff
 FILE:2024-03-taiko/packages/protocol/contracts/L1/libs
@@ -168,7 +168,7 @@ FILE:2024-03-taiko/packages/protocol/contracts/L1/libs
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/libs/LibDepositing.sol#L45
 
-### [G-1.3] ``blk.blockId`` , ``blk.metaHash`` , ``blk.livenessBond``, ``_ts.contester``  can be cached  : ``700 GAS`` , ``7 SLODs``
+### [G-3.3] ``blk.blockId`` , ``blk.metaHash`` , ``blk.livenessBond``, ``_ts.contester``  can be cached  : ``700 GAS`` , ``7 SLODs``
 
 ```diff
 FILE: 
@@ -389,7 +389,7 @@ FILE:
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/libs/LibProving.sol#L121
 
-### [G-1.4] ``ts.prover`` can be cached  : Saves ``200 GAS`` , ``2 SLODs``
+### [G-3.4] ``ts.prover`` can be cached  : Saves ``200 GAS`` , ``2 SLODs``
 
 ```diff
 2024-03-taiko/packages/protocol/contracts/L1/libs
@@ -432,7 +432,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ```
 
-### [G-1.5] ``version`` can be cached : Saves ``100 GAS`` , ``1 SLOD``
+### [G-3.5] ``version`` can be cached : Saves ``100 GAS`` , ``1 SLOD``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/L1/provers/Guardians.sol
@@ -451,7 +451,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L1/provers/Guardians.sol
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/provers/Guardians.sol#L116
 
-### [G-1.6] ``gasExcess`` , ``lastSyncedBlock`` can be cached  : Saves ``300 GAS`` , ``3 SLODs``
+### [G-3.6] ``gasExcess`` , ``lastSyncedBlock`` can be cached  : Saves ``300 GAS`` , ``3 SLODs``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/L2/TaikoL2.sol
@@ -484,7 +484,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L2/TaikoL2.sol
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L262-L277
 
-### [G] ``migratingAddress`` can be cached : Saves ``300 GAS`` , ``3 SLODs``
+### [G-3.7] ``migratingAddress`` can be cached : Saves ``300 GAS`` , ``3 SLODs``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
@@ -515,7 +515,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/BridgedERC20Base.sol#L61-L64
 
-### ``instances[idx].addr`` , ``nextInstanceId`` ``instances[id].validSince``  can be cached  : Saves ``400 GAS`` , ``4 SLODs``
+### [G-3.8] ``instances[idx].addr`` , ``nextInstanceId`` ``instances[id].validSince``  can be cached  : Saves ``400 GAS`` , ``4 SLODs``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/verifiers
@@ -562,7 +562,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] Consolidate Multiple Address/ID Mappings into Single Struct-Based Mapping
+## [G-4] Consolidate Multiple Address/ID Mappings into Single Struct-Based Mapping
 
 Saves a storage slot for the mapping. Depending on the circumstances and sizes of types, can avoid a Gsset (20000 gas) per mapping combined. Reads and subsequent writes can also be cheaper when a function requires both values and they both fit in the same storage slot. Finally, if both fields are accessed in the same function, can save ~42 gas per access due to not having to recalculate the key's keccak256 hash (Gkeccak256 - 30 gas) and that calculation's associated stack operations.
 
@@ -586,7 +586,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ## 
 
-## [G-] Using storage instead of memory for state variables saves gas
+## [G-5] Using storage instead of memory for state variables saves gas
 
 When fetching data from a storage location, assigning the data to a memory variable causes all fields of the struct/array to be read from storage, which incurs a Gcoldsload (2100 gas) for each field of the struct/array. If the fields are read from the new memory variable, they incur an additional MLOAD rather than a cheap stack read. Instead of declaring the variable with the memory keyword, declaring the variable with the storage keyword and caching any fields that need to be re-read in stack variables, will be much cheaper, only incurring the Gcoldsload for the fields actually read. The only time it makes sense to read the whole struct/array into a memory variable, is if the full struct/array is being returned by the function, is being passed to a function that requires memory, or if the array/struct is being read from another memory array/struct
 
@@ -610,7 +610,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-3] Cache the state variables outside the loop
+## [G-6] Cache the state variables outside the loop
 
 Accessing state variables (like minGuardians) is more expensive in terms of gas than accessing local variables. By reading minGuardians from storage once and storing it in a local variable (cachedMinGuardians), you reduce the cost associated with repeatedly reading this state variable inside the loop. Since minGuardians does not change within the function's scope, this optimization is safe and effective.
 
@@ -633,7 +633,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] ``_newGuardians.length`` calculated multiple times 
+## [G-7] ``_newGuardians.length`` calculated multiple times 
 
 Calculating length of bytes every time costs gas. The better solution would be to calculate the length once and save it in a local variable
 
@@ -656,7 +656,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] Using ``calldata`` instead of ``memory`` for read-only arguments in external functions saves gas
+## [G-8] Using ``calldata`` instead of ``memory`` for read-only arguments in external functions saves gas
 
 calldata must be used when declaring an external function's dynamic parameters
 
@@ -708,7 +708,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-4] Replace Function Calls with Constants 
+## [G-9] Replace Function Calls with Constants 
 
 Functions like ``votingDelay``, ``votingPeriod``, and ``proposalThreshold`` are marked pure because they return fixed values without interacting with contract state. However, each function call consumes gas. Replacing these with direct values or constants in the code eliminates function execution overhead, saving gas.
 
@@ -741,7 +741,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322
 
 ##
 
-## [G-] Remove ``nonReentrant`` modifier from admin only functions to save gas 
+## [G-10] Remove ``nonReentrant`` modifier from admin only functions to save gas 
 
 Removing the nonReentrant modifier from functions that are only accessible by the contract's owner or administrators can save gas, as these functions are less likely to be exposed to reentrancy attacks due to the controlled access.
 
@@ -762,9 +762,188 @@ FILE:
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/provers/Guardians.sol#L53-L60
 
-## The result of function calls should be cached rather than re-calling the function 
+##
 
-The instances below point to the second+ call of the function within a single function
+## [G-11] Use assembly to validate msg.sender
+
+use assembly to load the msg.sender value directly, which is more gas-efficient than using the msg.sender global variable.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/common/AddressResolver.sol
+
+25: if (msg.sender != resolve(_name, true)) revert RESOLVER_DENIED();
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/common/AddressResolver.sol#L25
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L2/TaikoL2.sol
+
+123: if (msg.sender != GOLDEN_TOUCH_ADDRESS) revert L2_INVALID_SENDER();
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L123
+
+##
+
+## [G-12] Don't cache global variable ``msg.sender``
+
+Using global variables like msg.sender is more gas efficient than cache with local variable 
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L1/hooks/AssignmentHook.sol
+
+93: address taikoL1Address = msg.sender;
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/hooks/AssignmentHook.sol#L93
+
+## 
+
+## [G-13] Invert if-else statements that have a negation
+
+The extra ! increases the computational cost. Compiler is can sometimes optimize this.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/bridge
+/Bridge.sol
+
+132: if (!destChainEnabled) revert B_INVALID_CHAINID();
+171: if (!isMessageProven) {
+174: if (!ISignalService(signalService).isSignalSent(address(this), msgHash)) {
+179: if (!_proveSignalReceived(signalService, failureSignal, _message.destChainId, _proof)) {
+209: } else if (!isMessageProven) {
+235: if (!isMessageProven) {
+302:  } else if (!isMessageProven) {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/Bridge.sol#L132
+
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L1/libs
+/LibProving.sol
+
+77: if (!_pause) {
+420: if (!isAssignedPover) revert L1_NOT_ASSIGNED_PROVER();
+ 
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/libs/LibProving.sol#L420
+
+##
+
+## [G-14] Assigning state variables directly with named struct constructors wastes gas
+
+Using named arguments for struct means that the compiler needs to organize the fields in memory before doing the assignment, which wastes gas. Set each field directly in storage (use dot-notation), or use the unnamed version of the constructor.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/bridge
+/Bridge.sol
+
+243: proofReceipt[msgHash] = ProofReceipt({
+                    receivedAt: receivedAt,
+                    preferredExecutor: _message.gasLimit == 0 ? _message.destOwner : msg.sender
+                });
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/Bridge.sol#L243-L246
+
+##
+
+## [G-15] Consider using alternatives to ``OpenZeppelin``
+
+OpenZeppelin is a great and popular smart contract library, but there are other alternatives that are worth considering. These alternatives offer better gas efficiency and have been tested and recommended by developers.
+
+Two examples of such alternatives are Solmate and Solady.
+
+Solmate is a library that provides a number of gas-efficient implementations of common smart contract patterns. Solady is another gas-efficient library that places a strong emphasis on using assembly.
+
+```
+"@openzeppelin/contracts": "4.8.2",
+    "@openzeppelin/contracts-upgradeable": "4.8.2",
+
+```
+
+##
+
+## [G-16] Using assembly to revert with an error message
+
+When reverting in solidity code, it is common practice to use a require or revert statement to revert execution with an error message. This can in most cases be further optimized by using assembly to revert with the error message. we get a gas saving of over ``300 gas`` when reverting the error message with assembly.
+
+```solidity
+File: packages/protocol/contracts/automataattestation/AutomataDcapV3Attestation.sol
+
+61:         require(msg.sender == owner, "onlyOwner");
+
+```
+
+
+```solidity
+File: packages/protocol/contracts/thirdparty/optimism/trie/MerkleTrie.sol
+
+77:         require(_key.length > 0, "MerkleTrie: empty key");
+
+89:             require(currentKeyIndex <= key.length, "MerkleTrie: key index exceeds total key length");
+
+191:                     revert("MerkleTrie: received a node with an unknown prefix");
+
+194:                 revert("MerkleTrie: received an unparseable node");
+
+198:         revert("MerkleTrie: ran out of proof elements");
+
+
+```
+
+##
+
+## [G-17] Do-While loops are cheaper than for loops
+
+ In solidity do-while loops are more gas efficient than for loops
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/bridge
+/Bridge.sol
+
+90: for (uint256 i; i < _msgHashes.length; ++i) {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/bridge/Bridge.sol#L90
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L2
+/TaikoL2.sol
+
+234:  for (uint256 i; i < 255 && _blockId >= i + 1; ++i) {
+
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L234
+ 
+##
+
+## [G-18] Short-circuit Booleans
+
+In Solidity, when you evaluate a boolean expression (e.g the || (logical or) or && (logical and) operators), in the case of || the second expression will only be evaluated if the first expression evaluates to false and in the case of && the second expression will only be evaluated if the first expression evaluates to true. This is called short-circuiting.
+
+Short-circuiting is useful and it’s recommended to place the less expensive expression first, as the more costly one might be bypassed. If the second expression is more important than the first, it might be worth reversing their order so that the cheaper one gets evaluated first.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/L2
+/TaikoL2.sol
+
+141: if (!skipFeeCheck() && block.basefee != basefee) {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L141
+
+
+
+
+
+
+
+
+
 
 
 
