@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "alexfilippov314",
+  "risk": "2",
+  "title": "The `CrossChainOwned` contract does not allow having an owner on a different chain",
+  "issueId": 207,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/207"
+}
