@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Certain contract inherit from the essential contract, but even when the admin pause the contract, the pause has no effect",
+  "issueId": 229,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/229"
+}
