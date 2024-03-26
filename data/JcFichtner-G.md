@@ -1,6 +1,6 @@
 ## [G-01] Optimizing `onlyFromOwnerOrNamed` modifier
 
-https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/common/EssentialContract.sol
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/common/EssentialContract.sol#L41-L44
 
 The `onlyFromOwnerOrNamed` modifier is designed to restrict function access to either the contract owner or an address that resolves to a specific name within the `AddressResolver`. The current implementation checks both conditions simultaneously, which can be inefficient because the `resolve()` function call might involve more computation or even state access, which is more expensive in terms of gas usage.
 
@@ -28,7 +28,7 @@ With this optimization, the contract first checks if `msg.sender` is the `owner`
 
 ## [G-02] Using `constants` for `votingDelay()`, `votingPeriod()`, and `proposalThreshold()`.
 
-https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/L1/gov/TaikoGovernor.sol
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/L1/gov/TaikoGovernor.sol#L111-L125
 
 In the given contract, `votingDelay()`, `votingPeriod()`, and `proposalThreshold()` are pure functions that return hardcoded values. Since these values are not intended to change, they can be declared as constants.
 
@@ -55,15 +55,15 @@ Using `constants` instead of `pure` functions with hardcoded return values can r
 
 ## [G-03] Unnecessary Checks
 
-https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/L1/libs/LibDepositing.sol
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/L1/libs/LibDepositing.sol#L149-L153
 
-The _encodeEthDeposit() function is designed to encode an Ethereum deposit into a single uint256 value, where the higher bits represent the depositor's address and the lower bits represent the deposit amount. This encoding is used to efficiently store deposit information in the contract's state.
+The `_encodeEthDeposit()` function is designed to encode an Ethereum deposit into a single `uint256` value, where the higher bits represent the depositor's address and the lower bits represent the deposit amount. This encoding is used to efficiently store deposit information in the contract's state.
 
-Within _encodeEthDeposit(), there is a check to ensure that the _amount being encoded does not exceed the maximum value that can be represented by a uint96 data type, which is 2^96 - 1. If _amount were to exceed this value, it would not fit into the designated bits for the amount in the encoded deposit, potentially leading to incorrect data storage and processing.
+`Within _encodeEthDeposit()`, there is a check to ensure that the `_amount` being encoded does not exceed the maximum value that can be represented by a `uint96` data type, which is `2^96 - 1`. If _amount were to exceed this value, it would not fit into the designated bits for the amount in the encoded deposit, potentially leading to incorrect data storage and processing.
 
-However, before _encodeEthDeposit() is called, the depositEtherToL2() function invokes canDepositEthToL2(), which includes its own set of validations on the deposit amount. Specifically, canDepositEthToL2() checks that the _amount is within the range defined by _config.ethDepositMinAmount and _config.ethDepositMaxAmount, which should be within the bounds of a uint96.
+However, before `_encodeEthDeposit()` is called, the `depositEtherToL2()` function invokes `canDepositEthToL2()`, which includes its own set of validations on the deposit amount. Specifically, `canDepositEthToL2()` checks that the `_amount` is within the range defined by `_config.ethDepositMinAmount` and `_config.ethDepositMaxAmount`, which should be within the bounds of a `uint96`.
 
-If the configuration guarantees that _config.ethDepositMaxAmount is less than or equal to type(uint96).max, then the check in _encodeEthDeposit() becomes redundant because _amount has already been confirmed to be within the uint96 range. In this case, removing the check could save gas since the Solidity compiler would no longer need to include the code for this check in the compiled contract, reducing the contract's size and deployment costs.
+If the configuration guarantees that `_config.ethDepositMaxAmount` is less than or equal to `type(uint96).max`, then the check in `_encodeEthDeposit()` becomes redundant because `_amount` has already been confirmed to be within the `uint96` range. In this case, removing the check could save gas since the Solidity compiler would no longer need to include the code for this check in the compiled contract, reducing the contract's size and deployment costs.
 
 
 
