@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Aymen0909",
+  "risk": "2",
+  "title": "Size of `__gap` Was Not Updated After States Addition in `TimelockTokenPool`",
+  "issueId": 240,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/240"
+}
