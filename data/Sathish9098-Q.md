@@ -142,6 +142,18 @@ FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L170-L172
 
+##
+
+## [L-] No need ``nonReentrant`` modifier for  admin only functions 
+
+
+
+
+
+## [L-] [1] Setters should prevent re-setting of the same value
+
+[2] Incorrect comment in _stakeTokenSafeTransferFrom()
+
 
 
 
