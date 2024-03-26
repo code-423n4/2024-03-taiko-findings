@@ -484,7 +484,7 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L2/TaikoL2.sol
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L262-L277
 
-### ``migratingAddress`` can be cached : Saves ``300 GAS`` , ``3 SLODs``
+### [G] ``migratingAddress`` can be cached : Saves ``300 GAS`` , ``3 SLODs``
 
 ```diff
 FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
@@ -738,6 +738,29 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L1/gov/TaikoGovernor.sol
 
 ```
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/gov/TaikoGovernor.sol#L108-L125
+
+##
+
+## [G-] Remove ``nonReentrant`` modifier from admin only functions to save gas 
+
+Removing the nonReentrant modifier from functions that are only accessible by the contract's owner or administrators can save gas, as these functions are less likely to be exposed to reentrancy attacks due to the controlled access.
+
+Given this, removing the nonReentrant modifier could theoretically save you around 5,000 to 20,000 gas for the added state changes, depending on the original and new states of the involved storage slot.
+
+```solidity
+FILE: 
+
+53: function setGuardians(
+        address[] memory _newGuardians,
+        uint8 _minGuardians
+    )
+        external
+        onlyOwner
+        nonReentrant
+    {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L1/provers/Guardians.sol#L53-L60
 
 ## The result of function calls should be cached rather than re-calling the function 
 
