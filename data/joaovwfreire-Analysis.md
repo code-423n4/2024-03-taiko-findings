@@ -14,24 +14,24 @@ Finally, I hope the read is enjoyable and the risks here presented provide value
 ## Protocol
 ### Brief Overview
 Taiko is a Based Contestable Rollup (BCR).
-As straightforward as one can get, it means the rollup's architecture allows multi-party sequencing with contestations as the fault-proof mechanism.
+As straightforward as one can get, it means the rollup's architecture allows multi-party sequencing with contestations as the mechanism to ensure no wrong state transition is deferred.
 
-Every time a sequencer tries to prove a previously proposed L2 state transition, the system requires a validity bond in order to incentivize non-malicious behavior. Contesting also comes with a bond cost to make sure disputes only occur when one is certain of a wrongly proposed state transition.
+Every time a sequencer tries to prove a previously proposed L2 state transition, the system requires a validity bond to incentivize non-malicious behavior. Contesting also comes with a bond cost to make sure disputes only occur when one is certain of a wrongly proposed state transition.
 
-If the proof is contested, a sequencer with a higher tier than the first prover is able to present another proof that will either confirm the first sequencer's proof or deny it. Finally, rewards are distributed.
+If the proof is contested, a sequencer with a higher tier than the first prover can present another proof that will either confirm the first sequencer's proof or deny it. Finally, rewards are distributed.
 	* If the original proof is correct, the first-prover and the last one earn rewards and the contester loses its contestation bond.
 	* Else, the first-prover loses its validity bond and the other parties get rewards.
 
 The protocol maintains knowledge of the layer 1 state by anchoring updated layer 1 block details at the start of a new L2 block. This is what enables reliable cross-chain message verification.
 
-The protocol also provides mechanisms to send ether and messages, and transfer assets² to and from the Layer 2 to the Layer 1. 
+The protocol also provides mechanisms to send ether and messages and transfer assets² to and from Layer 2 to Layer 1. 
 ²-which is a bit more than what rollups commonly offer.
 
 All those cross-chain messages/activities are mediated by the Bridge and the SignalService contracts.
-	The bridge provides the high-level entry points for users to interact with and its two main capabilities are sending messages (when a request is initiated) and processing those (when a relayer picks up the request and attempts to process them at the target chain). The other capabilities offered by the bridge are related to edge cases, such as retrying a message and calling it back to the source chain.
+	The bridge provides high-level entry points for users to interact with and its two main capabilities are sending messages (when a request is initiated) and processing those (when a relayer picks up the request and attempts to process them at the target chain). The other capabilities offered by the bridge are related to edge cases, such as retrying a message and calling it back to the source chain.
 	The signal service provides the low-level logic for cross-chain message passing and is permissionless, even though it is not a good idea to call directly it without significant knowledge of the system. It defines methods for sending and verifying signals with Merkle proofs whose roots are dependent on proper layer 1 anchoring. 
 ### Sources
-Taiko Labs has provided amazing content to enable both developers and regular users to understand Taiko better. The docs are comprehensive and loaded with diagrams.
+Taiko Labs has provided amazing content to enable developers and regular users to better understand Taiko. The docs are comprehensive and loaded with diagrams.
 I've selected some sources tailored for the technical-heavy audience as they have played a major role in understanding how the protocol works:
 [Based Rollup FAQ — Taiko Labs (mirror.xyz)](https://taiko.mirror.xyz/7dfMydX1FqEx9_sOvhRt3V8hJksKSIWjzhCVu7FyMZU)
 [Based Contestable Rollup (BCR): A configurable, multi-proof roll… — Taiko Labs (mirror.xyz)](https://taiko.mirror.xyz/Z4I5ZhreGkyfdaL5I9P0Rj0DNX4zaWFmcws-0CVMJ2A)
@@ -40,7 +40,7 @@ I've selected some sources tailored for the technical-heavy audience as they hav
 https://docs.taiko.xyz/core-concepts/bridging/
 
 ## Methods
-The security research was conducted on three steps: context-gathering, codebase-evaluation and report-generation.
+The security research was conducted in three steps: context-gathering, codebase-evaluation and report-generation.
 
 **Context-gathering:** read all documentation available and review the sources provided at the protocol overview. Even though the documentation is solid, I have proudly asked many dumb questions and it helped to avoid submitting issues that were protocol design choices.
 
@@ -195,5 +195,7 @@ approved_ = approve(_meta.id, hash);
 ```
 
 
+
+
 ### Time spent:
-070 hours
+70 hours
