@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Token / NFT vault is missing message hash validation",
+  "issueId": 192,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/192"
+}
