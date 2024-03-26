@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Aymen0909",
+  "risk": "2",
+  "title": "Banned addresses can be invoked when `retryMessage` is called",
+  "issueId": 242,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/242"
+}
