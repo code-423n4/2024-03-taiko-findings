@@ -583,3 +583,23 @@ Manual review
 
 ### Recommended Mitigation Steps
 it is recommended to use a nonce value in the hash if multiple claims are allowed for a single user for the airdrop
+
+## L-24 TKO token value can drop in the future
+
+# Lines of code
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/L1/TaikoL1.sol#L207
+
+
+### Impact
+the bond when proving a block is the project's token TKO, the thing is that if the value of this token drops then the value of the validity bond would be small as well 
+
+As Currently the liveness bond is 250 taiko tokens as defined in the TaikoL1.getConfig function.
+
+            livenessBond: 250e18, // 250 Taiko token
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+Have a mechanism to update the bond value in case the price drops
