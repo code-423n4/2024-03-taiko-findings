@@ -603,3 +603,30 @@ Manual review
 
 ### Recommended Mitigation Steps
 Have a mechanism to update the bond value in case the price drops
+
+## L-25 Sender might grief the owner from the recall refund by running out of gas
+
+# Lines of code
+
+https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L195
+
+
+### Impact
+During the recall process the supportsInterface() is being called on the sender
+This can be used by the sender to grief the owner from funds
+
+When the _message.from does not implement the IRecallableSender interface the _message.value is transferred to the _message.srcOwner as shown below:
+```
+  else { 
+       _message.srcOwner.sendEther(_message.value); 
+       }
+```
+
+
+But the tokens are not transferred to the _message.srcOwner as it is done in the onMessageRecalled function of the vaults. 
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+There should be a mechanism to fix the gas limit when making the external call
