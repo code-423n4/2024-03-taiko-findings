@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "cheatc0d3",
+  "risk": "3",
+  "title": "Vulnerability in Merkle Tree Leaf Value Handling",
+  "issueId": 381,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/381"
+}
