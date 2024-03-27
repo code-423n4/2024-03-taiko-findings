@@ -235,3 +235,130 @@ Manual review
 
 ### Recommended Mitigation Steps
 override the `renounceOwnership` function to revert if new owner is `address(0)`
+
+
+## L-12 Possibility of DOS in message execution
+ 
+
+# Lines of code
+
+https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L290
+
+### Impact
+In case `refundTo` address is not a eoa it can revert ether transfer either intentionally or by mistake so there needs to be a mechanism implemented here which ensures that the message execution remains unaffected
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+add a  try/catch block for the refund mechanism to ensure there is no DOS possibility for message execution
+
+## L-13 discrepency in code and docs in terms of the signal slot # Lines of code
+
+https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/SignalService.sol#L63-L65
+
+### Impact
+Acc to the [readme](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/README.md#process-message) & [the natspec docs](https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/signal/ISignalService.sol#L56) it is clear that the signal slot value should be set to 1 but actually it is set as the value of the signal
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+update the natspec comment and the readme
+
+## L-14 incorrect natspec documentation for proveMessageReceived
+
+https://github.com/code-423n4/2024-03-taiko/blob/a30b5b6afd121e4de8ceff7165a2091e62194992/packages/protocol/contracts/bridge/Bridge.sol#L374
+
+### Impact
+The `proveMessageReceived` method is used to prove whether the message is received at the destination chain or not but it's natspec documentation is the same as `proveMessageFailed`
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+update the natspec doc for `proveMessageReceived`
+
+
+## L-15 Lack of ERC165 implementation on the critical smart contracts of the protocol could lead to unexpected behavior or failed transactions.
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L237-L239
+
+### Impact
+There are multiple interfaces declared in the taiko protocol and these interfaces are used to call on contract addresses by wrapping the address around the interface and calling the respective functions.
+
+But some of these contracts don't implement ERC165 correctly and hence don't not check whether the given interface is actually implemented in the called contract.
+
+For example the `ERC20Vault.sendToken` function is used to transfer ERC20 tokens to the specific vault and sends a message to the destination chain. Here initially the sendMessage of the source chain is called on the source bridge contract to transfer the native eth and then to deliver the message to the destination chain.
+
+
+There is no check to ensure the resolved address returned from resolve("bridge", false) call actually implements the sendMessage function on the source bridge contract. If it does not and the resolved address has a fallback function which does not revert then the transaction will succeed and the sent native tokens will be lost as a result
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+in terms of the example given, update the `supportsInterface` method in the `BaseVault.sol` and make sure the bridge contract adheres to the `IBridge` interface
+
+## L-16 Missing contract existence check for signalService
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/bridge/Bridge.sol#L591
+
+### Impact
+The `_proveSignalReceived` function is called multiple times in the Bridge.sol contract. This function is used to verify whether the signal is received by the destination chain. 
+
+The _proveSignalReceived function returns a bool value which indicates the success of a staticCall to the _signalService contract.
+
+        (success_,) = _signalService.staticcall(data);
+
+
+The issue here is that there is no isContract check on the `_signalService` address. If the `_signalService` is mistakenly set to a EOA address then staticCall will always return true thus breaking the behavior of critical functions of the protocol.
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+check whether the `_signalService` is  a contract prior to the staticCall to it.
+
+## L-17 No mechanism to update supported chain id's in `getInvocationDelays`
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/bridge/Bridge.sol#L417
+
+### Impact
+The `Bridge.getInvocationDelays` function is used to return the invocation delay values for each of the chains the taico protocol supports.
+
+But the issue is that these chainIds and their respective invocation delay values are currently hardcoded. Hence the Taiko protocol will have to upgrade the Bridge contract for every new supported chain by updating the getInvocationDelays function. And if the invocation delay needs to be updated in the future the Bridge contract will again have to be upgraded
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+allow the owner of the contract or Taiko DAO to update the supported chain list of the Taiko protocol dynamically for their respective invocation delay values.
+
+## L-18 Possibility of funds getting locked during `onMessageRecalled` execution
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L285
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L127
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L110
+
+### Impact
+All token vaults implement `onMessageRecalled` method but there maybe a scenario where the token transfer reverts due to `_message.srcOwner` and this would result in funds getting, so hence there should be a recovery mechanism to handle this scenario
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+add a try/catch block on the transfer call so in case the transfer fails there is still a way to get the funds out
