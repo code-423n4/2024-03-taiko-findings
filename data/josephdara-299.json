@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "josephdara",
+  "risk": "2",
+  "title": "The tokenURI method does not check if the NFT has been minted",
+  "issueId": 299,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/299"
+}
