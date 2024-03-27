@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "josephdara",
+  "risk": "2",
+  "title": "banned addresses can send and receive funds crosschain thereby using the bridge seamslessly",
+  "issueId": 291,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/291"
+}
