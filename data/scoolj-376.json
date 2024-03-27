@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "scoolj",
+  "risk": "3",
+  "title": "L1 contract cannot receive ether because entryLock state has no effect on _inNonReentrant(). It is only effective on the nonReentrant() modifier",
+  "issueId": 376,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/376"
+}
