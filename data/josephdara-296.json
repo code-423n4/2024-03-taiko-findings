@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "josephdara",
+  "risk": "2",
+  "title": "ERC tokens lost when sent to a suspended user, not fully refunded.",
+  "issueId": 296,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/296"
+}
