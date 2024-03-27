@@ -1044,6 +1044,7 @@ https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contract
 
 ### [Gas-43] Replace OpenZeppelin components with Solady equivalents to save gas
 ```
+Multiple instances
 ```
 ```
 ```
@@ -1069,6 +1070,7 @@ All cases
 ```
 
 ### [Gas-47] Enable IR-based code generation
+By using --via-ir or {"viaIR": true}, the compiler is able to use more advanced multi-function optimizations, for extra gas savings.
 ```
 ```
 ```
@@ -1076,6 +1078,7 @@ All cases
 
 
 ### [Gas-48] Optimize names to save gas
+public/external function names and public member variable names can be optimized to save gas. See this link for an example of how it works. Below are the interfaces/abstract contracts that can be optimized so that the most frequently-called functions use the least amount of gas possible during method lookup. Method IDs that have two leading zero bytes can save 128 gas each during deployment, and renaming functions to have lower method IDs will save 22 gas per call, per sorted position shifted
 ```
 ```
 ```
