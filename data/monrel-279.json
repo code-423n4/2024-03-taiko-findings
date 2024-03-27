@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "monrel",
+  "risk": "2",
+  "title": "A recalled ERC20 bridge transfer can lock tokens in the bridge",
+  "issueId": 279,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/279"
+}
