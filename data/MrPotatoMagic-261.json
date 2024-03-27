@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "Incorrect __Essential_init() function is used in TaikoToken making snapshooter devoid of calling snapshot()",
+  "issueId": 261,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/261"
+}
