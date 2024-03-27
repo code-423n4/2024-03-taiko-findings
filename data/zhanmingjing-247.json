@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "zhanmingjing",
+  "risk": "2",
+  "title": "Grant could be changed into a invalid one after voidGrant",
+  "issueId": 247,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/247"
+}
