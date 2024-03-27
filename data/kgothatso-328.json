@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "kgothatso",
+  "risk": "3",
+  "title": "Tokens with less than 18 decimals allow for incorrect calculations for withdraw",
+  "issueId": 328,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/328"
+}
