@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "cheatc0d3",
+  "risk": "2",
+  "title": "Gas Limit can be Exceeded in `verifyBlocks` Due to Static Block Verification Cap",
+  "issueId": 364,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/364"
+}
