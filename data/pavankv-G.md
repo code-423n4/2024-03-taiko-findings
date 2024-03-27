@@ -314,4 +314,4 @@ Code snippet:-
 https://github.com/pavankv241/2024-03-taiko-ICP/blob/main/packages/protocol/contracts/verifiers/SgxVerifier.sol#L210C1-L223C10
 
 **Note**
-Our gas optimisation doesn't cause any test fails 
+Our gas optimisation doesn't cause any test fails and doesn't cause any security issue.
