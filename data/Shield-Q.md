@@ -362,3 +362,224 @@ Manual review
 
 ### Recommended Mitigation Steps
 add a try/catch block on the transfer call so in case the transfer fails there is still a way to get the funds out
+
+## L-19 discrepency between a natspec and logic implementation in `Bridge.processMessage`
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/bridge/Bridge.sol#L278
+
+### Impact
+In the natspec comment it is mentioned that
+```
+// Use the specified message gas limit if called by the owner, else
+// use remaining gas
+```
+
+But `_message.destOwner` is allowed to call the `processMessage` with `_message.gasLimit == 0` as shown below:
+```
+            if (_message.gasLimit == 0 && msg.sender != _message.destOwner) {
+                revert B_PERMISSION_DENIED();
+            }
+```
+
+And if the `_invokeMessageCall` is called by the `_message.destOwner` with `_message.gasLimit == 0` then the transaction will revert in the `_invokeMessageCall` as shwon below:
+
+`if (_gasLimit == 0) revert B_INVALID_GAS_LIMIT();`
+
+Hence the _invokeMessageCall is called by the _message.destOwner with `gasleft()`
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+update the natspec commment for the same
+
+## L-20 wrong key value been deleted in `bridgedToCanonical` mapping
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L180
+
+### Impact
+The `ERC20Vault.changeBridgedToken` function is used to change the old bridged token to a new bridged token. 
+
+The issue here is that the bridgedToCanonical mapping is cleared for the _btokenNew where as it should be cleared for the btokenOld_ address.
+
+            delete bridgedToCanonical[_btokenNew];
+
+
+If the bridgedToCanonical[_btokenNew] already had a value (to be deleted) the transaction would have reverted at the beginning.
+
+        if (_btokenNew == address(0) || bridgedToCanonical[_btokenNew].addr != address(0)) {
+            revert VAULT_INVALID_NEW_BTOKEN();
+        } 
+
+Hence the correct key's value should be removed from the mapping
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+change `delete bridgedToCanonical[_btokenNew];` to delete `bridgedToCanonical[btokenOld_];`
+
+
+## L-21 User can claim the airdrop of a previous merkle root during merkle root change
+
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/team/airdrop/ERC20Airdrop.sol#L50
+
+### Impact
+The `ERC20Airdrop.claimAndDelegate` function is used by an external msg.sender to claim the airdrop for a user.
+
+The airdrop amount and and recipient is determined by the merkle root stored in the MerkleClaimable contract.
+
+The issue here is that the merkle root can be changed by the owner of the MerkleClaimable contract, which means the owner has the privilege to change the user and airdrop amount, by calling the `MerkleClaimale.setConfig` function.
+
+If the owner decides to change the merkle root during an ongoing airdrop then the user can front run and claim the airdrop of the previous merkle root.
+This can result in double spending in a way as well.
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+add the pause functionality to the `claimAndDelegate` function so that it can be paused when the merkle root is about to be changed so that the user is unable to claim at that time. 
+
+## L-22 The maliciosu user can DoS the initial airdrop claim of another user
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/team/airdrop/ERC20Airdrop.sol#L50
+
+### Impact
+A malicious user can claim the airdrop by calling the `ERC20Airdrop.claimAndDelegate` function. But here the malicious user can user can use the delegationData of another user (User A) in the transaction and front run that user's airdrop claim transaction.
+
+Hence when the transaction of User A is executed it will revert since the nonce of his delegation signature has already being consumed. Hence his claim transactino is DoS in hte first attempt which can cause delay. Hence user A will have to provide a new signature for delegation and then claim the airdrop.
+
+This issue is here since both the airdrop claim and delegation is atomic 
+
+
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+it is recommended to make it `claimAndDelegate` a two step process
+
+
+## L-23 User can not claim the same amount twice using the ERC20Airdrop.claimfunction
+
+
+
+https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/team/airdrop/ERC20Airdrop.sol#L50
+
+### Impact
+The ERC20Airdrop.claim allows multiple claims of amounts as per its logic implementation:
+
+    function claim(address user, uint256 amount, bytes32[] calldata proof) external nonReentrant {
+
+        _verifyClaim(abi.encode(user, amount), proof); 
+
+        claimedAmount[user] += amount;
+    } 
+
+
+The += amount is used to calculate the claimedAmount of a user. This indicates that the merkle tree might have multiple leaves for a single user airdrops.
+
+But the issue is if there are mulitple claims of the same amount for a user then the transaction will revert in the MerkleClaimable._verifyClaim function.
+
+        if (isClaimed[hash]) revert CLAIMED_ALREADY();
+
+
+This happens because the hash is calculated using the user, amount values and the same amount for the same user will result in the same hash. This will prompt the user to lose on his airdrop amount if the claim window is expired. 
+
+And if the owner tries to update the merkle root to update the claim amounts then other users can front run this merkle root update and claim rewards twice thus prompting double spending.
+
+Here is a poc to demonstrate this
+```
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.24;
+
+import "../../TaikoTest.sol";
+
+contract MyERC20 is ERC20 {
+    constructor(address owner) ERC20("Taiko Token", "TKO") {
+        _mint(owner, 1_000_000_000e18);
+    }
+}
+
+contract MockERC20Airdrop2 is ERC20Airdrop2 {
+    function _verifyMerkleProof(
+        bytes32[] calldata, /*proof*/
+        bytes32, /*merkleRoot*/
+        bytes32 /*value*/
+    )
+        internal
+        pure
+        override
+        returns (bool)
+    {
+        return true;
+    }
+}
+
+contract TestERC20Airdrop2 is TaikoTest {
+    address public owner = randAddress();
+
+    bytes32 public constant merkleRoot = bytes32(uint256(1));
+    bytes32[] public merkleProof;
+    uint64 public claimStart;
+    uint64 public claimEnd;
+
+    ERC20 token;
+    ERC20Airdrop2 airdrop2;
+
+    function setUp() public {
+        claimStart = uint64(block.timestamp + 10);
+        claimEnd = uint64(block.timestamp + 10_000);
+        merkleProof = new bytes32[](3);
+
+        token = new MyERC20(address(owner));
+
+        airdrop2 = ERC20Airdrop2(
+            deployProxy({
+                name: "MockERC20Airdrop",
+                impl: address(new MockERC20Airdrop2()),
+                data: abi.encodeCall(
+                    ERC20Airdrop2.init,
+                    (address(0), claimStart, claimEnd, merkleRoot, address(token), owner, 10 days)
+                    )
+            })
+        );
+
+        vm.prank(owner, owner);
+        MyERC20(address(token)).approve(address(airdrop2), 1_000_000_000e18);
+        vm.roll(block.number + 1);
+    }
+
+    function test_claim_same__amount_airdrop2() public {
+        vm.warp(uint64(block.timestamp + 11));
+
+        vm.prank(Alice, Alice);
+        airdrop2.claim(Alice, 100, merkleProof);
+
+        vm.warp(uint64(block.timestamp + 1000));
+        airdrop2.claim(Alice, 50, merkleProof);
+
+        (uint256 balance, ) = airdrop2.getBalance(Alice);
+        assertEq(balance, 150);
+
+        vm.warp(uint64(block.timestamp + 2000));
+        vm.expectRevert(MerkleClaimable.CLAIMED_ALREADY.selector);                
+        airdrop2.claim(Alice, 100, merkleProof);        
+
+    }
+```
+paste this code in a file according to the `TaikoTest` import and run `forge test --mt test_claim_same__amount_airdrop2 -vvvvv`
+
+### Tools Used
+Manual review
+
+### Recommended Mitigation Steps
+it is recommended to use a nonce value in the hash if multiple claims are allowed for a single user for the airdrop
