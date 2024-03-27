@@ -1,8 +1,32 @@
 # GAS OPTIMIZATION 
 
+| Number | Issues                                                      | Gas Saved        |
+|--------|-------------------------------------------------------------|------------------|
+| G-1    | Optimize State Variables to Fit Fewer Storage Slots   | 8000     |
+| G-2    | State variables only set in the constructor should be declared immutable | 2000         |
+| G-3    | Optimizing gas usage by caching state variables in local memory variables | 2200       |
+| G-4    | Consolidate Multiple Address/ID Mappings into Single Struct-Based Mapping | 2000    |
+| G-5    | Using storage instead of memory for state variables saves gas
+| 4000   |
+| G-6    | Cache the state variables outside the loop          | 120        |
+| G-7    | Don't calculate array lengths multiple times                | 20-40        |
+| G-8    | Using `calldata` instead of `memory` for read-only arguments in external functions saves gas | 600      |
+| G-9    | Replace Function Calls with Constants        | 4000  |
+| G-10   | Remove `nonReentrant` modifier from admin only functions to save gas | 5,000 - 20,000   |
+| G-11   | Use assembly to validate `msg.sender`       | 120      |
+| G-12   | Don't cache global variable `msg.sender`        | 40     |
+| G-13   | Invert if-else statements that have a negation    | -      |
+| G-14   | Assigning state variables directly with named struct constructors wastes gas | -      |
+| G-15   | Consider using alternatives to `OpenZeppelin`     | -       |
+| G-16   | Using assembly to revert with an error message    | Over 300         |
+| G-17   | Do-While loops are cheaper than for loops         | -      |
+| G-18   | Short-circuit Booleans                        | 20    |
+| G-19   | Use assembly in place of abi.decode to extract calldata values more efficiently | -       |
+| G-20   | Make constructors payable         | 400  |
+
 ##
 
-[G-1] Optimize State Variables to Fit Fewer Storage Slots
+## [G-1] Optimize State Variables to Fit Fewer Storage Slots
 
 The EVM works with 32 byte words. Variables less than 32 bytes can be declared next to each other in storage and this will pack the values together into a single 32 byte storage slot (if the values combined are <= 32 bytes). If the variables packed together are retrieved together in functions we will effectively save ~2000 gas with every subsequent SLOAD for that storage slot. This is due to us incurring a Gwarmaccess (100 gas) versus a Gcoldsload (2100 gas).
 
@@ -937,43 +961,57 @@ FILE: 2024-03-taiko/packages/protocol/contracts/L2
 https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/L2/TaikoL2.sol#L141
 
 
-[Gas-01-01] via updating storage while emiting events
-Via doing so * 21gas * can be saved with each emit
+##
 
-function setValidator(address _newValidator) external onlyOwner {
--       address oldValidator = validator;
--       validator = _newValidator;
--       emit NewValidator(oldValidator, _newValidator);
+[G-19] Use assembly in place of abi.decode to extract calldata values more efficiently
+
+Instead of using abi.decode, we can use assembly to decode our desired calldata values directly. This will allow us to avoid decoding calldata values that we will not use.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
+/ERC1155Vault.sol
+
+140: (bytes memory data) = abi.decode(message.data[4:], (bytes));
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/ERC1155Vault.sol#L140
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/tokenvault
+/ERC721Vault.sol
+
+123: (bytes memory data) = abi.decode(_message.data[4:], (bytes));
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/ERC721Vault.sol#L123
+
+##
+
+## [G-20] Make constructors payable
+
+Making the constructor payable saved 200 gas on deployment. This is because non-payable functions have an implicit require(msg.value == 0) inserted in them. Additionally, fewer bytecode at deploy time mean less gas cost due to smaller calldata.
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/common
+/EssentialContract.sol
+
+64: constructor() {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/common/EssentialContract.sol#L64
+
+```solidity
+FILE: 2024-03-taiko/packages/protocol/contracts/automata-attestation
+/AutomataDcapV3Attestation.sol
+
+54: constructor(address sigVerifyLibAddr, address pemCertLibAddr) {
+
+```
+https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/automata-attestation/AutomataDcapV3Attestation.sol#L54
 
 
-+       emit NewValidator(validator, validator = _newValidator);
-    }
-
-[Gas-04] Some require statement should be at top to save excess gas cost during
 
 
-[G-06] Use assembly in place of abi.decode to extract calldata values more efficiently
-Instead of using abi.decode, we can use assembly to decode our desired calldata values directly. This will allow us to avoid decoding calldata values that we will not use. Reffrence
-
-There are 1 instance of this issue
-
-File:  code/contracts/ethereum/contracts/zksync/libraries/Diamond.sol
-303   require(abi.decode(data, (bytes32)) == DIAMOND_INIT_SUCCESS_RETURN_VALUE, "lp1");
-
-[G-16] Use hardcode address instead address(this)
-
-[G-17] bytes constants are more eficient than string constans
-
-[G-26] Count from n to zero instead of counting from zero to n
-When setting a storage variable to zero, a refund is given, so the net gas spent on counting will be less if the final state of the storage variable is zero. Reffrence https://www.rareskills.io/post/gas-optimization#viewer-dkmii:~:text=to%20one%20writes.-,13.%20Count%20from%20n%20to%20zero%20instead%20of%20counting%20from%20zero%20to%20n,-When%20setting%20a
-
-[G-29] Test if a number is even or odd by checking the last bit instead of using a modulo operator
-The conventional way to check if a number is even or odd is to do x % 2 == 0 where x is the number in question. You can instead check if x & uint256(1) == 0. where x is assumed to be a uint256. Bitwise and is cheaper than the modulo op code. In binary, the rightmost bit represents "1" whereas all the bits to the are multiples of 2, which are even. Adding "1" to an even number causes it to be odd.
-
-File: code/contracts/ethereum/contracts/common/libraries/L2ContractHelper.sol
-27   require(bytecodeLenInWords % 2 == 1, "ps"); // bytecode length in words must be odd
-
-43   require(_bytecodeLen(_bytecodeHash) % 2 == 1, "uy"); // Code length in words must be odd
 
 
 
