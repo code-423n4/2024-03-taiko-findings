@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Masamune",
+  "risk": "3",
+  "title": "Since every ERC20 is accepted in`ERC20Vault.sol`,  using rebasing tokens in `sendToken` could lead to loss of funds in the case of a negative rebasing ",
+  "issueId": 307,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/307"
+}
