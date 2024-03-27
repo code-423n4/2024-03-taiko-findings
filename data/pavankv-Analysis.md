@@ -14,17 +14,22 @@
 
 Taiko Protocol represents a groundbreaking concept in scaling solutions for the Ethereum blockchain. It introduces innovative concepts called contestable rollups, where numerous users can create nodes to generate proof of proposed blocks from Layer 1 (L1) to Layer 2 (L2). Participants agree upon a bond amount, which serves as collateral to ensure the integrity of the proof. If another prover successfully validates the proof, they claim the liveness bond of the previous prover and receive rewards for their contribution. This concept fosters dynamic and economically beneficial activity within the Taiko Protocol ecosystem.
 
-Key features are :-
+Key features are 
 
-Block Proposals:- Transactions are bundled into blocks by anyone on the network.
+Block Proposals:- 
+Transactions are bundled into blocks by anyone on the network.
 
-Proof Generation:- Users compete to create a zk-SNARK (Zero-Knowledge Succinct Non-interactive Argument of Knowledge) proof for the proposed block. This proof mathematically verifies that the block's execution was valid without revealing all transaction details.
+Proof Generation:-
+Users compete to create a zk-SNARK (Zero-Knowledge Succinct Non-interactive Argument of Knowledge) proof for the proposed block. This proof mathematically verifies that the block's execution was valid without revealing all transaction details.
 
-Bonding Mechanism:- To incentivize ethical participation, each prover places a liveness bond and validity bond.
+Bonding Mechanism:- 
+To incentivize ethical participation, each prover places a liveness bond and validity bond.
 
-Contestation:- If another user discovers an error in the proof or submits a valid proof faster, they can challenge the original prover.
+Contestation:- 
+If another user discovers an error in the proof or submits a valid proof faster, they can challenge the original prover.
 
-Dispute Resolution:- The challenger wins the first prover's liveness bond and receives an additional reward, while the original prover loses their bond. This mechanism ensures only valid proofs are accepted.
+Dispute Resolution:- 
+The challenger wins the first prover's liveness bond and receives an additional reward, while the original prover loses their bond. This mechanism ensures only valid proofs are accepted.
 
 
 
@@ -284,6 +289,26 @@ The above function used to receive the proof from the other client and verifies 
 
 Reference the Mempool issues section in below [Link](https://eips.ethereum.org/EIPS/eip-4844#consensus-layer-validation)
 
+3. Centralized risk arises in methodologies reliant on a singular owner address. Notably, attention is drawn to the `setGuardians()` function within the abstract Guardians contract, which presents a security vulnerability should the sole owner address become compromised due to any unforeseen circumstances.
+
+```solidity
+    /// @notice Set the set of guardians
+    /// @param _newGuardians The new set of guardians
+    /// @param _minGuardians The minimum required to sign
+    function setGuardians(
+        address[] calldata _newGuardians, // Gas savings can be call data
+        uint8 _minGuardians
+    )
+        external
+        onlyOwner
+        nonReentrant
+    {...}
+
+```
+
+Code snippet:- 
+https://github.com/pavankv241/2024-03-taiko-ICP/blob/main/packages/protocol/contracts/L1/provers/Guardians.sol#L50C1-L60C6
+
 
 
 
@@ -327,25 +352,17 @@ The concept revolves around the Taiko Protocol, offering users diverse opportuni
 
 ## 6. Recommendation
 
-The Taiko protocol can be significantly improved by introducing a robust governance mechanism that empowers a designated group to establish fee structures for various client activities. This mechanism would enable a transparent and collaborative approach to determining how fees are distributed among the protocol, contributors (proposers, provers, and verifiers), ensuring a fair and sustainable ecosystem. Additionally, the governance system would facilitate the proposal and implementation of new ideas through a well-defined voting process, fostering innovation and continuous improvement of the Taiko protocol.
+ 1.The Taiko protocol can be significantly improved by introducing a robust governance mechanism that empowers a designated group to establish fee structures for various client activities. This mechanism would enable a transparent and collaborative approach to determining how fees are distributed among the protocol, contributors (proposers, provers, and verifiers), ensuring a fair and sustainable ecosystem. Additionally, the governance system would facilitate the proposal and implementation of new ideas through a well-defined voting process, fostering innovation and continuous improvement of the Taiko protocol.
 
-Key feature which can be benefited are :-
+Key feature which can be benefited if added in governance concept :-
 
-Fee Structure Management :-
+Fee Structure Management
 This are designated fee parameters that the governance body can adjust, encompassing elements such as the base fee for client activities, fee distribution percentages among protocol stakeholders, minimum fees for specific actions, and discount structures for incentivizing desired behaviors. This framework establishes a structured process for proposing and approving changes to fee structures. Governance body members can submit proposals detailing fee adjustments and their rationale, which are then subject to discussion and transparent voting. This process allows for ample time for deliberation to ensure informed decision-making. Upon approval by a predefined majority vote, the proposed fee changes are implemented within the Taiko client. Furthermore, this governance concept is designed to integrate seamlessly with new ideas and innovations, ensuring that the fee structure remains adaptive and aligned with the protocol's objectives over time.
 
-Idea Submission :-
-This will allow the governance members to submit new ideas and submitted ideas undergo evaluation based on their potential benefits, feasibility, and alignment with protocol goals. A transparent voting mechanism enables the governance body to decide on the adoption or rejection of proposed ideas, ensuring community input and maintaining protocol integrity. This process cultivates innovation, enhances community involvement, and sustains the protocol's evolution in line with its objectives.
-
-Fair and Sustainable Fee Distribution :- 
+Fair and Sustainable Fee Distribution
 The governance mechanism ensures that fees are distributed equitably among protocol stakeholders, incentivizing participation and maintaining a healthy ecosystem.
 
-Community-Driven Innovation :-
-By allowing for the proposal and voting on new ideas, the governance system fosters a collaborative environment where the community can actively shape the future of the Taiko protocol.
-
-Transparency and Accountability :-
-The clear definition of governance roles, voting mechanisms, and fee structure parameters promotes transparency and accountability within the protocol.
-
+ 2.As we know, guardians play a vital role in protocols. However, the Security Council and individual actors can exert control over the guardians and their activities. We would like to recommend implementing a multi-signature mechanism to enhance transparency and integrity within the protocol. This mechanism would allow actions to be executed only with the approval of multiple authorized individuals. Even if one authority figure's address is compromised, malicious activities cannot be carried out without the additional signatures. By distributing the risk among multiple members, rather than burdening a single individual, multi-signature systems represent one of the best risk management strategies.
 
 
 ### Time spent:
