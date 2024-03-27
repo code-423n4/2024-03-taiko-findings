@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "t0x1c",
+  "risk": "2",
+  "title": "Incorrect implementation of \"precision is maintained at the token level rather than the wei level\" leads to division before multiplcation & hence fee loss",
+  "issueId": 265,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/265"
+}
