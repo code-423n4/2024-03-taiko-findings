@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "DadeKuma",
+  "risk": "2",
+  "title": "Dangerous use of `mint` instead of `safeMint`",
+  "issueId": 345,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/345"
+}
