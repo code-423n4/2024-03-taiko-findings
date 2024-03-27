@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "0xbrett8571",
+  "risk": "2",
+  "title": "Unauthorized entities can submit manipulated anchor transactions, disrupting L2 chain.",
+  "issueId": 284,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/284"
+}
