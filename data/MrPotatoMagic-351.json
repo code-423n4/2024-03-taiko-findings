@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "Arbitrary coinbase address can be supplied by malicious block proposer to use up another proposer's allowance",
+  "issueId": 351,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/351"
+}
