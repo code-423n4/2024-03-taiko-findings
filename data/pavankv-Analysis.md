@@ -331,20 +331,22 @@ The Taiko protocol can be significantly improved by introducing a robust governa
 
 Key feature which can be benefited are :-
 
-Fee Structure Management
+Fee Structure Management :-
 This are designated fee parameters that the governance body can adjust, encompassing elements such as the base fee for client activities, fee distribution percentages among protocol stakeholders, minimum fees for specific actions, and discount structures for incentivizing desired behaviors. This framework establishes a structured process for proposing and approving changes to fee structures. Governance body members can submit proposals detailing fee adjustments and their rationale, which are then subject to discussion and transparent voting. This process allows for ample time for deliberation to ensure informed decision-making. Upon approval by a predefined majority vote, the proposed fee changes are implemented within the Taiko client. Furthermore, this governance concept is designed to integrate seamlessly with new ideas and innovations, ensuring that the fee structure remains adaptive and aligned with the protocol's objectives over time.
 
-Idea Submission
+Idea Submission :-
 This will allow the governance members to submit new ideas and submitted ideas undergo evaluation based on their potential benefits, feasibility, and alignment with protocol goals. A transparent voting mechanism enables the governance body to decide on the adoption or rejection of proposed ideas, ensuring community input and maintaining protocol integrity. This process cultivates innovation, enhances community involvement, and sustains the protocol's evolution in line with its objectives.
 
-Fair and Sustainable Fee Distribution
+Fair and Sustainable Fee Distribution :- 
 The governance mechanism ensures that fees are distributed equitably among protocol stakeholders, incentivizing participation and maintaining a healthy ecosystem.
 
-Community-Driven Innovation
+Community-Driven Innovation :-
 By allowing for the proposal and voting on new ideas, the governance system fosters a collaborative environment where the community can actively shape the future of the Taiko protocol.
 
-Transparency and Accountability
+Transparency and Accountability :-
 The clear definition of governance roles, voting mechanisms, and fee structure parameters promotes transparency and accountability within the protocol.
+
+
 
 ### Time spent:
 68 hours
