@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "MrPotatoMagic",
+  "risk": "2",
+  "title": "Banned addresses can invoke/execute message call through retryMessage()",
+  "issueId": 281,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/281"
+}
