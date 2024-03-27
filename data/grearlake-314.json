@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "grearlake",
+  "risk": "2",
+  "title": "Burned tokens are not refunded when `to` address in destination chain is banned, even when `to` address is unbanned",
+  "issueId": 314,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/314"
+}
