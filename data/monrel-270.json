@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "monrel",
+  "risk": "2",
+  "title": "Prover can front-run proposer and be steal fees",
+  "issueId": 270,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/270"
+}
