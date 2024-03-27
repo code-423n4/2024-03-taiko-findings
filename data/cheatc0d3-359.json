@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "cheatc0d3",
+  "risk": "2",
+  "title": "Potential overflow risks leads to incorrect calculation of fees",
+  "issueId": 359,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/359"
+}
