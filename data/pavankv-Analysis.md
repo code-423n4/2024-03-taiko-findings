@@ -364,6 +364,11 @@ The governance mechanism ensures that fees are distributed equitably among proto
 
  2.As we know, guardians play a vital role in protocols. However, the Security Council and individual actors can exert control over the guardians and their activities. We would like to recommend implementing a multi-signature mechanism to enhance transparency and integrity within the protocol. This mechanism would allow actions to be executed only with the approval of multiple authorized individuals. Even if one authority figure's address is compromised, malicious activities cannot be carried out without the additional signatures. By distributing the risk among multiple members, rather than burdening a single individual, multi-signature systems represent one of the best risk management strategies.
 
+3. Implement the [Solady](https://github.com/Vectorized/solady) to all ERC20 and erc721 operation which is gas-efficient in nature.Solmate is a library that provides a number of gas-efficient implementations of common smart contract patterns. Solady is another gas-efficient library that places a strong emphasis on using assembly.
+
+
+
+
 
 ### Time spent:
 68 hours
