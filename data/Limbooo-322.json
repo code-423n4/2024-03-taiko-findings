@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "Limbooo",
+  "risk": "2",
+  "title": "Uninitialized Address Manager in TaikoToken Contract",
+  "issueId": 322,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/322"
+}
