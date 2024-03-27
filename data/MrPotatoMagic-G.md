@@ -1,22 +1,25 @@
 # Gas Optimizations Report
 
-| ID     | Gas Optimizations                                                                    | Instances |
-|--------|--------------------------------------------------------------------------------------|-----------|
-| [G-01] | Pack structs tightly to consume less slots and save gas                              | 2         |
-| [G-02] | Remove block.coinbase != address(0) check in function onBlockProposed()              | 1         |
-| [G-03] | Use do-while loop instead of for loop to save gas                                    | 7         |
-| [G-04] | Instead of accessing `deposits_[i].amount` consider typecasting `data`               | 1         |
-| [G-05] | Assigning `meta_.txListByteOffset` to 0 not required due to default value being 0    | 1         |
-| [G-06] | Cache _newGuardians.length to save gas                                               | 1         |
-| [G-07] | Instead of assigning guardians.length as guardianId, use i + 1 to save gas           | 1         |
-| [G-08] | Consider removing redundant skipFeeCheck() condition                                 | 1         |
-| [G-09] | Remove redundant nonReentrant modifier                                               | 1         |
-| [G-10] | Consider adding refundAmount > 0 check to save gas on unnecessary sendEther() call   | 1         |
-| [G-11] | No need to explicitly set success variable to false due to default value being false | 1         |
-| [G-12] | Consider using if-else block instead of ternary operators                            | 2         |
-| [G-13] | Modifier checks not required on function _verfiyHopProof()                           | 1         |
-| [G-14] | Cache op.token in function _handleMessage() to save gas                              | 1         |
-| [G-15] | Consider using safeBatchTransferFrom() instead of running a for loop                 | 1         |
+| ID     | Gas Optimizations                                                                                                          | Instances |
+|--------|----------------------------------------------------------------------------------------------------------------------------|-----------|
+| [G-01] | Pack structs tightly to consume less slots and save gas                                                                    | 2         |
+| [G-02] | Remove block.coinbase != address(0) check in function onBlockProposed()                                                    | 1         |
+| [G-03] | Use do-while loop instead of for loop to save gas                                                                          | 7         |
+| [G-04] | Instead of accessing `deposits_[i].amount` consider typecasting `data`                                                     | 1         |
+| [G-05] | Assigning `meta_.txListByteOffset` to 0 not required due to default value being 0                                          | 1         |
+| [G-06] | Cache _newGuardians.length to save gas                                                                                     | 1         |
+| [G-07] | Instead of assigning guardians.length as guardianId, use i + 1 to save gas                                                 | 1         |
+| [G-08] | Consider removing redundant skipFeeCheck() condition                                                                       | 1         |
+| [G-09] | Remove redundant nonReentrant modifier                                                                                     | 1         |
+| [G-10] | Consider adding refundAmount > 0 check to save gas on unnecessary sendEther() call                                         | 1         |
+| [G-11] | No need to explicitly set success variable to false due to default value being false                                       | 1         |
+| [G-12] | Consider using if-else block instead of ternary operators                                                                  | 2         |
+| [G-13] | Modifier checks not required on function _verfiyHopProof()                                                                 | 1         |
+| [G-14] | Cache op.token in function _handleMessage() to save gas                                                                    | 1         |
+| [G-15] | Consider using safeBatchTransferFrom() instead of running a for loop                                                       | 1         |
+| [G-16] | Add a check on source chain to ensure _op.to is not address(0) or destination vault to save full cross-chain execution gas | 1         |
+| [G-17] | Avoid returning unnecessary 64 bytes in LibAddress on excessivelySafeCall()                                                | 1         |
+| [G-18] | Remove redundant string memo field in Message struct to save 1 slot                                                        | 1         |
 
 ## [G-01] Pack structs tightly to consume less slots and save gas
 
@@ -430,4 +433,103 @@ File: ERC1155Vault.sol
 299:                         data: ""
 300:                     });
 301:                 }
+```
+
+## [G-16] Add a check on source chain to ensure _op.to is not address(0) or destination vault to save full cross-chain execution gas
+
+[Link to instance](https://github.com/code-423n4/2024-03-taiko/blob/f58384f44dbf4c6535264a472322322705133b11/packages/protocol/contracts/tokenvault/ERC20Vault.sol#L267)
+
+On Line 284, if the `to` address is address(0) or the vault's address, we revert. This causes the user to recall on the source chain to release their associated assets.
+
+A good way to save the execution gas for the whole cross-chain call is to verify the `_op.to` address on the source chain itself in _handleMessage() function. This would prevent both the users and relayers from spending unnecessary gas for the whole call from chain A to chain B and for the user on recall on chain A.
+```solidity
+File: ERC20Vault.sol
+269:     function onMessageInvocation(
+270:         bytes calldata _data
+271:     ) external payable nonReentrant whenNotPaused {
+272:         (
+273:             CanonicalERC20 memory ctoken,
+274:             address from,
+275:             address to,
+276:             uint256 amount
+277:         ) = abi.decode(_data, (CanonicalERC20, address, address, uint256));
+278: 
+279:         // `onlyFromBridge` checked in checkProcessMessageContext
+280:         IBridge.Context memory ctx = checkProcessMessageContext(); 
+281: 
+282:         // Don't allow sending to disallowed addresses.
+283:         // Don't send the tokens back to `from` because `from` is on the source chain. 
+284:         if (to == address(0) || to == address(this)) revert VAULT_INVALID_TO();
+285: 
+286:         // Transfer the ETH and the tokens to the `to` address
+287:         address token = _transferTokens(ctoken, to, amount);
+288:         to.sendEther(msg.value);
+289: 
+290:         emit TokenReceived({
+291:             msgHash: ctx.msgHash,
+292:             from: from,
+293:             to: to,
+294:             srcChainId: ctx.srcChainId,
+295:             ctoken: ctoken.addr,
+296:             token: token,
+297:             amount: amount
+298:         });
+299:     }
+```
+
+## [G-17] Avoid returning unnecessary 64 bytes in LibAddress on excessivelySafeCall()
+
+Function sendEther() is one of the most frequently used functions in the bridging functionality. Returning 64 bytes on Line 32 is not required since the return value is not used anywhere. Removing it will save gas since less bytes would be copied to memory.
+```solidity
+File: LibAddress.sol
+22:     function sendEther(address _to, uint256 _amount, uint256 _gasLimit) internal {
+23:         // Check for zero-address transactions
+24:         if (_to == address(0)) revert ETH_TRANSFER_FAILED();
+25: 
+26:         // Attempt to send Ether to the recipient address
+27:    
+28:         (bool success,) = ExcessivelySafeCall.excessivelySafeCall(
+29:             _to,
+30:             _gasLimit,
+31:             _amount,
+32:             64, // return max 64 bytes
+33:             ""
+34:         );
+```
+
+## [G-18] Remove redundant string memo field in Message struct to save 1 slot
+
+The string memo field in the struct is not consumed anywhere on the destination bridge contract i.e. neither the bridge itself nor any external application/vault. Removing it will save 1 slot in the struct, thus reducing gas fees on txs. 
+```solidity
+File: IBridge.sol
+17:     struct Message {
+18:         // Message ID whose value is automatically assigned.
+19:         uint128 id;
+20:         // The address, EOA or contract, that interacts with this bridge.
+21:         // The value is automatically assigned.
+22:         address from;
+23:         // Source chain ID whose value is automatically assigned.
+24:         uint64 srcChainId;
+25:         // Destination chain ID where the `to` address lives.
+26:         uint64 destChainId;
+27:         // The owner of the message on the source chain.
+28:         address srcOwner;
+29:         // The owner of the message on the destination chain.
+30:         address destOwner;
+31:         // The destination address on the destination chain.
+32:         address to;
+33:         // Alternate address to send any refund on the destination chain.
+34:         // If blank, defaults to destOwner.
+35:         address refundTo;
+36:         // value to invoke on the destination chain.
+37:         uint256 value;
+38:         // Processing fee for the relayer. Zero if owner will process themself.
+39:         uint256 fee;
+40:         // gasLimit to invoke on the destination chain.
+41:         uint256 gasLimit;
+42:         // callData to invoke on the destination chain.
+43:         bytes data;
+44:         // Optional memo.
+45:         string memo; //@audit Gas/NC - redundant memo
+46:     }
 ```
