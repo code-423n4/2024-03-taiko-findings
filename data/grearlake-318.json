@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "grearlake",
+  "risk": "2",
+  "title": "Wrong implement of `AutomataDcapV3Attestation._attestationTcbIsValid` function",
+  "issueId": 318,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/318"
+}
