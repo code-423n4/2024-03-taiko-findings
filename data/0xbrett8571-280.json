@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "0xbrett8571",
+  "risk": "2",
+  "title": "Repeated contesting of valid proofs in TaikoL1 slows block confirmation, potentially causing DoS.",
+  "issueId": 280,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/280"
+}
