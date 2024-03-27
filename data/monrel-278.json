@@ -1,0 +1,8 @@
+{
+  "contest": 343,
+  "handle": "monrel",
+  "risk": "3",
+  "title": "Bridge watcher can forge arbitrary message and drain bridge",
+  "issueId": 278,
+  "issueUrl": "https://github.com/code-423n4/2024-03-taiko-findings/issues/278"
+}
