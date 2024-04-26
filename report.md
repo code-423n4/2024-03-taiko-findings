@@ -12822,7 +12822,7 @@ The block will then mark complete on the chain. The block status changes from gr
 
 ## 2. Architecture and protocol overview
 
-![image](https://gist.github.com/assets/131902879/6f9def8f-73ac-4065-9f4c-cb57e30ec031)
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 - Block execution is deterministic once the block is appended to the proposed block list in the TaikoL1 contract. Once registered, the protocol ensures that all block properties are immutable. This makes the block execution deterministic: the post-block state can now be calculated by anyone. As such, the block is immediately verified. This also ensures that no one knows more about the latest state than anyone else, which would create an unfair advantage.
 - Block metadata is validated when the block is proposed. The prover has no impact on how the block is executed and what the post-block state is;
@@ -12866,7 +12866,8 @@ Details:
 **Fee structure**
 
 L2 tx fee = L2 EIP-1559* base fee + L1 tx fee + prover fee + proposer fee*
-![image](https://gist.github.com/assets/131902879/6007b15b-f7d0-4936-ae61-591edc13e526)
+
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 L2 EIP-1559 fee = L2 EIP-1559 tip (goes to the proposer) + L2 EIP-1559 base fee (goes to the Taiko DAO).
 
@@ -12881,7 +12882,7 @@ One proof should be confirmed for one “window.” A “window” is a period o
 - There is a target reward, x, that is paid to the prover if they confirm the proof exactly at the target window, t = n. If proven earlier, the reward is lower, if later, reward is higher.
 - A target reward is defined based on the historical reward values and is adjusted after each window depending on the proof confirmation time
 
-![image](https://gist.github.com/assets/131902879/5dab08e2-32c8-448c-bb06-c03f44416d86)
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 
 - Effects:
@@ -12894,9 +12895,7 @@ One proof should be confirmed for one “window.” A “window” is a period o
 one prover is pseudo-randomly chosen for each block from a pool which includes the top 32 provers, and assigns it to a proposed block. This designated prover must then submit a valid proof within a set time window for block verification. If the prover fails to submit the proof on time, the prover’s stake will be slashed. Prover exit is possible anytime, with a withdrawal time of one week.
 - Prover weight W is calculated based on the stake A and expected reward per gas R. This weight reflects probability to be chosen.
 
-
-![image](https://gist.github.com/assets/131902879/af4356c3-e0ce-43fc-98a4-11068a46b1ca)
-
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 
 - The current fee per gas F is calculated based on historical values and is supplied by the core protocol.
@@ -12921,13 +12920,13 @@ There are two ways to assign a block to a prover:
 - If you run a Taiko-node as a proposer or prover, your proposer will select your own local prover by default (left side of the below screenshot), and this prover has to provide a bond of 2.5 TKO as assurance for generating the proof
 - proposers can also choose any prover from the open prover market. Proposers send a hash of the L2 block’s transaction list to an open market of provers, who offer a price that they’re willing to provide a bond of 2.5 TKO for (right side of the below screenshot); proposers pay their provers off-chain.
 
-![image](https://gist.github.com/assets/131902879/5e7ad9a3-cf80-4e73-a44f-81591c4d1daa)
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 When an agreement is reached concerning the proving fee for a specific block, the chosen proof service provider is then granting a cryptographic signature to the proposer which serves as a binding commitment to deliver the proof within the agreed-upon timeframe.
 
 Provers within this off-chain proof market come in two primary forms: Externally Owned Accounts (EOA) and contracts, often referred to as Prover pools. The reward depends on the proof service provider and the agreement. For EOAs and Prover pools that implement the IERC1271 interface, the reward is disbursed in ETH. However, in cases where providers implement the IProver interface, the prover fee can be ETH, any other ERC20 tokens, or even NFTs, based on the negotiated terms.
 
-![image](https://gist.github.com/assets/131902879/81996c60-dd5b-41c7-a4ed-1b3606f9fa3e)
+*Note: to view the provided image, please see the original submission [here](https://github.com/code-423n4/2024-03-taiko-findings/issues/253).*
 
 In the event of a failure to deliver the proof within the given time, 1/4 of the bond provided, is directed to the actual prover, while the remaining 3/4 are permanently burnt. Conversely, successful and timely proof delivery ensures the return of these tokens to the Prover.
 
